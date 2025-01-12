@@ -1,16 +1,28 @@
+import { Link } from "react-router";
+
 export const HeroCard = ({
   image,
   title,
+  link,
 }: {
-  image?: string;
+  image: string;
   title: string;
+  link: string;
 }) => {
   return (
-    <div className="flex flex-col w-[47%] sm:w-full gap-7">
-      <div className="bg-[#fff] h-[362px] w-full"></div>
-      <p className="text-left 2xs:text-center text-[25px] 2xs:text-[18px] sx:text-sm">
+    <Link
+      to={link}
+      target="_blank"
+      className="flex flex-col w-[47%] sm:w-full gap-7 cursor-pointer"
+    >
+      <img
+        src={image}
+        alt="paper"
+        className="h-[400px] w-full object-cover object-top"
+      />
+      <p className="text-left 2xs:text-center xs:text-sm hover:text-primary-red">
         {title}
       </p>
-    </div>
+    </Link>
   );
 };

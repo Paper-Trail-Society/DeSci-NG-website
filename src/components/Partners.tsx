@@ -18,7 +18,7 @@ const Partner = ({
         alt="partner icon"
         className={`object-contain ${imageClass}`}
       />
-      <p className="text-[40px] md:text-[25px] 2xs:text-[18px] xs:text-[12px] mt-10 text-center">
+      <p className="text-[18px] xs:text-[12px] mt-10 text-center">
         {name}
       </p>
     </div>
@@ -29,7 +29,7 @@ export const Partners = () => {
   return (
     <div className="layout__container py-10">
       <div className="flex items-center justify-center">
-        <p className="text-center bg-primary-red py-2 px-12 rounded-[60px] text-[50px] md:text-[32px] 2xs:text-[22px] 2xs:w-auto ">
+        <p className="text-center bg-primary-red py-2 px-12 rounded-[60px] text-[22px] 2xs:text-[18px] 2xs:w-auto">
           Partners
         </p>
       </div>
