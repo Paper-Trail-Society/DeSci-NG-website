@@ -16,7 +16,7 @@ export const Hero = () => {
 
       <div className="flex flex-wrap gap-y-[40px] justify-between mt-[125px] 2xs:mt-[65px] w-full">
         <HeroCard
-          link="/a-case-for-decentralized-science"
+          link="/a-case-for-desci"
           title="Read “A Case for Decentralized Science”"
           image={desciCase}
         />
