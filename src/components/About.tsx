@@ -15,13 +15,22 @@ export const About = () => {
       <div className="">
         <p className="text-primary-red mb-5 2xs:mb-2 font-[700]">Resources</p>
         <div className="flex flex-col gap-y-1">
-          <Link target="_blank" to="mailto:info.descing@gmail.com">
+          <Link
+            className="hover:text-primary-red"
+            target="_blank"
+            to="mailto:info.descing@gmail.com"
+          >
             Donations
           </Link>
-          <Link target="_blank" to="https://www.scihub.fans/">
+          <Link
+            className="hover:text-primary-red"
+            target="_blank"
+            to="https://www.scihub.fans/"
+          >
             $scihub website
           </Link>
           <Link
+            className="hover:text-primary-red"
             target="_blank"
             to="https://www.scihub.fans/scihub_paradigm.pdf"
           >

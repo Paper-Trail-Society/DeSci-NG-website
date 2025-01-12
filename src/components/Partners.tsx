@@ -33,7 +33,7 @@ export const Partners = () => {
           Partners
         </p>
       </div>
-      <div className="w-full flex flex-wrap gap-y-20 justify-between items-center mt-20 2xs:mt-[70px]">
+      <div className="w-full flex flex-wrap gap-y-20 justify-evenly 2xs:justify-between items-center mt-20 2xs:mt-[70px]">
         <Partner
           name="Vitamin C"
           logo={vitaminC}

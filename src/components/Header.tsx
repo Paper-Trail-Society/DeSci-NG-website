@@ -1,5 +1,6 @@
 import logo from "../../public/descing.png";
 import x from "../../public/twitter.png";
+import hamburgerIcon from "../../public/hamburgerIcon.png";
 
 export const Header = () => {
   return (
@@ -14,14 +15,26 @@ export const Header = () => {
         </a>
 
         <div className="flex gap-x-[34px] 2xs:hidden">
-          <img src={x} alt="x icon" className="w-[24px] h-[24px] cursor-pointer" />
-          <img src={x} alt="x icon" className="w-[24px] h-[24px] cursor-pointer" />
-          <img src={x} alt="x icon" className="w-[24px] h-[24px] cursor-pointer" />
+          <img
+            src={x}
+            alt="x icon"
+            className="w-[24px] h-[24px] cursor-pointer"
+          />
+          <img
+            src={x}
+            alt="x icon"
+            className="w-[24px] h-[24px] cursor-pointer"
+          />
+          <img
+            src={x}
+            alt="x icon"
+            className="w-[24px] h-[24px] cursor-pointer"
+          />
         </div>
 
-        {/* <div className="hamburger">
-          <img src={hamburgerIcon} alt="menu" className="hamburger-icon" />
-        </div> */}
+        <div className="hidden 2xs:block">
+          <img src={hamburgerIcon} alt="menu" className="w-[24px] h-[24px]" />
+        </div>
       </nav>
     </div>
   );
