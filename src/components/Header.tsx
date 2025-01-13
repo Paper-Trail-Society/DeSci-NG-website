@@ -1,6 +1,9 @@
 import logo from "../../public/descing.png";
 import x from "../../public/twitter.png";
+import instagram from "../../public/instagram.svg";
+import linkedIn from "../../public/linkedin.png";
 import hamburgerIcon from "../../public/hamburgerIcon.png";
+import { Link } from "react-router";
 
 export const Header = () => {
   return (
@@ -15,21 +18,27 @@ export const Header = () => {
         </a>
 
         <div className="flex gap-x-[34px] 2xs:hidden">
-          <img
-            src={x}
-            alt="x icon"
-            className="w-[24px] h-[24px] cursor-pointer"
-          />
-          <img
-            src={x}
-            alt="x icon"
-            className="w-[24px] h-[24px] cursor-pointer"
-          />
-          <img
-            src={x}
-            alt="x icon"
-            className="w-[24px] h-[24px] cursor-pointer"
-          />
+          <Link target="_blank" to="https://x.com/DeSci_NG">
+            <img
+              src={x}
+              alt="x icon"
+              className="w-[24px] h-[24px] object-contain cursor-pointer"
+            />
+          </Link>
+          <Link target="_blank" to="https://www.instagram.com/desci__ng/">
+            <img
+              src={instagram}
+              alt="instagram icon"
+              className="w-[24px] h-[24px] object-contain cursor-pointer"
+            />
+          </Link>
+          <Link target="_blank" to="https://www.linkedin.com/company/desci-ng/">
+            <img
+              src={linkedIn}
+              alt="linkedin icon"
+              className="w-[24px] h-[24px] object-contain cursor-pointer"
+            />
+          </Link>
         </div>
 
         <div className="hidden 2xs:block">
