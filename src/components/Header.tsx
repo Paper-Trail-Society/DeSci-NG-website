@@ -25,7 +25,7 @@ export const Header = () => {
               className="w-[24px] h-[24px] object-contain cursor-pointer"
             />
           </Link>
-          <Link target="_blank" to="https://www.instagram.com/desci__ng/">
+          <Link target="_blank" to="https://www.instagram.com/desci__ng/ ">
             <img
               src={instagram}
               alt="instagram icon"
