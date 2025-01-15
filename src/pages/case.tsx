@@ -74,9 +74,9 @@ const Case = () => {
       </div>
 
       <div className="p-5 max-w-[800px] lg:max-w-[1000px] mx-auto my-0">
-        <h3 className="text-[1.5rem] md:text-[1.2rem] mb-5">References:</h3>
+        <h3 className="text-[1.2rem] md:text-[1rem] mb-5">References:</h3>
         <ol className="pl-5 m-0">
-          <li className="text-[1.2rem] lg:text-[1rem] mb-[12px]">
+          <li className="text-[1rem] mb-[12px]">
             <a
               className="transition-colors duration-300 ease-in-out hover:text-primary-red"
               href="https://www.youtube.com/watch?v=4BVpEoQ4T2M"
@@ -86,7 +86,7 @@ const Case = () => {
               Richard Dawkins | Memes | Oxford Union
             </a>
           </li>
-          <li className="text-[1.2rem] lg:text-[1rem] mb-[12px]">
+          <li className="text-[1rem] mb-[12px]">
             <a
               className="transition-colors duration-300 ease-in-out hover:text-primary-red"
               href="https://www.youtube.com/watch?v=pbLh9R-0Pt8"
@@ -96,7 +96,7 @@ const Case = () => {
               Where Did the Word Meme Come From?
             </a>
           </li>
-          <li className="text-[1.2rem] lg:text-[1rem] mb-[12px]">
+          <li className="text-[1rem] mb-[12px]">
             <a
               className="transition-colors duration-300 ease-in-out hover:text-primary-red"
               href="https://www.youtube.com/watch?v=bJTSxRBbCQA"
@@ -106,7 +106,7 @@ const Case = () => {
               Casually Explained | Memes
             </a>
           </li>
-          <li className="text-[1.2rem] lg:text-[1rem] mb-[12px]">
+          <li className="text-[1rem] mb-[12px]">
             <a
               className="transition-colors duration-300 ease-in-out hover:text-primary-red"
               href="https://www.usnews.com/news/national-news/articles/2024-11-13/what-is-doge-elon-musk-and-vivek-ramaswamys-new-trump-agency#:~:text=The%20acronym%20%E2%80%9CDOGE%E2%80%9D%20is%20likely%20a%20nod%20to%20a%20favorite%20Musk%20meme%20and%20cryptocurrency%2C%20Dogecoin"
@@ -117,7 +117,7 @@ const Case = () => {
               cryptocurrency, Dogecoin
             </a>
           </li>
-          <li className="text-[1.2rem] lg:text-[1rem] mb-[12px]">
+          <li className="text-[1rem] mb-[12px]">
             <a
               className="transition-colors duration-300 ease-in-out hover:text-primary-red"
               href="https://vitalik.eth.limo/general/2024/03/29/memecoins.html"
@@ -127,7 +127,7 @@ const Case = () => {
               What else could memecoins be?
             </a>
           </li>
-          <li className="text-[1.2rem] lg:text-[1rem] mb-[12px]">
+          <li className="text-[1rem] mb-[12px]">
             <a
               className="transition-colors duration-300 ease-in-out hover:text-primary-red"
               href="https://x.com/cz_binance/status/1861306581758976434"
@@ -137,7 +137,7 @@ const Case = () => {
               "I am not against memes'' - CZ
             </a>
           </li>
-          <li className="text-[1.2rem] lg:text-[1rem] mb-[12px]">
+          <li className="text-[1rem] mb-[12px]">
             <a
               className="transition-colors duration-300 ease-in-out hover:text-primary-red"
               href="https://x.com/tarunchitra/status/1866022281563996317"
