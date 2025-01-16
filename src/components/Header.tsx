@@ -17,33 +17,33 @@ export const Header = () => {
           />
         </a>
 
-        <div className="flex gap-x-[34px] 2xs:hidden">
+        <div className="flex gap-x-[34px] 2xs:gap-x-4">
           <Link target="_blank" to="https://x.com/DeSci_NG">
             <img
               src={x}
               alt="x icon"
-              className="w-[24px] h-[24px] object-contain cursor-pointer"
+              className="w-[24px] h-[24px] 2xs:h-5 2xs:w-5 object-contain cursor-pointer"
             />
           </Link>
           <Link target="_blank" to="https://www.instagram.com/desci__ng/ ">
             <img
               src={instagram}
               alt="instagram icon"
-              className="w-[24px] h-[24px] object-contain cursor-pointer"
+              className="w-[24px] h-[24px] 2xs:h-5 2xs:w-5 object-contain cursor-pointer"
             />
           </Link>
           <Link target="_blank" to="https://www.linkedin.com/company/desci-ng/">
             <img
               src={linkedIn}
               alt="linkedin icon"
-              className="w-[24px] h-[24px] object-contain cursor-pointer"
+              className="w-[24px] h-[24px] 2xs:h-5 2xs:w-5 object-contain cursor-pointer"
             />
           </Link>
         </div>
 
-        <div className="hidden 2xs:block">
+        {/* <div className="hidden 2xs:block">
           <img src={hamburgerIcon} alt="menu" className="w-[24px] h-[24px]" />
-        </div>
+        </div> */}
       </nav>
     </div>
   );
