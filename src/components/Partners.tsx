@@ -27,7 +27,7 @@ const Partner = ({
 
 export const Partners = () => {
   return (
-    <div className="layout__container py-10">
+    <div className="layout__container py-10 2xs:pt-5">
       <div className="flex items-center justify-center">
         <p className="text-center bg-primary-red py-2 px-12 rounded-[60px] text-[22px] 2xs:text-[18px] 2xs:w-auto">
           Partners

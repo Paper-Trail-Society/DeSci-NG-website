@@ -17,6 +17,9 @@ export default {
       xs: { max: "450px" },
       tab: { min: "769px", max: "900px" },
     },
+    fontFamily: {
+      "times-new-roman": "times-new-roman",
+    },
   },
   plugins: [],
 };
