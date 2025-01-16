@@ -5,7 +5,7 @@ import whitePaper from "../../public/whitepaper thumbnail.png";
 export const Hero = () => {
   return (
     <div className="flex-1 py-20 2xs:py-14 flex flex-col items-center justify-center layout__container text-center">
-      <p className="text-[50px] 2xs:text-[40px] xs:text-[24px] xs:w-[85%] leading-tight font-times-new-roman">
+      <p className="text-[55px] 2xs:text-[40px] xs:text-[24px] xs:w-[85%] leading-tight font-times-new-roman">
         Accelerating the Ideals of <br className="sm:hidden" /> DeSci in Nigeria{" "}
       </p>
       <p className="text-[25px] xs:text-sm mt-[72px] 2xs:mt-[50px]">
