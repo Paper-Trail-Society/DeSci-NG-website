@@ -2,7 +2,6 @@ import logo from "../../public/descing.png";
 import x from "../../public/twitter.png";
 import instagram from "../../public/instagram.svg";
 import linkedIn from "../../public/linkedin.png";
-import hamburgerIcon from "../../public/hamburgerIcon.png";
 import { Link } from "react-router";
 
 export const Header = () => {
@@ -41,9 +40,6 @@ export const Header = () => {
           </Link>
         </div>
 
-        {/* <div className="hidden 2xs:block">
-          <img src={hamburgerIcon} alt="menu" className="w-[24px] h-[24px]" />
-        </div> */}
       </nav>
     </div>
   );
