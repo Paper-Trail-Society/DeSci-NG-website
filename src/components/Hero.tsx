@@ -30,7 +30,7 @@ export const Hero = () => {
           link="https://x.com/i/spaces/1eaKbareqnRxX"
           title="Join the conversation, “Unlocking Public Good with Vitamin C: Health, Impact and Big Ideas”"
           image={convo}
-          // imageClassName="object-bottom"
+          imageClassName="object-cover"
         />
       </div>
     </div>
