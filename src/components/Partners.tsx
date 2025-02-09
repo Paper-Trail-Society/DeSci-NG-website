@@ -1,4 +1,4 @@
-import vitaminC from "../../public/vit-c-logo.svg";
+import vitaminC from "../../public/vc.png";
 import sciHub from "../../public/scihub.png";
 import thriveRise from "../../public/thriverise.png";
 
@@ -37,15 +37,16 @@ export const Partners = () => {
         <Partner
           name="Vitamin C"
           logo={vitaminC}
-          imageClass="2xs:w-[81px] 2xs:h-[45px]"
+          imageClass="w-[120px] h-[120px] sm:h-[100px] sm:w-[100px] 2xs:h-[66px] 2xs:w-[66px]"
+{/*           "2xs:w-[81px] 2xs:h-[45px]" */}
         />
         <Partner
-          name="$scihub community"
+          name="$scihub Community"
           logo={sciHub}
           imageClass="w-[120px] h-[120px] sm:h-[100px] sm:w-[100px] 2xs:h-[66px] 2xs:w-[66px]"
         />
         <Partner
-          name="Thrive Rise Africa"
+          name="ThriveRise Africa"
           logo={thriveRise}
           imageClass="w-[120px] h-[120px] sm:h-[100px] sm:w-[100px] 2xs:h-[66px] 2xs:w-[66px]"
         />
