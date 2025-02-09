@@ -1,6 +1,7 @@
 import { HeroCard } from "./HeroCard";
 import desciCase from "../../public/A case for decentralized science.png";
 import whitePaper from "../../public/whitepaper thumbnail.png";
+import convo from "../../public/convo.jpg";
 
 export const Hero = () => {
   return (
@@ -24,6 +25,12 @@ export const Hero = () => {
           link="https://www.scihub.fans/scihub_paradigm.pdf"
           title="Read “The $scihub Whitepaper”"
           image={whitePaper}
+        />
+        <HeroCard
+          link="https://x.com/i/spaces/1eaKbareqnRxX"
+          title="Join the conversation, “Unlocking Public Good with Vitamin C: Health, Impact and Big Ideas”"
+          image={convo}
+          // imageClassName="object-bottom"
         />
       </div>
     </div>
