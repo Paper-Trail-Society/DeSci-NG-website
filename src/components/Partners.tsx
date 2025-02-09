@@ -38,7 +38,6 @@ export const Partners = () => {
           name="Vitamin C"
           logo={vitaminC}
           imageClass="w-[120px] h-[120px] sm:h-[100px] sm:w-[100px] 2xs:h-[66px] 2xs:w-[66px]"
-{/*           "2xs:w-[81px] 2xs:h-[45px]" */}
         />
         <Partner
           name="$scihub Community"
