@@ -12,15 +12,13 @@ const Partner = ({
   imageClass?: string;
 }) => {
   return (
-    <div className="w-[30%] flex flex-col items-center">
+    <div className="w-[30%] flex flex-col gap-y-10 2xs:gap-y-5 items-center justify-center">
       <img
         src={logo}
         alt="partner icon"
         className={`object-contain ${imageClass}`}
       />
-      <p className="text-[18px] xs:text-[12px] mt-10 text-center">
-        {name}
-      </p>
+      <p className="text-[18px] xs:text-[12px] text-center">{name}</p>
     </div>
   );
 };
@@ -33,7 +31,7 @@ export const Partners = () => {
           Partners
         </p>
       </div>
-      <div className="w-full flex flex-wrap gap-y-20 justify-evenly 2xs:justify-between items-center mt-20 2xs:mt-[70px]">
+      <div className="w-full flex flex-wrap gap-y-20 justify-evenly 2xs:justify-between items-start mt-20 2xs:mt-[70px]">
         <Partner
           name="Vitamin C"
           logo={vitaminC}
