@@ -38,7 +38,7 @@ export const Partners = () => {
           imageClass="w-[120px] h-[120px] sm:h-[100px] sm:w-[100px] 2xs:h-[66px] 2xs:w-[66px]"
         />
         <Partner
-          name="$scihub Community"
+          name="$Scihub Community"
           logo={sciHub}
           imageClass="w-[120px] h-[120px] sm:h-[100px] sm:w-[100px] 2xs:h-[66px] 2xs:w-[66px]"
         />
