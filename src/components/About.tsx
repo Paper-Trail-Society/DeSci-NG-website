@@ -25,16 +25,16 @@ export const About = () => {
           <Link
             className="hover:text-primary-red"
             target="_blank"
-            to="https://www.scihub.fans/"
+            to="https://github.com/DeSci-NG/DeSci-NG-Repository/tree/main/Project%20Showcase%20v1"
           >
-            $scihub website
+            Project Showcase
           </Link>
           <Link
             className="hover:text-primary-red"
             target="_blank"
-            to="https://www.scihub.fans/scihub_paradigm.pdf"
+            to="https://www.scihub.fans/"
           >
-            $scihub whitepaper
+            $scihub website
           </Link>
         </div>
       </div>
