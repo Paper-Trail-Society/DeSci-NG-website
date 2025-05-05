@@ -25,7 +25,7 @@ export const About = () => {
           <Link
             className="hover:text-primary-red"
             target="_blank"
-            to="https://github.com/DeSci-NG/DeSci-NG-Repository/tree/main/Project%20Showcase%20v1"
+            to="/project-showcase"
           >
             Project Showcase
           </Link>
