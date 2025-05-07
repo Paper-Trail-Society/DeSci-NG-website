@@ -20,7 +20,7 @@ export const HeroCard = ({
       <img
         src={image}
         alt="paper"
-        className={`h-[400px] 2xs:h-[280px] w-full ${
+        className={`h-[400px] sm:h-[350px] 2xs:h-[210px] w-full ${
           imageClassName ?? "object-cover object-top"
         }`}
       />

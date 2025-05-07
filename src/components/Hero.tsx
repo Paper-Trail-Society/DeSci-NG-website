@@ -2,6 +2,7 @@ import { HeroCard } from "./HeroCard";
 import desciCase from "../../public/A case for decentralized science.png";
 import whitePaper from "../../public/whitepaper thumbnail.png";
 import convo from "../../public/convo.jpg";
+import desciRising from "../../public/desci-rising.jpeg";
 
 export const Hero = () => {
   return (
@@ -31,6 +32,12 @@ export const Hero = () => {
           title="Join the conversation, “Unlocking Public Good with Vitamin C: Health, Impact and Big Ideas”"
           image={convo}
           imageClassName="object-cover"
+        />
+        <HeroCard
+          link="https://x.com/i/spaces/1lPJqMRLzMnJb"
+          title="DeSci Rising (Ep 8) ft. DeSci Nigeria"
+          image={desciRising}
+          imageClassName="object-cover object-right"
         />
       </div>
     </div>
