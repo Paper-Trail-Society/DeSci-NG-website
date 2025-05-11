@@ -18,7 +18,7 @@ export const About = () => {
           <Link
             className="hover:text-primary-red"
             target="_blank"
-            to="mailto:info.descing@gmail.com"
+            to="https://solscan.io/account/4cGknbc9YqWikyMCPZJAwwMwzXn3RfSCn6wwUiSSm4qF"
           >
             Donations
           </Link>
