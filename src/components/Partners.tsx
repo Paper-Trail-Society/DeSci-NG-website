@@ -1,6 +1,7 @@
 import vitaminC from "../../public/vc.png";
 import sciHub from "../../public/scihub.png";
 import thriveRise from "../../public/thriverise.png";
+import scai from "../../public/scai.jpg";
 
 const Partner = ({
   name,
@@ -12,7 +13,7 @@ const Partner = ({
   imageClass?: string;
 }) => {
   return (
-    <div className="w-[30%] flex flex-col gap-y-10 2xs:gap-y-5 items-center justify-center">
+    <div className="w-[20%] 2xs:w-1/3 flex flex-col gap-y-10 2xs:gap-y-5 items-center justify-center">
       <img
         src={logo}
         alt="partner icon"
@@ -31,7 +32,7 @@ export const Partners = () => {
           Partners
         </p>
       </div>
-      <div className="w-full flex flex-wrap gap-y-20 justify-evenly 2xs:justify-between items-start mt-20 2xs:mt-[70px]">
+      <div className="w-full flex flex-wrap gap-y-20 justify-evenly 2xs:justify-baseline items-start mt-20 2xs:mt-[70px]">
         <Partner
           name="Vitamin C"
           logo={vitaminC}
@@ -46,6 +47,11 @@ export const Partners = () => {
           name="ThriveRise Africa"
           logo={thriveRise}
           imageClass="w-[120px] h-[120px] sm:h-[100px] sm:w-[100px] 2xs:h-[66px] 2xs:w-[66px]"
+        />
+        <Partner
+          name="SCAI for Open Science"
+          logo={scai}
+          imageClass="w-[120px] h-[120px] sm:h-[100px] sm:w-[100px] 2xs:h-[66px] 2xs:w-[66px] rounded-[50%]"
         />
       </div>
     </div>
