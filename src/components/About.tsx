@@ -25,9 +25,9 @@ export const About = () => {
           <Link
             className="hover:text-primary-red"
             target="_blank"
-            to="/project-showcase"
+            to="/visit-repository"
           >
-            Project Showcase
+            Visit Repository
           </Link>
           <Link
             className="hover:text-primary-red"
