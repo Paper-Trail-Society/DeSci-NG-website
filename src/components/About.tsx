@@ -13,7 +13,7 @@ export const About = () => {
         </p>
       </div>
       <div className="">
-        <p className="text-primary-red mb-5 2xs:mb-2 font-[700]">Resources</p>
+        <p className="text-primary-red mb-5 2xs:mb-2 font-[700]">Quick Links</p>
         <div className="flex flex-col gap-y-1">
           <Link
             className="hover:text-primary-red"
@@ -28,6 +28,13 @@ export const About = () => {
             to="/visit-repository"
           >
             Visit Repository
+          </Link>
+          <Link 
+            className="hover:text-primary-red"
+            target="_blank"
+            to="https://docs.google.com/forms/d/e/1FAIpQLSeZN2EXjicOrCChhO2tvqF8rru_iyJ2MiqlR72DzyCQjRamew/viewform"
+            >
+              Host your Research
           </Link>
           <Link
             className="hover:text-primary-red"
