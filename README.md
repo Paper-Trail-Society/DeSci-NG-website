@@ -1,17 +1,36 @@
-Click [here](https://www.figma.com/design/VHUAt8gLbfLMCLpJMNvyAy/web3-hub?node-id=141-2&t=KyiH5oDwkPtWiek2-1) to access the User Interface.
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-$scihub website url: https://www.scihub.fans/
+## Getting Started
 
-$scihub whitepaper: https://www.scihub.fans/scihub_paradigm.pdf
+First, run the development server:
 
-DeSci_NG on X: https://x.com/DeSci_NG
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-DeSci_NG on IG: https://www.instagram.com/desci__ng/ 
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-DeSci_NG on Linkedin: https://www.linkedin.com/company/desci-ng/ 
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-DeSci_NG on Youtube: https://www.youtube.com/@DeSci_NG 
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-Join the conversation, "Unlocking Public Good with Vitamin C: Health, Impact and Big Ideas" : https://x.com/i/spaces/1eaKbareqnRxX 
+## Learn More
 
-For now, donations should lead to sending us a mail @ info.descing@gmail.com
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
