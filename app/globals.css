@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+
+@layer base {
+  :root {
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+
+    --text-link: var(--primary);
+    --text: #1b1f28;
+    --text-dim: #83838b;
+    --text-link: var(--primary);
+    --font-space-grotesk: 'space-grotesk', sans-serif;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+  }
+}
