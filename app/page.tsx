@@ -168,8 +168,8 @@ export default function Home() {
               </ul>
             </section>
 
-            <section className="flex flex-col justify-end">
-              <Text size="sm"> &copy; 2025 Desci NG</Text>
+            <section className="flex flex-col justify-end pt-14">
+              <Text size="sm"> &copy; {new Date().getFullYear()} Desci NG</Text>
             </section>
           </div>
         </div>
