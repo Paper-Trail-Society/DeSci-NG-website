@@ -83,14 +83,15 @@ export default function Home() {
               return (
                 <Card
                   key={crypto.randomUUID()}
-                  className="border-none shadow-none flex flex-col gap-2 md:w-1/5"
+                  className="justify-center border-none shadow-none flex flex-col gap-2 md:w-1/5 w-[18em]"
                 >
-                  <CardHeader className="h-1/3">
+                  <CardHeader className="h-1/3 w-fit">
                     <Image
                       src={category.imageUrl}
                       alt={category.name}
                       width={250}
                       height={205}
+                      className="object-cover"
                     />
                   </CardHeader>
                   <CardContent className="space-y-1">
