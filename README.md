@@ -16,4 +16,4 @@ Join the conversation, "Unlocking Public Good with Vitamin C: Health, Impact and
 
 For now, donations should lead to sending us a mail @ info.descing@gmail.com
 
-staging env.
+staging env.commit
