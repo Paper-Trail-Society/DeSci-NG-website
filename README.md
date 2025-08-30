@@ -1,4 +1,4 @@
-Click [here](https://www.figma.com/design/VHUAt8gLbfLMCLpJMNvyAy/web3-hub?node-id=141-2&t=KyiH5oDwkPtWiek2-1) to access the User Interface.
+Click [here](https://www.figma.com/design/YSHxm6Z9mMP4a7qIqBm242/revamped-desci-ng-frontend?node-id=5-2&t=miTZkaRDlh0aac8c-1) to access the User Interface.
 
 $scihub website url: https://www.scihub.fans/
 
