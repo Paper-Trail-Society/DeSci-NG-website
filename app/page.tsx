@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Text } from "./components/ui/text";
 import { Button } from "./components/ui/button";
 import { Input } from "./components/ui/input";
+import Link from "next/link";
 import {
   Card,
   CardContent,
@@ -112,9 +113,11 @@ export default function Home() {
           </div>
 
           <div className="flex justify-center">
-            <Button variant={"destructive"} className="mt-10">
-              EXPLORE MORE PAPERS
-            </Button>
+            <Link href="/explore">
+              <Button variant={"destructive"} className="mt-10">
+                EXPLORE MORE PAPERS
+              </Button>
+            </Link>
           </div>
         </section>
       </main>
