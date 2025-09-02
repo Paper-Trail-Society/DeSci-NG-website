@@ -10,6 +10,8 @@ import {
   CardTitle,
 } from "../components/ui/card";
 import { SearchIcon } from "lucide-react";
+import Link from "next/link";
+import Nav from "@/components/shared/nav";
 
 // add 4 categories with name, tagline, and image URL. Categories - Applied science, arts & humanities, blockchain technology, medical science
 
@@ -38,31 +40,11 @@ const categories = [
 
 export default function Home() {
   return (
-    <div className="font-sans items-center justify-items-center min-h-screen ">
-      <nav className="w-full 2xl:p-container-md pt-10 sm:pt-4">
-        <ul className="w-full md:w-[70%] px-4 md:px-2 md:mx-auto flex justify-between items-center">
-          <li>
-            <a href="#">
-              <Image
-                src="/assets/desci-ng-logo.png"
-                alt="logo"
-                width={100}
-                height={100}
-              />
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <Button variant={"destructive"} className="px-4">
-                LOGIN
-              </Button>
-            </a>
-          </li>
-        </ul>
-      </nav>
+    <div className="items-center justify-items-center min-h-screen ">
+      <Nav />
       <main className="flex flex-col items-center pb-20 w-full">
-        <section className="md:w-1/3 w-full mx-auto my-10 space-y-6 px-8">
-          <Text weight={"bold"} className="text-center leading-6 text-3xl">
+        <section className="md:w-2/5 w-full mx-auto my-10 space-y-6 px-8">
+          <Text weight={"bold"} className="text-center leading-6 text-3xl font-semibold">
             EXPLORE ACADEMIC PAPERS ACROSS DISCIPLINES
           </Text>
 
@@ -70,7 +52,7 @@ export default function Home() {
             <Input
               type="text"
               placeholder="Search papers by topic, author, or affiliated institution"
-              className="md:p-6 p-2 bg-[#F3E7E780] ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50 placeholder:text-xs"
+              className="md:p-6 p-2 bg-[#F3E7E780] placeholder:text-xs"
             />
 
             <SearchIcon className="absolute w-3 h-3 top-3.25 right-1 md:top-4.25 md:right-3 text-[#0B0B0B]" />
