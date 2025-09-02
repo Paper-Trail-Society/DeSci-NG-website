@@ -23,25 +23,34 @@ import useUploadPaper from "@/domains/paper/hooks/use-upload-paper";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import {
+  MultiSelect,
+  type SelectValue as CreateableSelectValue,
+} from "@/components/ui/createable-select";
 
 const ALLOWED_FILE_TYPES = ["application/pdf"];
 
 const Page = () => {
   const router = useRouter();
+  const [selectedKeywords, setSelectedKeywords] = React.useState<
+    CreateableSelectValue[]
+  >([]);
+  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+
   const fileUploadComponentRef = useRef<HTMLInputElement>(null);
   const uploadPaperSchema = z.object({
-    title: z.string().trim().min(2, { error: "Title is required" }),
-    abstract: z.string().min(1, { error: "Abstract is required" }),
-    categoryId: z.number({ error: "Category is required" }),
+    title: z.string().trim().min(2, { message: "Title is required" }),
+    abstract: z.string().min(1, { message: "Abstract is required" }),
+    categoryId: z.number({ message: "Category is required" }),
     notes: z.string().optional(),
-    fieldId: z.number({ error: "Field is required" }),
+    fieldId: z.number({ message: "Field is required" }),
   });
 
   type UploadPaperFormFields = z.infer<typeof uploadPaperSchema>;
 
   const form = useForm<UploadPaperFormFields>({
     resolver: zodResolver(uploadPaperSchema),
-    mode: "onBlur", // Validation will occur on blur
+    mode: "onChange", // Validation will occur on blur
   });
 
   const { data: fields } = useGetFields();
@@ -77,8 +86,6 @@ const Page = () => {
       file: fileUploadComponentRef.current?.files[0],
     };
 
-    console.log({ payload });
-
     uploadPaper(payload, {
       onSuccess: () => {
         form.reset();
@@ -90,6 +97,48 @@ const Page = () => {
     });
   };
 
+  const keywords = [
+    {
+      value: "neuralink",
+      label: "Neuralink",
+    },
+    {
+      value: "tesla",
+      label: "Tesla",
+    },
+    {
+      value: "spaceX",
+      label: "SpaceX",
+    },
+    {
+      value: "twitter",
+      label: "Twitter",
+    },
+    {
+      value: "the-boring-company",
+      label: "The Boring Company",
+    },
+    {
+      value: "neuralink",
+      label: "Neuralink",
+    },
+    {
+      value: "starlink",
+      label: "Starlink",
+    },
+    {
+      value: "ai",
+      label: "AI",
+    },
+    {
+      value: "ml",
+      label: "ML",
+    },
+    {
+      value: "nlp",
+      label: "NLP",
+    },
+  ];
 
   return (
     <div className="p-container-lg">
@@ -97,7 +146,7 @@ const Page = () => {
         <div className="mb-2">
           <Button
             onClick={() => router.back()}
-            variant={'ghost'}
+            variant={"ghost"}
             className="px-0 hover:underline transition duration-150 flex items-center gap-1"
           >
             <ChevronLeft className="size-4" />
@@ -153,14 +202,16 @@ const Page = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1">
-                  <Label className="text-lg text-text font-bold">Primary Field</Label>
+                  <Label className="text-lg text-text font-bold">
+                    Primary Field
+                  </Label>
                   <Select
                     onValueChange={(value: string) => {
                       fieldIdToNameMap &&
                         form.setValue("fieldId", fieldIdToNameMap[value]);
                     }}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="text-text-dim">
                       <SelectValue placeholder="Select field" />
                     </SelectTrigger>
                     <SelectContent className="bg-white text-text">
@@ -180,14 +231,16 @@ const Page = () => {
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <Label className="text-lg text-text font-bold">Category</Label>
+                  <Label className="text-lg text-text font-bold">
+                    Category
+                  </Label>
                   <Select
                     onValueChange={(value: string) => {
                       categoryIdToNameMap &&
                         form.setValue("categoryId", categoryIdToNameMap[value]);
                     }}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="text-text-dim">
                       <SelectValue
                         placeholder={
                           selectedFieldCategories
@@ -219,17 +272,32 @@ const Page = () => {
                 </div>
               </div>
 
-              <TextField
-                control={form.control}
-                name="keywords"
-                label="Keywords (that describe your research)"
-                placeholder="Keywords..."
-                className="rounded-md bg-white py-2"
-                disabled
-              />
+              <div className="flex flex-col gap-1">
+                <Label className="text-lg text-text font-bold">
+                  Keywords (that describe your research)
+                </Label>
+                <MultiSelect
+                  name="keywords"
+                  isCreatable
+                  options={keywords}
+                  value={selectedKeywords}
+                  handleChange={(value) =>
+                    setSelectedKeywords(
+                      value.map((val) => ({
+                        value: val.value,
+                        label: val.label,
+                      }))
+                    )
+                  }
+                  placeholder="Keywords..."
+                  className="rounded-md bg-white px-2 text-text-dim placeholder:text-xs"
+                />
+              </div>
 
               <div className="flex flex-col gap-1">
-                <Label className="text-lg text-text font-bold">Local relevance / Application</Label>
+                <Label className="text-lg text-text font-bold">
+                  Local relevance / Application
+                </Label>
                 <Textarea
                   variant={"noBorderAndFocus"}
                   size={"lg"}
@@ -244,7 +312,9 @@ const Page = () => {
               </div>
 
               <div className="flex flex-col gap-1">
-                <Label className="text-lg text-text font-bold">Upload Paper</Label>
+                <Label className="text-lg text-text font-bold">
+                  Upload Paper
+                </Label>
                 <div
                   className="bg-white p-10 flex flex-col items-center rounded-md"
                   onClick={() => fileUploadComponentRef.current?.click()}
@@ -255,6 +325,15 @@ const Page = () => {
                     className="hidden"
                     id="file"
                     accept={ALLOWED_FILE_TYPES.join(", ")}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file && file.size > 10 * 1024 * 1024) {
+                        alert("File size should be less than or equal to 10MB");
+                        e.target.value = "";
+                      } else {
+                        file && setSelectedFile(file);
+                      }
+                    }}
                   />
                   <Image
                     src="/assets/page-facing-up.png"
@@ -262,13 +341,22 @@ const Page = () => {
                     height={30}
                     alt="page-facing-up"
                   />
-                  <Text size={"xs"} variant={"secondary"}>
-                    Click to select or drag and drop your paper (PDF)
-                  </Text>
 
-                  <Text size={"xs"} variant={"secondary"}>
-                    (max. 10MB)
-                  </Text>
+                  <div className="text-center">
+                    {selectedFile && (
+                      <Text variant={"secondary"} className="cursor-default hover:text-text transition">{selectedFile.name}</Text>
+                    )}
+
+                    <Text size={"xs"} variant={"secondary"}>
+                      Click to select or drag and drop your paper (PDF)
+                    </Text>
+
+                    {!selectedFile && (
+                      <Text size={"xs"} variant={"secondary"}>
+                        (max. 10MB)
+                      </Text>
+                    )}
+                  </div>
                 </div>
               </div>
 
