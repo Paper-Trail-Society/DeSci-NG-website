@@ -18,7 +18,7 @@ export type SelectProps = {
   isSearchable?: boolean;
   isCreatable?: boolean;
   className?: string;
-  value?: readonly SelectValue[];
+  value?: readonly SelectValueBase[];
   controlStyles?: CSSObjectWithLabel;
   menuStyles?: CSSObjectWithLabel;
   menuListStyles?: CSSObjectWithLabel;
