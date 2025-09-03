@@ -1,7 +1,6 @@
+import { SearchIcon } from "lucide-react";
 import Image from "next/image";
-import { Text } from "./components/ui/text";
 import { Button } from "./components/ui/button";
-import { Input } from "./components/ui/input";
 import {
   Card,
   CardContent,
@@ -9,7 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "./components/ui/card";
-import { SearchIcon } from "lucide-react";
+import { Input } from "./components/ui/input";
+import { Text } from "./components/ui/text";
 
 // add 4 categories with name, tagline, and image URL. Categories - Applied science, arts & humanities, blockchain technology, medical science
 
@@ -53,7 +53,7 @@ export default function Home() {
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="/login">
                 <Button variant={"destructive"} className="px-4">
                   LOGIN
                 </Button>

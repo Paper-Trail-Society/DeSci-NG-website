@@ -1,6 +1,6 @@
+import { AuthProvider } from "@/lib/contexts/auth-context";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import localFont from 'next/font/local';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,7 +17,6 @@ export const metadata: Metadata = {
   title: "Desci NG",
   description: "Decentralized Science",
 };
-
 
 // const spaceGrotesk = localFont({
 //   src: [
@@ -71,7 +70,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
