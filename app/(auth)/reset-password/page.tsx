@@ -72,7 +72,7 @@ export default function ResetPassword() {
       try {
         await authClient.resetPassword({
           token,
-          password: formData.password,
+          newPassword: formData.password,
         });
         setSuccess(true);
         setErrors({});
