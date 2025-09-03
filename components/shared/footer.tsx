@@ -1,0 +1,66 @@
+import Image from "next/image";
+import React from "react";
+import { Text } from "../ui/text";
+
+const Footer = () => {
+  return (
+    <footer className="w-full 2xl:p-container-md pt-10 sm:pt-4 border-t border-t-[var(--primary)]">
+      <div className="w-[70%] mx-auto space-y-4 md:mx-auto">
+        <Image
+          src="/assets/desci-ng-logo.png"
+          alt="logo"
+          width={100}
+          height={100}
+        />
+
+        <div className="w-full px-4 md:px-2 md:mx-auto md:flex md:flex-wrap md:items-center md:justify-between space-y-4">
+          <section>
+            <ul className="space-y-2">
+              <li>
+                <a href="#">
+                  <Text size={"sm"}>About Us</Text>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <Text size={"sm"}>How to Upload a Paper</Text>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <Text size="sm">Contact Us</Text>
+                </a>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <ul className="space-y-2">
+              <li>
+                <a href="#">
+                  <Text size="sm">X (Formerly Twitter)</Text>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <Text size="sm">LinkedIn, Instagram</Text>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <Text size="sm">TikTok, YouTube</Text>
+                </a>
+              </li>
+            </ul>
+          </section>
+
+          <section className="flex flex-col justify-end md:pt-14">
+            <Text size="sm"> &copy; {new Date().getFullYear()} Desci NG</Text>
+          </section>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
