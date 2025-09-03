@@ -1,13 +1,13 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Text } from "@/components/ui/text";
 import { useAuth } from "@/lib/hooks/use-auth";
 import { Loader2, LogOut, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { Button } from "../components/ui/button";
-import { Text } from "../components/ui/text";
 
 export default function Dashboard() {
   const { user, isLoading, isAuthenticated, signOut } = useAuth();

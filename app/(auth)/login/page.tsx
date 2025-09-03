@@ -1,5 +1,9 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Text } from "@/components/ui/text";
 import { useAuth } from "@/lib/hooks/use-auth";
 import { validateLoginForm } from "@/lib/utils/validation";
 import { Loader2 } from "lucide-react";
@@ -7,10 +11,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
-import { Text } from "../../components/ui/text";
 
 export default function Login() {
   const [email, setEmail] = useState("");

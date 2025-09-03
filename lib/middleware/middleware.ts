@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { API_AUTH_URL } from "../constants";
 
 // Protected routes that require authentication
 const protectedRoutes = ["/dashboard"];
@@ -37,7 +38,7 @@ export async function middleware(request: NextRequest) {
 
 async function checkAuthentication(request: NextRequest): Promise<boolean> {
   try {
-    const baseURL = process.env.NEXT_PUBLIC_AUTH_URL || "http://localhost:3001";
+    const baseURL = API_AUTH_URL;
 
     // Check session with native fetch
     const response = await fetch(`${baseURL}/auth/get-session`, {

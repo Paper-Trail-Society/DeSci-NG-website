@@ -1,15 +1,15 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Text } from "@/components/ui/text";
 import { useAuth } from "@/lib/hooks/use-auth";
 import { validateResetPasswordForm } from "@/lib/utils/validation";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useTransition } from "react";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
-import { Text } from "../../components/ui/text";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
