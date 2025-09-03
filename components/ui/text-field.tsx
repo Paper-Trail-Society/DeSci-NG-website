@@ -25,7 +25,7 @@ function TextField({
       name={name}
       render={({ field }) => (
         <FormItem className="pb-2">
-          <Label className="text-lg text-text font-bold">
+          <Label className="md:text-lg text-sm text-text font-bold">
             {label && label}
           </Label>
           <div className="relative">
