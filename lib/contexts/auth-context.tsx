@@ -1,7 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, ReactNode } from "react";
 import { useAuth } from "@/lib/hooks/use-auth";
+import { createContext, ReactNode, useContext } from "react";
 
 interface AuthContextType {
   user: any | null;
@@ -10,7 +10,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   error: any;
   signIn: (email: string, password: string) => Promise<any>;
-  signUp: (email: string, password: string, name?: string) => Promise<any>;
+  signUp: (email: string, password: string, name: string) => Promise<any>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<any>;
 }
@@ -20,11 +20,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const auth = useAuth();
 
-  return (
-    <AuthContext.Provider value={auth}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 }
 
 export function useAuthContext() {
