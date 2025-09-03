@@ -35,6 +35,27 @@ export function useAuth() {
     return result.data;
   };
 
+  const verifyEmail = async (token: string) => {
+    const result = await authClient.verifyEmail({
+      query: { token },
+    });
+    if (result.error) {
+      throw new Error(result.error.message);
+    }
+    return result.data;
+  };
+
+  const resendVerificationEmail = async (email: string) => {
+    const result = await authClient.sendVerificationEmail({
+      email,
+      callbackURL: `${window.location.origin}/verify-email`,
+    });
+    if (result.error) {
+      throw new Error(result.error.message);
+    }
+    return result.data;
+  };
+
   return {
     user: session?.user || null,
     session,
@@ -45,5 +66,7 @@ export function useAuth() {
     signUp,
     signOut,
     resetPassword,
+    verifyEmail,
+    resendVerificationEmail,
   };
 }

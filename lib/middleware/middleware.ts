@@ -5,7 +5,13 @@ import { API_AUTH_URL } from "../constants";
 const protectedRoutes = ["/dashboard"];
 
 // Auth routes that should redirect authenticated users
-const authRoutes = ["/login", "/signup", "/forgot-password", "/reset-password"];
+const authRoutes = [
+  "/login",
+  "/signup",
+  "/forgot-password",
+  "/reset-password",
+  "/verify-email",
+];
 
 // Public routes that don't require authentication
 const publicRoutes = ["/", "/about", "/contact"];

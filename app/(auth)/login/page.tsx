@@ -50,8 +50,19 @@ export default function Login() {
         await signIn(email, password);
         router.push("/dashboard");
       } catch (error: any) {
+        let errorMessage = error.message || "An error occurred during login";
+
+        // Handle email verification error specifically
+        if (
+          error.message?.includes("verify") ||
+          error.message?.includes("verification")
+        ) {
+          errorMessage =
+            "Please verify your email address before signing in. Check your email for a verification link.";
+        }
+
         setErrors({
-          general: error.message || "An error occurred during login",
+          general: errorMessage,
         });
       }
     });

@@ -9,7 +9,7 @@ import { validateSignupForm } from "@/lib/utils/validation";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+
 import { useState, useTransition } from "react";
 
 export default function Signup() {
@@ -20,8 +20,8 @@ export default function Signup() {
     confirmPassword: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [success, setSuccess] = useState(false);
   const [loading, startTransition] = useTransition();
-  const router = useRouter();
   const { signUp } = useAuth();
 
   const handleInputChange = (field: string, value: string) => {
@@ -55,7 +55,8 @@ export default function Signup() {
     startTransition(async () => {
       try {
         await signUp(formData.email, formData.password, formData.name);
-        router.push("/dashboard");
+        setSuccess(true);
+        setErrors({});
       } catch (error: any) {
         setErrors({
           general: error.message || "An error occurred during signup",
@@ -63,6 +64,66 @@ export default function Signup() {
       }
     });
   };
+
+  if (success) {
+    return (
+      <div className="font-sans items-center justify-items-center min-h-screen">
+        <main className="flex flex-col items-center py-20 w-full">
+          <Link href="/">
+            <Image
+              src="/assets/desci-ng-logo.png"
+              alt="logo"
+              width={100}
+              height={100}
+            />
+          </Link>
+
+          <section className="md:w-1/3 w-full mx-auto my-10 space-y-6 px-8 text-center">
+            <Text className="text-center leading-6 text-3xl">
+              Check Your Email
+            </Text>
+
+            <div className="p-6 bg-blue-50 border border-blue-200 rounded-md">
+              <Text className="text-blue-800">
+                We've sent a verification link to{" "}
+                <strong>{formData.email}</strong>
+              </Text>
+              <Text className="text-blue-700 text-sm mt-2">
+                Please check your email and click the verification link to
+                activate your account.
+              </Text>
+            </div>
+
+            <div className="space-y-4">
+              <Text className="text-sm text-gray-600">
+                Didn't receive the email? Check your spam folder or{" "}
+                <button
+                  onClick={() => {
+                    setSuccess(false);
+                    setFormData({
+                      name: "",
+                      email: "",
+                      password: "",
+                      confirmPassword: "",
+                    });
+                  }}
+                  className="text-[#B52221] hover:underline"
+                >
+                  try again
+                </button>
+              </Text>
+
+              <Link href="/login">
+                <Button variant="outline" className="w-full">
+                  Back to Login
+                </Button>
+              </Link>
+            </div>
+          </section>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="font-sans items-center justify-items-center min-h-screen">

@@ -7,12 +7,19 @@ import { Loader2, LogOut, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useEffect, useTransition } from "react";
 
 export default function Dashboard() {
   const { user, isLoading, isAuthenticated, signOut } = useAuth();
   const [loading, startTransition] = useTransition();
   const router = useRouter();
+
+  // Handle redirect to login if not authenticated
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.push("/login");
+    }
+  }, [isLoading, isAuthenticated, router]);
 
   const handleSignOut = () => {
     startTransition(async () => {
@@ -37,8 +44,14 @@ export default function Dashboard() {
   }
 
   if (!isAuthenticated) {
-    router.push("/login");
-    return null;
+    return (
+      <div className="font-sans items-center justify-items-center min-h-screen">
+        <main className="flex flex-col items-center justify-center py-20 w-full">
+          <Loader2 size={32} className="animate-spin" />
+          <Text className="mt-4">Redirecting...</Text>
+        </main>
+      </div>
+    );
   }
 
   return (

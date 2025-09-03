@@ -13,6 +13,8 @@ interface AuthContextType {
   signUp: (email: string, password: string, name: string) => Promise<any>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<any>;
+  verifyEmail: (token: string) => Promise<any>;
+  resendVerificationEmail: (email: string) => Promise<any>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
