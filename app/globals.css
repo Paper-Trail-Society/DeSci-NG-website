@@ -1,20 +1,17 @@
 @import "tailwindcss";
 @config "../tailwind.config.ts";
 
-
 @layer base {
   :root {
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
-    --primary: #B52221;
+    --primary: #b52221;
 
     --text-link: var(--primary);
     --text: #1b1f28;
     --text-dim: #83838b;
-    
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
   }
-  
 }
-

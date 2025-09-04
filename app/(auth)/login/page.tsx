@@ -1,0 +1,141 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
+import { Text } from "@/components/ui/text";
+import TextField from "@/components/ui/text-field";
+import { useSignIn } from "@/domains/auth/hooks";
+import { LoginFormData, loginSchema } from "@/domains/auth/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+
+export default function Login() {
+  const [generalError, setGeneralError] = useState("");
+  const router = useRouter();
+
+  const form = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const signInMutation = useSignIn({
+    onSuccess: () => {
+      router.push("/dashboard");
+    },
+    onError: (error) => {
+      let errorMessage = error.message || "An error occurred during login";
+
+      // Handle email verification error specifically
+      if (
+        error.message?.includes("verify") ||
+        error.message?.includes("verification")
+      ) {
+        errorMessage =
+          "Please verify your email address before signing in. Check your email for a verification link.";
+      }
+
+      setGeneralError(errorMessage);
+    },
+  });
+
+  const onSubmit = (data: LoginFormData) => {
+    setGeneralError("");
+    signInMutation.mutate(data);
+  };
+
+  return (
+    <div className="font-sans items-center justify-items-center min-h-screen ">
+      <main className="flex flex-col items-center py-20 w-full">
+        <Link href="/">
+          <Image
+            src="/assets/desci-ng-logo.png"
+            alt="logo"
+            width={100}
+            height={100}
+          />
+        </Link>
+
+        <section className="md:w-1/3 w-full mx-auto my-10 space-y-6 px-8">
+          <Text className="text-center leading-6 text-3xl">
+            Welcome to Desci NG
+          </Text>
+
+          <Text className="text-center leading-2">
+            Enter your login details below
+          </Text>
+
+          {generalError && (
+            <div className="p-3 bg-red-50 border border-red-200 rounded-md">
+              <Text className="text-red-600 text-sm">{generalError}</Text>
+            </div>
+          )}
+
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+              <TextField
+                control={form.control}
+                name="email"
+                label="Email address"
+                placeholder="Enter your email address"
+                type="email"
+                className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
+                required
+              />
+
+              <TextField
+                control={form.control}
+                name="password"
+                label="Password"
+                placeholder="Enter your password"
+                type="password"
+                autoComplete="current-password"
+                className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
+                required
+              />
+
+              <Button
+                variant="destructive"
+                className="mt-10 py-4 rounded-lg w-full"
+                type="submit"
+                disabled={signInMutation.isPending}
+              >
+                {signInMutation.isPending ? (
+                  <Loader2 size={16} className="animate-spin" />
+                ) : (
+                  "SIGN IN"
+                )}
+              </Button>
+            </form>
+          </Form>
+
+          {/* <SocialAuth mode="signin" /> */}
+
+          <div className="text-center space-y-2">
+            <Text className="text-sm text-gray-600">
+              <Link
+                href="/forgot-password"
+                className="text-[#B52221] hover:underline"
+              >
+                Forgot your password?
+              </Link>
+            </Text>
+            <Text className="text-sm text-gray-600">
+              Don't have an account?{" "}
+              <Link href="/signup" className="text-[#B52221] hover:underline">
+                Sign up
+              </Link>
+            </Text>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}

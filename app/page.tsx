@@ -1,6 +1,7 @@
-import Image from "next/image";
-import { Text } from "@/components/ui/text";
+import PaperSearchInput from "@/components/shared/paper-search-input";
 import { Button } from "@/components/ui/button";
+import { Text } from "@/components/ui/text";
+import Image from "next/image";
 import {
   Card,
   CardContent,
@@ -8,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../components/ui/card";
-import PaperSearchInput from "@/components/shared/paper-search-input";
 
 // add 4 categories with name, tagline, and image URL. Categories - Applied science, arts & humanities, blockchain technology, medical science
 

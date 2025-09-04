@@ -1,32 +1,31 @@
 "use client";
-import React, { useEffect, useRef } from "react";
-import { Text } from "../../components/ui/text";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "@/components/ui/form";
-import TextField from "@/components/ui/text-field";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import Image from "next/image";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
-import useGetFields from "@/domains/fields/hooks/use-get-fields";
-import useGetFieldCategories from "@/domains/fields/hooks/use-get-field-categories";
-import useUploadPaper from "@/domains/paper/hooks/use-upload-paper";
-import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
 import {
   MultiSelect,
   type SelectValue as CreateableSelectValue,
 } from "@/components/ui/createable-select";
+import { Form } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Text } from "@/components/ui/text";
+import TextField from "@/components/ui/text-field";
+import { Textarea } from "@/components/ui/textarea";
+import useGetFieldCategories from "@/domains/fields/hooks/use-get-field-categories";
+import useGetFields from "@/domains/fields/hooks/use-get-fields";
+import useUploadPaper from "@/domains/paper/hooks/use-upload-paper";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ChevronLeft } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useRef } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 const ALLOWED_FILE_TYPES = ["application/pdf"];
 
@@ -344,7 +343,12 @@ const Page = () => {
 
                   <div className="text-center">
                     {selectedFile && (
-                      <Text variant={"secondary"} className="cursor-default hover:text-text transition">{selectedFile.name}</Text>
+                      <Text
+                        variant={"secondary"}
+                        className="cursor-default hover:text-text transition"
+                      >
+                        {selectedFile.name}
+                      </Text>
                     )}
 
                     <Text size={"xs"} variant={"secondary"}>

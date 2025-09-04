@@ -1,9 +1,10 @@
+import Footer from "@/components/shared/footer";
+import Nav from "@/components/shared/nav";
+import { AuthProvider } from "@/lib/contexts/auth-context";
+import ReactQueryProviders from "@/lib/react-query/provider";
 import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import ReactQueryProviders from "@/lib/react-query/provider";
-import Nav from "@/components/shared/nav";
-import Footer from "@/components/shared/footer";
 
 const spaceGrotesk = Space_Grotesk({
   weight: ["400", "500", "700"],
@@ -26,8 +27,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${spaceGrotesk.className} antialiased`}>
         <Nav />
-
-        <ReactQueryProviders>{children}</ReactQueryProviders>
+        <AuthProvider>
+          <ReactQueryProviders>{children}</ReactQueryProviders>
+        </AuthProvider>
         <Footer />
       </body>
     </html>
