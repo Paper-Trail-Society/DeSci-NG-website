@@ -11,10 +11,10 @@ import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function ResetPassword() {
+function ResetPasswordContent() {
   const [success, setSuccess] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -175,5 +175,34 @@ export default function ResetPassword() {
         </section>
       </main>
     </div>
+  );
+}
+
+export default function ResetPassword() {
+  return (
+    <Suspense
+      fallback={
+        <div className="items-center justify-items-center min-h-screen">
+          <main className="flex flex-col items-center py-20 w-full">
+            <Link href="/">
+              <Image
+                src="/assets/desci-ng-logo.png"
+                alt="logo"
+                width={100}
+                height={100}
+              />
+            </Link>
+            <section className="md:w-1/3 w-full mx-auto my-10 space-y-6 px-8 text-center">
+              <div className="flex flex-col items-center space-y-4">
+                <Loader2 size={32} className="animate-spin" />
+                <Text className="text-gray-600">Loading...</Text>
+              </div>
+            </section>
+          </main>
+        </div>
+      }
+    >
+      <ResetPasswordContent />
+    </Suspense>
   );
 }

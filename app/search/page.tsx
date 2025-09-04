@@ -5,12 +5,14 @@ import { Text } from "@/components/ui/text";
 import PaperCard from "@/domains/paper/components/paper-card";
 import useGetPapers from "@/domains/paper/hooks/use-get-papers";
 import { useSearchParams } from "next/navigation";
-import React from "react";
+import { Suspense } from "react";
 
-const page = () => {
+const SearchPageContent = () => {
   const searchQuery = useSearchParams().get("query");
 
-  const { data: response, isLoading: isLoadingPapers } = useGetPapers({ search: searchQuery ?? undefined });
+  const { data: response, isLoading: isLoadingPapers } = useGetPapers({
+    search: searchQuery ?? undefined,
+  });
 
   return (
     <div className="items-center justify-items-center min-h-screen">
@@ -37,12 +39,42 @@ const page = () => {
             })
           ) : (
             <Text as="p" className="text-center w-full">
-              {searchQuery ? <span>No papers found for <b>${decodeURIComponent(searchQuery ?? "")}</b></span> : 'No papers found' }
+              {searchQuery ? (
+                <span>
+                  No papers found for{" "}
+                  <b>${decodeURIComponent(searchQuery ?? "")}</b>
+                </span>
+              ) : (
+                "No papers found"
+              )}
             </Text>
           )}
         </div>
       </main>
     </div>
+  );
+};
+
+const page = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className="items-center justify-items-center min-h-screen">
+          <main className="flex flex-col gap-14 items-center pt-10 pb-20 w-full">
+            <div className="space-y-4 w-2/5">
+              <PaperSearchInput className="w-full" />
+            </div>
+            <div className="flex flex-col gap-2 w-3/5 mx-auto">
+              <Text as="p" className="text-center w-full">
+                Loading...
+              </Text>
+            </div>
+          </main>
+        </div>
+      }
+    >
+      <SearchPageContent />
+    </Suspense>
   );
 };
 
