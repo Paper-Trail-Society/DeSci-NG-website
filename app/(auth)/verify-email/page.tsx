@@ -2,23 +2,35 @@
 
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
-import { useAuth } from "@/lib/hooks/use-auth";
+import { useVerifyEmail } from "@/domains/auth/hooks";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 
 export default function VerifyEmail() {
   const [status, setStatus] = useState<
     "loading" | "success" | "error" | "expired"
   >("loading");
   const [error, setError] = useState<string>("");
-  const [loading, startTransition] = useTransition();
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-  const { verifyEmail, resendVerificationEmail } = useAuth();
+
+  const verifyEmailMutation = useVerifyEmail({
+    onSuccess: () => {
+      setStatus("success");
+    },
+    onError: (error) => {
+      if (error.message?.includes("expired")) {
+        setStatus("expired");
+      } else {
+        setStatus("error");
+        setError(error.message || "Email verification failed");
+      }
+    },
+  });
 
   useEffect(() => {
     if (!token) {
@@ -28,33 +40,13 @@ export default function VerifyEmail() {
     }
 
     // Verify email with token
-    const verifyEmailToken = async () => {
-      try {
-        await verifyEmail(token);
-        setStatus("success");
-      } catch (error: any) {
-        if (error.message?.includes("expired")) {
-          setStatus("expired");
-        } else {
-          setStatus("error");
-          setError(error.message || "Email verification failed");
-        }
-      }
-    };
-
-    verifyEmailToken();
-  }, [token, verifyEmail]);
+    verifyEmailMutation.mutate(token);
+  }, [token, verifyEmailMutation]);
 
   const handleResendVerification = () => {
-    startTransition(async () => {
-      try {
-        // We need the email to resend verification
-        // For now, redirect to signup to resend
-        router.push("/signup");
-      } catch (error: any) {
-        setError(error.message || "Failed to resend verification email");
-      }
-    });
+    // We need the email to resend verification
+    // For now, redirect to signup to resend
+    router.push("/signup");
   };
 
   if (status === "loading") {
@@ -156,15 +148,11 @@ export default function VerifyEmail() {
             <div className="space-y-4">
               <Button
                 onClick={handleResendVerification}
-                disabled={loading}
+                disabled={false}
                 variant="destructive"
                 className="w-full py-4"
               >
-                {loading ? (
-                  <Loader2 size={16} className="animate-spin" />
-                ) : (
-                  "RESEND VERIFICATION EMAIL"
-                )}
+                RESEND VERIFICATION EMAIL
               </Button>
 
               <Link href="/login">
@@ -209,15 +197,11 @@ export default function VerifyEmail() {
           <div className="space-y-4">
             <Button
               onClick={handleResendVerification}
-              disabled={loading}
+              disabled={false}
               variant="destructive"
               className="w-full py-4"
             >
-              {loading ? (
-                <Loader2 size={16} className="animate-spin" />
-              ) : (
-                "RESEND VERIFICATION EMAIL"
-              )}
+              RESEND VERIFICATION EMAIL
             </Button>
 
             <Link href="/login">

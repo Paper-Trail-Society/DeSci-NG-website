@@ -1,68 +1,46 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Form } from "@/components/ui/form";
 import { Text } from "@/components/ui/text";
-import { useAuth } from "@/lib/hooks/use-auth";
-import { validateSignupForm } from "@/lib/utils/validation";
+import TextField from "@/components/ui/text-field";
+import { useSignUp } from "@/domains/auth/hooks";
+import { SignupFormData, signupSchema } from "@/domains/auth/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
-import { useState, useTransition } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function Signup() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-  const [errors, setErrors] = useState<Record<string, string>>({});
   const [success, setSuccess] = useState(false);
-  const [loading, startTransition] = useTransition();
-  const { signUp } = useAuth();
+  const [signupEmail, setSignupEmail] = useState("");
 
-  const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    // Clear error when user starts typing
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: "" }));
-    }
-  };
+  const form = useForm<SignupFormData>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Validate form
-    const validation = validateSignupForm(
-      formData.email,
-      formData.password,
-      formData.confirmPassword,
-      formData.name
-    );
-
-    if (!validation.isValid) {
-      const errorMap: Record<string, string> = {};
-      validation.errors.forEach((error) => {
-        errorMap[error.field] = error.message;
+  const signUpMutation = useSignUp({
+    onSuccess: (data) => {
+      setSignupEmail(form.getValues("email"));
+      setSuccess(true);
+    },
+    onError: (error) => {
+      form.setError("root", {
+        message: error.message || "An error occurred during signup",
       });
-      setErrors(errorMap);
-      return;
-    }
+    },
+  });
 
-    startTransition(async () => {
-      try {
-        await signUp(formData.email, formData.password, formData.name);
-        setSuccess(true);
-        setErrors({});
-      } catch (error: any) {
-        setErrors({
-          general: error.message || "An error occurred during signup",
-        });
-      }
-    });
+  const onSubmit = (data: SignupFormData) => {
+    signUpMutation.mutate(data);
   };
 
   if (success) {
@@ -85,8 +63,7 @@ export default function Signup() {
 
             <div className="p-6 bg-blue-50 border border-blue-200 rounded-md">
               <Text className="text-blue-800">
-                We've sent a verification link to{" "}
-                <strong>{formData.email}</strong>
+                We've sent a verification link to <strong>{signupEmail}</strong>
               </Text>
               <Text className="text-blue-700 text-sm mt-2">
                 Please check your email and click the verification link to
@@ -100,12 +77,7 @@ export default function Signup() {
                 <button
                   onClick={() => {
                     setSuccess(false);
-                    setFormData({
-                      name: "",
-                      email: "",
-                      password: "",
-                      confirmPassword: "",
-                    });
+                    form.reset();
                   }}
                   className="text-[#B52221] hover:underline"
                 >
@@ -144,113 +116,72 @@ export default function Signup() {
             Create your account to get started
           </Text>
 
-          {errors.general && (
+          {form.formState.errors.root && (
             <div className="p-3 bg-red-50 border border-red-200 rounded-md">
-              <Text className="text-red-600 text-sm">{errors.general}</Text>
+              <Text className="text-red-600 text-sm">
+                {form.formState.errors.root.message}
+              </Text>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="name">Full Name</Label>
-              <Input
-                id="name"
-                type="text"
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+              <TextField
+                control={form.control}
+                name="name"
+                label="Full Name"
                 placeholder="Enter your full name"
-                value={formData.name}
-                required
-                onChange={(e) => handleInputChange("name", e.target.value)}
+                type="text"
                 className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
-                aria-describedby={errors.name ? "name-error" : undefined}
+                required
               />
-              {errors.name && (
-                <Text id="name-error" className="text-red-600 text-sm">
-                  {errors.name}
-                </Text>
-              )}
-            </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email address</Label>
-              <Input
-                id="email"
-                type="email"
+              <TextField
+                control={form.control}
+                name="email"
+                label="Email address"
                 placeholder="Enter your email address"
-                value={formData.email}
-                required
-                onChange={(e) => handleInputChange("email", e.target.value)}
+                type="email"
                 className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
-                aria-describedby={errors.email ? "email-error" : undefined}
+                required
               />
-              {errors.email && (
-                <Text id="email-error" className="text-red-600 text-sm">
-                  {errors.email}
-                </Text>
-              )}
-            </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
+              <TextField
+                control={form.control}
+                name="password"
+                label="Password"
                 placeholder="Create a password"
-                autoComplete="new-password"
-                value={formData.password}
-                required
-                onChange={(e) => handleInputChange("password", e.target.value)}
-                className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
-                aria-describedby={
-                  errors.password ? "password-error" : undefined
-                }
-              />
-              {errors.password && (
-                <Text id="password-error" className="text-red-600 text-sm">
-                  {errors.password}
-                </Text>
-              )}
-            </div>
-
-            <div className="grid gap-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <Input
-                id="confirmPassword"
                 type="password"
-                placeholder="Confirm your password"
                 autoComplete="new-password"
-                value={formData.confirmPassword}
-                required
-                onChange={(e) =>
-                  handleInputChange("confirmPassword", e.target.value)
-                }
                 className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
-                aria-describedby={
-                  errors.confirmPassword ? "confirm-password-error" : undefined
-                }
+                required
               />
-              {errors.confirmPassword && (
-                <Text
-                  id="confirm-password-error"
-                  className="text-red-600 text-sm"
-                >
-                  {errors.confirmPassword}
-                </Text>
-              )}
-            </div>
 
-            <Button
-              variant="destructive"
-              className="mt-10 py-4 rounded-lg w-full"
-              type="submit"
-              disabled={loading}
-            >
-              {loading ? (
-                <Loader2 size={16} className="animate-spin" />
-              ) : (
-                "CREATE ACCOUNT"
-              )}
-            </Button>
-          </form>
+              <TextField
+                control={form.control}
+                name="confirmPassword"
+                label="Confirm Password"
+                placeholder="Confirm your password"
+                type="password"
+                autoComplete="new-password"
+                className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
+                required
+              />
+
+              <Button
+                variant="destructive"
+                className="mt-10 py-4 rounded-lg w-full"
+                type="submit"
+                disabled={signUpMutation.isPending}
+              >
+                {signUpMutation.isPending ? (
+                  <Loader2 size={16} className="animate-spin" />
+                ) : (
+                  "CREATE ACCOUNT"
+                )}
+              </Button>
+            </form>
+          </Form>
 
           {/* <SocialAuth mode="signup" /> */}
 

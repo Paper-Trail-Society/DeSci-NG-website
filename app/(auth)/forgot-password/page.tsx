@@ -1,50 +1,46 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Form } from "@/components/ui/form";
 import { Text } from "@/components/ui/text";
-import { useAuth } from "@/lib/hooks/use-auth";
-import { validateResetPasswordForm } from "@/lib/utils/validation";
+import TextField from "@/components/ui/text-field";
+import { useResetPassword } from "@/domains/auth/hooks";
+import {
+  ResetPasswordFormData,
+  resetPasswordSchema,
+} from "@/domains/auth/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useTransition } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function ForgotPassword() {
-  const [email, setEmail] = useState("");
-  const [errors, setErrors] = useState<Record<string, string>>({});
   const [success, setSuccess] = useState(false);
-  const [loading, startTransition] = useTransition();
-  const { resetPassword } = useAuth();
+  const [resetEmail, setResetEmail] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const form = useForm<ResetPasswordFormData>({
+    resolver: zodResolver(resetPasswordSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
 
-    // Validate form
-    const validation = validateResetPasswordForm(email);
-
-    if (!validation.isValid) {
-      const errorMap: Record<string, string> = {};
-      validation.errors.forEach((error) => {
-        errorMap[error.field] = error.message;
+  const resetPasswordMutation = useResetPassword({
+    onSuccess: () => {
+      setResetEmail(form.getValues("email"));
+      setSuccess(true);
+    },
+    onError: (error) => {
+      form.setError("root", {
+        message: error.message || "An error occurred while sending reset email",
       });
-      setErrors(errorMap);
-      return;
-    }
+    },
+  });
 
-    startTransition(async () => {
-      try {
-        await resetPassword(email);
-        setSuccess(true);
-        setErrors({});
-      } catch (error: any) {
-        setErrors({
-          general:
-            error.message || "An error occurred while sending reset email",
-        });
-      }
-    });
+  const onSubmit = (data: ResetPasswordFormData) => {
+    resetPasswordMutation.mutate(data);
   };
 
   if (success) {
@@ -67,7 +63,8 @@ export default function ForgotPassword() {
 
             <div className="p-6 bg-green-50 border border-green-200 rounded-md">
               <Text className="text-green-800">
-                We've sent a password reset link to <strong>{email}</strong>
+                We've sent a password reset link to{" "}
+                <strong>{resetEmail}</strong>
               </Text>
               <Text className="text-green-700 text-sm mt-2">
                 Please check your email and follow the instructions to reset
@@ -81,7 +78,7 @@ export default function ForgotPassword() {
                 <button
                   onClick={() => {
                     setSuccess(false);
-                    setEmail("");
+                    form.reset();
                   }}
                   className="text-[#B52221] hover:underline"
                 >
@@ -123,50 +120,40 @@ export default function ForgotPassword() {
             password
           </Text>
 
-          {errors.general && (
+          {form.formState.errors.root && (
             <div className="p-3 bg-red-50 border border-red-200 rounded-md">
-              <Text className="text-red-600 text-sm">{errors.general}</Text>
+              <Text className="text-red-600 text-sm">
+                {form.formState.errors.root.message}
+              </Text>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email address</Label>
-              <Input
-                id="email"
-                type="email"
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+              <TextField
+                control={form.control}
+                name="email"
+                label="Email address"
                 placeholder="Enter your email address"
-                value={email}
-                required
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (errors.email) {
-                    setErrors((prev) => ({ ...prev, email: "" }));
-                  }
-                }}
+                type="email"
                 className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
-                aria-describedby={errors.email ? "email-error" : undefined}
+                required
               />
-              {errors.email && (
-                <Text id="email-error" className="text-red-600 text-sm">
-                  {errors.email}
-                </Text>
-              )}
-            </div>
 
-            <Button
-              variant="destructive"
-              className="mt-10 py-4 rounded-lg w-full"
-              type="submit"
-              disabled={loading}
-            >
-              {loading ? (
-                <Loader2 size={16} className="animate-spin" />
-              ) : (
-                "SEND RESET LINK"
-              )}
-            </Button>
-          </form>
+              <Button
+                variant="destructive"
+                className="mt-10 py-4 rounded-lg w-full"
+                type="submit"
+                disabled={resetPasswordMutation.isPending}
+              >
+                {resetPasswordMutation.isPending ? (
+                  <Loader2 size={16} className="animate-spin" />
+                ) : (
+                  "SEND RESET LINK"
+                )}
+              </Button>
+            </form>
+          </Form>
 
           <div className="text-center space-y-2">
             <Text className="text-sm text-gray-600">

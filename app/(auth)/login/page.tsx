@@ -1,71 +1,54 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Form } from "@/components/ui/form";
 import { Text } from "@/components/ui/text";
-import { useAuth } from "@/lib/hooks/use-auth";
-import { validateLoginForm } from "@/lib/utils/validation";
+import TextField from "@/components/ui/text-field";
+import { useSignIn } from "@/domains/auth/hooks";
+import { LoginFormData, loginSchema } from "@/domains/auth/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [loading, startTransition] = useTransition();
+  const [generalError, setGeneralError] = useState("");
   const router = useRouter();
-  const { signIn } = useAuth();
 
-  const handleInputChange = (field: string, value: string) => {
-    if (field === "email") setEmail(value);
-    if (field === "password") setPassword(value);
+  const form = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-    // Clear error when user starts typing
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: "" }));
-    }
-  };
+  const signInMutation = useSignIn({
+    onSuccess: () => {
+      router.push("/dashboard");
+    },
+    onError: (error) => {
+      let errorMessage = error.message || "An error occurred during login";
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Validate form
-    const validation = validateLoginForm(email, password);
-
-    if (!validation.isValid) {
-      const errorMap: Record<string, string> = {};
-      validation.errors.forEach((error) => {
-        errorMap[error.field] = error.message;
-      });
-      setErrors(errorMap);
-      return;
-    }
-
-    startTransition(async () => {
-      try {
-        await signIn(email, password);
-        router.push("/dashboard");
-      } catch (error: any) {
-        let errorMessage = error.message || "An error occurred during login";
-
-        // Handle email verification error specifically
-        if (
-          error.message?.includes("verify") ||
-          error.message?.includes("verification")
-        ) {
-          errorMessage =
-            "Please verify your email address before signing in. Check your email for a verification link.";
-        }
-
-        setErrors({
-          general: errorMessage,
-        });
+      // Handle email verification error specifically
+      if (
+        error.message?.includes("verify") ||
+        error.message?.includes("verification")
+      ) {
+        errorMessage =
+          "Please verify your email address before signing in. Check your email for a verification link.";
       }
-    });
+
+      setGeneralError(errorMessage);
+    },
+  });
+
+  const onSubmit = (data: LoginFormData) => {
+    setGeneralError("");
+    signInMutation.mutate(data);
   };
 
   return (
@@ -89,67 +72,49 @@ export default function Login() {
             Enter your login details below
           </Text>
 
-          {errors.general && (
+          {generalError && (
             <div className="p-3 bg-red-50 border border-red-200 rounded-md">
-              <Text className="text-red-600 text-sm">{errors.general}</Text>
+              <Text className="text-red-600 text-sm">{generalError}</Text>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email address</Label>
-              <Input
-                id="email"
-                type="email"
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+              <TextField
+                control={form.control}
+                name="email"
+                label="Email address"
                 placeholder="Enter your email address"
-                value={email}
-                required
-                onChange={(e) => handleInputChange("email", e.target.value)}
+                type="email"
                 className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
-                aria-describedby={errors.email ? "email-error" : undefined}
+                required
               />
-              {errors.email && (
-                <Text id="email-error" className="text-red-600 text-sm">
-                  {errors.email}
-                </Text>
-              )}
-            </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
+              <TextField
+                control={form.control}
+                name="password"
+                label="Password"
                 placeholder="Enter your password"
+                type="password"
                 autoComplete="current-password"
-                value={password}
-                required
-                onChange={(e) => handleInputChange("password", e.target.value)}
                 className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
-                aria-describedby={
-                  errors.password ? "password-error" : undefined
-                }
+                required
               />
-              {errors.password && (
-                <Text id="password-error" className="text-red-600 text-sm">
-                  {errors.password}
-                </Text>
-              )}
-            </div>
 
-            <Button
-              variant="destructive"
-              className="mt-10 py-4 rounded-lg w-full"
-              type="submit"
-              disabled={loading}
-            >
-              {loading ? (
-                <Loader2 size={16} className="animate-spin" />
-              ) : (
-                "SIGN IN"
-              )}
-            </Button>
-          </form>
+              <Button
+                variant="destructive"
+                className="mt-10 py-4 rounded-lg w-full"
+                type="submit"
+                disabled={signInMutation.isPending}
+              >
+                {signInMutation.isPending ? (
+                  <Loader2 size={16} className="animate-spin" />
+                ) : (
+                  "SIGN IN"
+                )}
+              </Button>
+            </form>
+          </Form>
 
           {/* <SocialAuth mode="signin" /> */}
 

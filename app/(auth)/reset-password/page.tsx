@@ -1,31 +1,43 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Form } from "@/components/ui/form";
 import { Text } from "@/components/ui/text";
-import { authClient } from "@/lib/auth-client";
-import {
-  validateConfirmPassword,
-  validatePassword,
-} from "@/lib/utils/validation";
+import TextField from "@/components/ui/text-field";
+import { useNewPassword } from "@/domains/auth/hooks";
+import { NewPasswordFormData, newPasswordSchema } from "@/domains/auth/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function ResetPassword() {
-  const [formData, setFormData] = useState({
-    password: "",
-    confirmPassword: "",
-  });
-  const [errors, setErrors] = useState<Record<string, string>>({});
   const [success, setSuccess] = useState(false);
-  const [loading, startTransition] = useTransition();
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
+
+  const form = useForm<NewPasswordFormData>({
+    resolver: zodResolver(newPasswordSchema),
+    defaultValues: {
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  const newPasswordMutation = useNewPassword({
+    onSuccess: () => {
+      setSuccess(true);
+    },
+    onError: (error) => {
+      form.setError("root", {
+        message: error.message || "An error occurred while resetting password",
+      });
+    },
+  });
 
   useEffect(() => {
     if (!token) {
@@ -33,56 +45,13 @@ export default function ResetPassword() {
     }
   }, [token, router]);
 
-  const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    // Clear error when user starts typing
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: "" }));
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = (data: NewPasswordFormData) => {
     if (!token) {
-      setErrors({ general: "Invalid reset token" });
+      form.setError("root", { message: "Invalid reset token" });
       return;
     }
 
-    // Validate form
-    const passwordError = validatePassword(formData.password);
-    const confirmPasswordError = validateConfirmPassword(
-      formData.password,
-      formData.confirmPassword
-    );
-
-    const validationErrors: Record<string, string> = {};
-    if (passwordError)
-      validationErrors[passwordError.field] = passwordError.message;
-    if (confirmPasswordError)
-      validationErrors[confirmPasswordError.field] =
-        confirmPasswordError.message;
-
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-
-    startTransition(async () => {
-      try {
-        await authClient.resetPassword({
-          token,
-          newPassword: formData.password,
-        });
-        setSuccess(true);
-        setErrors({});
-      } catch (error: any) {
-        setErrors({
-          general:
-            error.message || "An error occurred while resetting password",
-        });
-      }
-    });
+    newPasswordMutation.mutate({ data, token });
   };
 
   if (success) {
@@ -148,75 +117,52 @@ export default function ResetPassword() {
             Enter your new password below
           </Text>
 
-          {errors.general && (
+          {form.formState.errors.root && (
             <div className="p-3 bg-red-50 border border-red-200 rounded-md">
-              <Text className="text-red-600 text-sm">{errors.general}</Text>
+              <Text className="text-red-600 text-sm">
+                {form.formState.errors.root.message}
+              </Text>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="password">New Password</Label>
-              <Input
-                id="password"
-                type="password"
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+              <TextField
+                control={form.control}
+                name="password"
+                label="New Password"
                 placeholder="Enter your new password"
-                autoComplete="new-password"
-                value={formData.password}
-                required
-                onChange={(e) => handleInputChange("password", e.target.value)}
-                className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
-                aria-describedby={
-                  errors.password ? "password-error" : undefined
-                }
-              />
-              {errors.password && (
-                <Text id="password-error" className="text-red-600 text-sm">
-                  {errors.password}
-                </Text>
-              )}
-            </div>
-
-            <div className="grid gap-2">
-              <Label htmlFor="confirmPassword">Confirm New Password</Label>
-              <Input
-                id="confirmPassword"
                 type="password"
-                placeholder="Confirm your new password"
                 autoComplete="new-password"
-                value={formData.confirmPassword}
-                required
-                onChange={(e) =>
-                  handleInputChange("confirmPassword", e.target.value)
-                }
                 className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
-                aria-describedby={
-                  errors.confirmPassword ? "confirm-password-error" : undefined
-                }
+                required
               />
-              {errors.confirmPassword && (
-                <Text
-                  id="confirm-password-error"
-                  className="text-red-600 text-sm"
-                >
-                  {errors.confirmPassword}
-                </Text>
-              )}
-            </div>
 
-            <Button
-              variant="destructive"
-              className="mt-10 py-4 rounded-lg w-full"
-              type="submit"
-              disabled={loading}
-            >
-              {loading ? (
-                <Loader2 size={16} className="animate-spin" />
-              ) : (
-                "RESET PASSWORD"
-              )}
-            </Button>
-          </form>
+              <TextField
+                control={form.control}
+                name="confirmPassword"
+                label="Confirm New Password"
+                placeholder="Confirm your new password"
+                type="password"
+                autoComplete="new-password"
+                className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
+                required
+              />
+
+              <Button
+                variant="destructive"
+                className="mt-10 py-4 rounded-lg w-full"
+                type="submit"
+                disabled={newPasswordMutation.isPending}
+              >
+                {newPasswordMutation.isPending ? (
+                  <Loader2 size={16} className="animate-spin" />
+                ) : (
+                  "RESET PASSWORD"
+                )}
+              </Button>
+            </form>
+          </Form>
 
           <div className="text-center">
             <Text className="text-sm text-gray-600">

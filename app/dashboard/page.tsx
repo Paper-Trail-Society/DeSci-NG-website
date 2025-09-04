@@ -2,16 +2,16 @@
 
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
-import { useAuth } from "@/lib/hooks/use-auth";
+import { useSignOut } from "@/domains/auth/hooks";
+import { useAuthContext } from "@/lib/contexts/auth-context";
 import { Loader2, LogOut, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useTransition } from "react";
+import { useEffect } from "react";
 
 export default function Dashboard() {
-  const { user, isLoading, isAuthenticated, signOut } = useAuth();
-  const [loading, startTransition] = useTransition();
+  const { user, isLoading, isAuthenticated } = useAuthContext();
   const router = useRouter();
 
   // Handle redirect to login if not authenticated
@@ -21,15 +21,17 @@ export default function Dashboard() {
     }
   }, [isLoading, isAuthenticated, router]);
 
+  const signOutMutation = useSignOut({
+    onSuccess: () => {
+      router.push("/");
+    },
+    onError: (error) => {
+      console.error("Sign out error:", error);
+    },
+  });
+
   const handleSignOut = () => {
-    startTransition(async () => {
-      try {
-        await signOut();
-        router.push("/");
-      } catch (error) {
-        console.error("Sign out error:", error);
-      }
-    });
+    signOutMutation.mutate();
   };
 
   if (isLoading) {
@@ -83,10 +85,10 @@ export default function Dashboard() {
                 variant="outline"
                 size="sm"
                 onClick={handleSignOut}
-                disabled={loading}
+                disabled={signOutMutation.isPending}
                 className="flex items-center space-x-2"
               >
-                {loading ? (
+                {signOutMutation.isPending ? (
                   <Loader2 size={16} className="animate-spin" />
                 ) : (
                   <LogOut size={16} />

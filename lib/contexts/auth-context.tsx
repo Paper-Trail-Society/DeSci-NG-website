@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/lib/hooks/use-auth";
+import { authClient } from "@/lib/auth-client";
 import { createContext, ReactNode, useContext } from "react";
 
 interface AuthContextType {
@@ -8,21 +8,23 @@ interface AuthContextType {
   session: any | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  error: any;
-  signIn: (email: string, password: string) => Promise<any>;
-  signUp: (email: string, password: string, name: string) => Promise<any>;
-  signOut: () => Promise<void>;
-  resetPassword: (email: string) => Promise<any>;
-  verifyEmail: (token: string) => Promise<any>;
-  resendVerificationEmail: (email: string) => Promise<any>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const auth = useAuth();
+  const { data: session, isPending } = authClient.useSession();
 
-  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
+  const authValue: AuthContextType = {
+    user: session?.user || null,
+    session,
+    isLoading: isPending,
+    isAuthenticated: !!session?.user,
+  };
+
+  return (
+    <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>
+  );
 }
 
 export function useAuthContext() {
