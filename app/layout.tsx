@@ -1,3 +1,5 @@
+import Footer from "@/components/shared/footer";
+import Nav from "@/components/shared/nav";
 import { AuthProvider } from "@/lib/contexts/auth-context";
 import ReactQueryProviders from "@/lib/react-query/provider";
 import type { Metadata } from "next";
@@ -24,9 +26,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${spaceGrotesk.className} antialiased`}>
+        <Nav />
         <AuthProvider>
           <ReactQueryProviders>{children}</ReactQueryProviders>
         </AuthProvider>
+        <Footer />
       </body>
     </html>
   );

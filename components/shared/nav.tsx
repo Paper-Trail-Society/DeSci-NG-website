@@ -8,14 +8,14 @@ const Nav = () => {
     <nav className="w-full 2xl:p-container-md pt-10 sm:pt-4">
       <div className="w-full md:w-[70%] px-4 md:px-2 md:mx-auto flex justify-between items-center">
         <span>
-          <a href="#">
+          <Link href="/">
             <Image
               src="/assets/desci-ng-logo.png"
               alt="logo"
               width={100}
               height={100}
             />
-          </a>
+          </Link>
         </span>
         <div className="flex gap-4 items-center">
           <Link href="/upload-paper">
@@ -42,7 +42,7 @@ const Nav = () => {
               Upload paper
             </Button>
           </Link>
-          <Link href="/login">
+          <Link href="#">
             <Button variant={"destructive"} className="px-4">
               LOGIN
             </Button>

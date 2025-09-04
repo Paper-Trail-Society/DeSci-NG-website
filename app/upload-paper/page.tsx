@@ -140,8 +140,8 @@ const Page = () => {
   ];
 
   return (
-    <div className="p-container-lg">
-      <section className="bg-[#F3E7E780] h-full md:w-3/5 w-full mx-auto px-container-md py-container-base">
+    <div className="md:p-container-lg p-container-base">
+      <section className="bg-[#F3E7E780] h-full md:w-3/5 w-full mx-auto md:px-container-md md:py-container-base p-container-base">
         <div className="mb-2">
           <Button
             onClick={() => router.back()}
@@ -153,18 +153,18 @@ const Page = () => {
           </Button>
         </div>
 
-        <div className="flex justify-between">
-          <Text size={"lg"} weight={"bold"}>
+        <div className="flex flex-wrap justify-between">
+          <Text className="md:text-lg text-md" weight={"bold"}>
             Your Profile
           </Text>
           <div className="flex items-center gap-2">
             <div className="bg-[#B52221] h-5 w-1 rounded-md"></div>
-            <Text size={"lg"} weight={"bold"}>
+            <Text className="md:text-lg text-md" weight={"bold"}>
               Upload New Paper
             </Text>
           </div>
 
-          <Text size={"lg"} weight={"bold"}>
+          <Text className="md:text-lg text-md" weight={"bold"}>
             Manage Papers
           </Text>
         </div>
@@ -185,7 +185,7 @@ const Page = () => {
               />
 
               <div className="flex flex-col gap-1">
-                <Label className="text-lg text-text font-bold">Abstract</Label>
+                <Label className="md:text-lg text-sm text-text font-bold">Abstract</Label>
                 <Textarea
                   variant={"noBorderAndFocus"}
                   size={"lg"}
@@ -199,9 +199,9 @@ const Page = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="md:grid md:grid-cols-2 flex flex-col gap-4">
                 <div className="flex flex-col gap-1">
-                  <Label className="text-lg text-text font-bold">
+                  <Label className="md:text-lg text-sm text-text font-bold">
                     Primary Field
                   </Label>
                   <Select
@@ -230,7 +230,7 @@ const Page = () => {
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <Label className="text-lg text-text font-bold">
+                  <Label className="md:text-lg text-sm text-text font-bold">
                     Category
                   </Label>
                   <Select
@@ -272,7 +272,7 @@ const Page = () => {
               </div>
 
               <div className="flex flex-col gap-1">
-                <Label className="text-lg text-text font-bold">
+                <Label className="md:text-lg text-sm text-text font-bold">
                   Keywords (that describe your research)
                 </Label>
                 <MultiSelect
@@ -294,7 +294,7 @@ const Page = () => {
               </div>
 
               <div className="flex flex-col gap-1">
-                <Label className="text-lg text-text font-bold">
+                <Label className="md:text-lg text-sm text-text font-bold">
                   Local relevance / Application
                 </Label>
                 <Textarea
@@ -311,7 +311,7 @@ const Page = () => {
               </div>
 
               <div className="flex flex-col gap-1">
-                <Label className="text-lg text-text font-bold">
+                <Label className="md:text-lg text-sm text-text font-bold">
                   Upload Paper
                 </Label>
                 <div
@@ -367,13 +367,13 @@ const Page = () => {
               <div className="md:mt-8 flex gap-4 items-center justify-center">
                 <Button
                   type="button"
-                  className="bg-[#B52221CC]"
+                  className="bg-[#B52221CC] w-24 text-xs md:text-sm"
                   variant={"outline"}
                   onClick={() => router.back()}
                 >
                   CANCEL
                 </Button>
-                <Button type="submit" variant={"destructive"}>
+                <Button type="submit" variant={"destructive"} className="text-xs md:text-sm">
                   UPLOAD PAPER
                 </Button>
               </div>
