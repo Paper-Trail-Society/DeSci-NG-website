@@ -37,7 +37,7 @@ const page = () => {
             })
           ) : (
             <Text as="p" className="text-center w-full">
-              No papers found for "{decodeURIComponent(searchQuery ?? "")}"
+              {searchQuery ? <span>No papers found for <b>${decodeURIComponent(searchQuery ?? "")}</b></span> : 'No papers found' }
             </Text>
           )}
         </div>
