@@ -42,7 +42,7 @@ const Nav = () => {
               Upload paper
             </Button>
           </Link>
-          <Link href="#">
+          <Link href="/login">
             <Button variant={"destructive"} className="px-4">
               LOGIN
             </Button>
