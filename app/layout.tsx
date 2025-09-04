@@ -12,8 +12,6 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
-console.log({ spaceGrotesk });
-
 export const metadata: Metadata = {
   title: "Desci NG",
   description: "Decentralized Science",
