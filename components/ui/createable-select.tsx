@@ -5,6 +5,7 @@ import Image, { StaticImageData } from 'next/image';
 import { cn } from '@/lib/utils/css';
 
 import CreatableSelect from 'react-select/creatable';
+import CreateableAsyncSelect from 'react-select/async-creatable'
 
 export type SelectValueBase = { value: string; label: string; img?: string | StaticImageData };
 export type SelectValue = Omit<SelectValueBase, 'img'>;
@@ -12,11 +13,13 @@ export type SelectValue = Omit<SelectValueBase, 'img'>;
 export type SelectProps = {
   name: string;
   placeholder: string;
-  options: SelectValueBase[];
+  options?: SelectValueBase[];
+  loadOptions?: (searchVal: string, setOptions: (options: SelectValueBase[]) => void) => void;
   handleChange: (arg: readonly SelectValue[], meta?: ActionMeta<SelectValueBase>) => void;
   handleBlur?: () => void;
   isSearchable?: boolean;
   isCreatable?: boolean;
+  isAsync?: boolean;
   className?: string;
   value?: readonly SelectValueBase[];
   controlStyles?: CSSObjectWithLabel;
@@ -42,12 +45,13 @@ const MultiSelect = ({
   handleBlur,
   isSearchable = true,
   isCreatable = false,
+  isAsync=false,
   ...props
 }: SelectProps) => {
-  const Comp = isCreatable ? CreatableSelect : Select;
+  const Comp = isAsync ? CreateableAsyncSelect : isCreatable ? CreatableSelect : Select;
   return (
     <Comp
-      className={cn('text-capitalize px-0', props.className)}
+      className={cn('text-capitalize px-0 ring-1 ring-neutral-300', props.className)}
       components={{ MultiValueContainer }}
       name={name}
       options={options}
@@ -148,6 +152,8 @@ const MultiSelect = ({
         </div>
       )}
       isMulti
+      loadOptions={(inputValue, setOptions) => props.loadOptions?.(inputValue, setOptions)}
+      cacheOptions={true}
     />
   );
 };
