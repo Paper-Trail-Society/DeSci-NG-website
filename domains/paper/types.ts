@@ -25,3 +25,9 @@ export type PaginatedPapersResponse = {
   total: number;
   size: number;
 };
+
+export type Keyword = {
+  id: number;
+  name: string;
+  aliases: string[]
+}

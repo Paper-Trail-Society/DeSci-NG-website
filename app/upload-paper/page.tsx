@@ -1,49 +1,54 @@
 "use client";
+import React, { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { ChevronLeft } from "lucide-react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form } from "@/components/ui/form";
+import TextField from "@/components/ui/text-field";
+import { Text } from "@/components/ui/text";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 import {
   MultiSelect,
+  SelectValueBase,
   type SelectValue as CreateableSelectValue,
 } from "@/components/ui/createable-select";
-import { Form } from "@/components/ui/form";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Text } from "@/components/ui/text";
-import TextField from "@/components/ui/text-field";
-import { Textarea } from "@/components/ui/textarea";
-import useGetFieldCategories from "@/domains/fields/hooks/use-get-field-categories";
+import { $http } from "@/lib/http";
+import { Keyword } from "@/domains/paper/types";
+
+import { useDebouncedCallback } from "use-debounce";
+
 import useGetFields from "@/domains/fields/hooks/use-get-fields";
+import useGetFieldCategories from "@/domains/fields/hooks/use-get-field-categories";
 import useUploadPaper from "@/domains/paper/hooks/use-upload-paper";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronLeft } from "lucide-react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React, { useRef } from "react";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
 
 const ALLOWED_FILE_TYPES = ["application/pdf"];
 
+const uploadPaperSchema = z.object({
+  title: z.string().trim().min(2, { message: "Title is required" }).max(250),
+  abstract: z.string().min(1, { message: "Abstract is required" }).max(2000),
+  categoryId: z.number({ message: "Category is required" }),
+  notes: z.string().max(2000).optional(),
+  fieldId: z.number({ message: "Field is required" }),
+});
+
 const Page = () => {
   const router = useRouter();
-  const [selectedKeywords, setSelectedKeywords] = React.useState<
+  const [selectedKeywords, setSelectedKeywords] = useState<
     CreateableSelectValue[]
   >([]);
+  const [newKeywords, setNewKeywords] = useState<CreateableSelectValue[]>([]);
+
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
 
   const fileUploadComponentRef = useRef<HTMLInputElement>(null);
-  const uploadPaperSchema = z.object({
-    title: z.string().trim().min(2, { message: "Title is required" }),
-    abstract: z.string().min(1, { message: "Abstract is required" }),
-    categoryId: z.number({ message: "Category is required" }),
-    notes: z.string().optional(),
-    fieldId: z.number({ message: "Field is required" }),
-  });
 
   type UploadPaperFormFields = z.infer<typeof uploadPaperSchema>;
 
@@ -79,15 +84,35 @@ const Page = () => {
       alert("No file selected");
       return;
     }
+
+    const selectedKeywordsArr: string[] = [];
+    const newKeywordsArr = newKeywords.map((keyword) => keyword.value.trim());
+
+    selectedKeywords.forEach((keyword) => {
+      if (!newKeywordsArr.includes(keyword.value.trim())) {
+        selectedKeywordsArr.push(keyword.value.trim());
+      }
+    });
+    
+      console.log({after: selectedKeywordsArr})
+
+      console.log({newKeywords})
+
     const payload = {
       ...values,
-      keywords: ["neuralink", "doings"],
+      keywords: selectedKeywordsArr,
+      newKeywords: newKeywords.map((keyword) => keyword.value),
       file: fileUploadComponentRef.current?.files[0],
     };
 
     uploadPaper(payload, {
       onSuccess: () => {
         form.reset();
+        fileUploadComponentRef.current?.files == null;
+        setSelectedKeywords([])
+        setNewKeywords([])
+        setSelectedFile(null);
+
         alert("Paper uploaded successfully");
       },
       onError: (err) => {
@@ -96,48 +121,28 @@ const Page = () => {
     });
   };
 
-  const keywords = [
-    {
-      value: "neuralink",
-      label: "Neuralink",
+  const handleKeywordSearch = async (
+    searchVal: string,
+    setOptions: (options: SelectValueBase[]) => void
+  ) => {
+    const res = await $http.get<Keyword[]>("/keywords", {
+      params: { query: searchVal },
+    });
+
+    setOptions(
+      res.data.map((keyword) => ({
+        label: keyword.name,
+        value: keyword.id.toString(),
+      }))
+    );
+  };
+
+  const loadKeywordOptions = useDebouncedCallback(
+    (searchVal: string, setOptions: (options: SelectValueBase[]) => void) => {
+      handleKeywordSearch(searchVal, setOptions);
     },
-    {
-      value: "tesla",
-      label: "Tesla",
-    },
-    {
-      value: "spaceX",
-      label: "SpaceX",
-    },
-    {
-      value: "twitter",
-      label: "Twitter",
-    },
-    {
-      value: "the-boring-company",
-      label: "The Boring Company",
-    },
-    {
-      value: "neuralink",
-      label: "Neuralink",
-    },
-    {
-      value: "starlink",
-      label: "Starlink",
-    },
-    {
-      value: "ai",
-      label: "AI",
-    },
-    {
-      value: "ml",
-      label: "ML",
-    },
-    {
-      value: "nlp",
-      label: "NLP",
-    },
-  ];
+    500
+  );
 
   return (
     <div className="md:p-container-lg p-container-base">
@@ -185,7 +190,9 @@ const Page = () => {
               />
 
               <div className="flex flex-col gap-1">
-                <Label className="md:text-lg text-sm text-text font-bold">Abstract</Label>
+                <Label className="md:text-lg text-sm text-text font-bold">
+                  Abstract
+                </Label>
                 <Textarea
                   variant={"noBorderAndFocus"}
                   size={"lg"}
@@ -193,6 +200,7 @@ const Page = () => {
                   onChange={(e) =>
                     form.setValue("abstract", e.target.value.trim())
                   }
+                  value={form.watch("abstract")}
                   placeholder="0/2000 characters"
                   className="rounded-md bg-white py-2 placeholder:text-xs"
                   required
@@ -210,7 +218,7 @@ const Page = () => {
                         form.setValue("fieldId", fieldIdToNameMap[value]);
                     }}
                   >
-                    <SelectTrigger className="text-text-dim">
+                    <SelectTrigger className="text-text ring-1 ring-neutral-300">
                       <SelectValue placeholder="Select field" />
                     </SelectTrigger>
                     <SelectContent className="bg-white text-text">
@@ -239,7 +247,7 @@ const Page = () => {
                         form.setValue("categoryId", categoryIdToNameMap[value]);
                     }}
                   >
-                    <SelectTrigger className="text-text-dim">
+                    <SelectTrigger className="text-text">
                       <SelectValue
                         placeholder={
                           selectedFieldCategories
@@ -278,16 +286,28 @@ const Page = () => {
                 <MultiSelect
                   name="keywords"
                   isCreatable
-                  options={keywords}
+                  isAsync
+                  loadOptions={loadKeywordOptions}
                   value={selectedKeywords}
-                  handleChange={(value) =>
+                  handleChange={(value, meta) => {
+                    console.log({ meta });
+                    if (meta?.action === "create-option") {
+                      // add the value to the newKeywords state
+                      setNewKeywords((prev) => [
+                        ...prev,
+                        ...value.map((val) => ({
+                          value: val.value,
+                          label: val.label,
+                        })),
+                      ]);
+                    }
                     setSelectedKeywords(
                       value.map((val) => ({
                         value: val.value,
                         label: val.label,
                       }))
-                    )
-                  }
+                    );
+                  }}
                   placeholder="Keywords..."
                   className="rounded-md bg-white px-2 text-text-dim placeholder:text-xs"
                 />
@@ -304,6 +324,7 @@ const Page = () => {
                   onChange={(e) =>
                     form.setValue("notes", e.target.value.trim())
                   }
+                  value={form.watch("abstract")}
                   placeholder="0/2000 characters"
                   className="rounded-md bg-white py-2 placeholder:text-xs"
                   required
@@ -373,7 +394,11 @@ const Page = () => {
                 >
                   CANCEL
                 </Button>
-                <Button type="submit" variant={"destructive"} className="text-xs md:text-sm">
+                <Button
+                  type="submit"
+                  variant={"destructive"}
+                  className="text-xs md:text-sm"
+                >
                   UPLOAD PAPER
                 </Button>
               </div>

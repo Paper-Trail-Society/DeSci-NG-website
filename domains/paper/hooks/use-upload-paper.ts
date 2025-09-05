@@ -8,6 +8,7 @@ type UploadPaperPayload = {
   categoryId: number;
   fieldId: number;
   keywords: string[];
+  newKeywords?: string[];
   notes?: string | undefined;
   file: File;
 };
@@ -23,10 +24,17 @@ const useUploadPaper = () => {
         formData.append(`keywords[${idx}]`, keyword);
       });
 
+      if (payload.newKeywords) {
+        payload.newKeywords.forEach((keyword, idx) => {
+          formData.append(`newKeywords[${idx}]`, keyword);
+        });
+      }
+
       if (payload.notes) {
         formData.append("notes", payload.notes);
       }
 
+      console.log({file:payload.file})
       formData.append("file", payload.file);
       return $http.post("/papers", formData, {
         headers: {
