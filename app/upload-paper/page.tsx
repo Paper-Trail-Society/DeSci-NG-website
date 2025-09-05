@@ -94,9 +94,6 @@ const Page = () => {
       }
     });
     
-      console.log({after: selectedKeywordsArr})
-
-      console.log({newKeywords})
 
     const payload = {
       ...values,
@@ -290,7 +287,6 @@ const Page = () => {
                   loadOptions={loadKeywordOptions}
                   value={selectedKeywords}
                   handleChange={(value, meta) => {
-                    console.log({ meta });
                     if (meta?.action === "create-option") {
                       // add the value to the newKeywords state
                       setNewKeywords((prev) => [
