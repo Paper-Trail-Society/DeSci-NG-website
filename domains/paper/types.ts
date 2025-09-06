@@ -9,7 +9,12 @@ export type Paper = {
   createdAt: string;
   updatedAt: string;
   categoryId: number;
-  keywords: string[];
+
+  keywords: {
+    id: number;
+    name: string;
+    aliases: string[];
+  }[];
 
   user: {
     id: number;

@@ -58,7 +58,9 @@ const Page = () => {
             {isLoading ? (
               <Text>Loading...</Text>
             ) : papers?.total === 0 ? (
-              <Text size={'sm'} className="text-center">No papers found</Text>
+              <Text size={"sm"} className="text-center">
+                No papers found
+              </Text>
             ) : (
               papers?.data.map((paper) => {
                 return (
@@ -69,7 +71,12 @@ const Page = () => {
                     <div>
                       <CardHeader>
                         <CardTitle className="font-medium">
-                          {paper.title}
+                          <Link
+                            href={`/papers/${paper.id}`}
+                            className={"hover:underline"}
+                          >
+                            {paper.title}
+                          </Link>
                         </CardTitle>
                       </CardHeader>
                       <CardContent className="flex gap-4">
@@ -82,7 +89,10 @@ const Page = () => {
                       </CardContent>
                     </div>
                     <div className="flex gap-4 h-10 my-auto pr-6">
-                      <Button variant={"outline"} className="text-text-dim hover:bg-gray-100 px-4">
+                      <Button
+                        variant={"outline"}
+                        className="text-text-dim hover:bg-gray-100 px-4"
+                      >
                         Edit
                       </Button>
                       <Button

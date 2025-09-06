@@ -27,8 +27,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${spaceGrotesk.className} antialiased`}>
         <AuthProvider>
-          <Nav />
-
           <ReactQueryProviders>{children}</ReactQueryProviders>
         </AuthProvider>
         <Footer />

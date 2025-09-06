@@ -1,0 +1,58 @@
+"use client";
+import PaperSearchInput from "@/components/shared/paper-search-input";
+import PublicNav from "@/components/shared/public-nav";
+import { Text } from "@/components/ui/text";
+import useGetPaper from "@/domains/paper/hooks/use-get-paper";
+import { format } from "date-fns";
+import Link from "next/link";
+import React from "react";
+
+// TODO: Make this a server component and prefetch the paper data on the server
+
+const Page = ({ params }: { params: { id: string } }) => {
+  const { data: paper } = useGetPaper({ id: params.id });
+  return (
+    <div>
+      <PublicNav />
+
+      <div className="items-center justify-items-center min-h-screen pt-10 pb-20 w-full">
+        <section className="flex flex-col gap-14 items-center pt-10 pb-20 w-full">
+          <div className="space-y-4 w-2/5">
+            <PaperSearchInput className="w-full" />
+          </div>
+
+          <div className="flex flex-col gap-10 w-3/5 mx-auto">
+            <div className="flex flex-col gap-4 text-center">
+              <Text size={"2xl"} weight={"semibold"}>
+                {paper?.title}
+              </Text>
+              <Text size={"md"}>{paper?.user.name}</Text>
+
+              <Text>{paper?.abstract}</Text>
+            </div>
+
+            <div className="w-2/3 mx-auto flex flex-col gap-3">
+              <p className="flex flex-wrap gap-4 text-xs">
+                <Link href={paper?.ipfsUrl ?? "#"} className="hover:underline">[View PDF]</Link>
+
+                <Text size={'xs'}>[Cite as: desci.ng.1308.2025]</Text>
+              </p>
+              <p className="flex flex-wrap gap-4">
+                <Text size={'xs'}>
+                  [Uploaded on {format(paper?.createdAt ?? new Date(), "PPpp")}]
+                </Text>
+
+                {/* TODO: Add an hyperlink to the rendered tags that links to the search page and adds a tag as a query */}
+                <Text size={'xs'}>
+                  [{paper?.keywords.map((keyword) => keyword.name).join(", ")}]
+                </Text>
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+};
+
+export default Page;
