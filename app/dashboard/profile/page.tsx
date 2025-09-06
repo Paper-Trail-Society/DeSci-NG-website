@@ -159,7 +159,7 @@ export default function Profile() {
             </div>
 
             {/* Statistics */}
-            <div className="grid md:grid-cols-2 gap-8 py-6">
+            {/* <div className="grid md:grid-cols-2 gap-8 py-6">
               <div className="text-center">
                 <Text className="text-4xl font-bold text-gray-900 mb-2">
                   {profileData.papersUploaded}
@@ -173,7 +173,7 @@ export default function Profile() {
                 </Text>
                 <Text className="text-gray-600">Total Downloads</Text>
               </div>
-            </div>
+            </div> */}
 
             {/* Action Buttons */}
             <div className="flex gap-4 mt-6">

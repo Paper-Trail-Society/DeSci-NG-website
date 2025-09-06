@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { API_AUTH_URL } from "../constants";
 
 // Protected routes that require authentication
-const protectedRoutes = ["/dashboard"];
+const protectedRoutes = [
+  "/dashboard",
+  "/upload-paper",
+  "/profile", // Keep this for backward compatibility
+];
 
 // Auth routes that should redirect authenticated users
 const authRoutes = [
@@ -13,8 +17,14 @@ const authRoutes = [
   "/verify-email",
 ];
 
-// Public routes that don't require authentication
-const publicRoutes = ["/", "/about", "/contact"];
+// Public routes that don't require authentication (for reference)
+const publicRoutes = [
+  "/",
+  "/about",
+  "/contact",
+  "/search",
+  "/papers", // Paper viewing should be public
+];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
