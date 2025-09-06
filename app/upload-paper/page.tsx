@@ -1,6 +1,6 @@
 "use client";
-import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -149,20 +149,14 @@ const Page = () => {
   return (
     <div className="md:p-container-lg p-container-base">
       <section className="bg-[#F3E7E780] h-full md:w-3/5 w-full mx-auto md:px-container-md md:py-container-base p-container-base">
-        <div className="mb-2">
-          <Button
-            onClick={() => router.back()}
-            variant={"ghost"}
-            className="px-0 hover:underline transition duration-150 flex items-center gap-1"
-          >
-            <ChevronLeft className="size-4" />
-            <Text size={"sm"}>Back</Text>
-          </Button>
-        </div>
-
         <div className="flex flex-wrap justify-between">
           <Text className="md:text-lg text-md" weight={"bold"}>
-            Your Profile
+            <Link
+              href="/dashboard/profile"
+              className="hover:text-[#B52221] transition-colors"
+            >
+              Your Profile
+            </Link>
           </Text>
           <div className="flex items-center gap-2">
             <div className="bg-[#B52221] h-5 w-1 rounded-md"></div>
@@ -172,7 +166,12 @@ const Page = () => {
           </div>
 
           <Text className="md:text-lg text-md" weight={"bold"}>
-            Manage Papers
+            <Link
+              href="/dashboard/manage-papers"
+              className="hover:text-[#B52221] transition-colors"
+            >
+              Manage Papers
+            </Link>
           </Text>
         </div>
 

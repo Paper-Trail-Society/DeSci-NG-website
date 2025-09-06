@@ -1,6 +1,5 @@
 "use client";
-import AuthNav from "@/components/shared/auth-nav";
-import Footer from "@/components/shared/footer";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -13,7 +12,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
 
-const Page = () => {
+const ManagePapersPage = () => {
   const { user } = useAuthContext();
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearchValue] = useDebounce(searchValue, 1500);
@@ -24,29 +23,54 @@ const Page = () => {
   });
 
   return (
-    <div className=" bg-gray-50">
-      <AuthNav />
+    <div className="md:p-container-lg p-container-base">
+      <section className="bg-[#F3E7E780] h-full md:w-3/5 w-full mx-auto md:px-container-md md:py-container-base p-container-base">
+        {/* Navigation Tabs */}
+        <div className="flex flex-wrap justify-between mb-8">
+          <Text className="md:text-lg text-md" weight={"bold"}>
+            <Link
+              href="/dashboard/profile"
+              className="hover:text-[#B52221] transition-colors"
+            >
+              Your Profile
+            </Link>
+          </Text>
 
-      <main className="max-w-6xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow-sm p-8">
-          <div className="mb-8">
-            <Text className="text-2xl font-bold text-gray-900 mb-6">
+          <Text className="md:text-lg text-md" weight={"bold"}>
+            <Link
+              href="/upload-paper"
+              className="hover:text-[#B52221] transition-colors"
+            >
+              Upload New Paper
+            </Link>
+          </Text>
+
+          <div className="flex items-center gap-2">
+            <div className="bg-[#B52221] h-5 w-1 rounded-md"></div>
+            <Text className="md:text-lg text-md" weight={"bold"}>
               Manage Papers
             </Text>
+          </div>
+        </div>
 
+        {/* Content */}
+        <div className="bg-white rounded-lg p-8">
+          {/* Search */}
+          <div className="mb-8">
             <div className="relative max-w-md">
               <Input
                 type="text"
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
                 placeholder="Search papers"
-                className="pl-4 pr-10 py-2"
+                className="pl-4 pr-10 py-2 bg-white"
                 name="search"
               />
               <SearchIcon className="absolute w-4 h-4 top-3 right-3 text-gray-400" />
             </div>
           </div>
 
+          {/* Papers List */}
           <div className="space-y-4">
             {isLoading ? (
               <div className="text-center py-8">
@@ -104,11 +128,9 @@ const Page = () => {
             )}
           </div>
         </div>
-      </main>
-
-      <Footer />
+      </section>
     </div>
   );
 };
 
-export default Page;
+export default ManagePapersPage;
