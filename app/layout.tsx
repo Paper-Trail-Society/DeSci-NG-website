@@ -1,5 +1,4 @@
 import Footer from "@/components/shared/footer";
-import Nav from "@/components/shared/nav";
 import { AuthProvider } from "@/lib/contexts/auth-context";
 import ReactQueryProviders from "@/lib/react-query/provider";
 import type { Metadata } from "next";
