@@ -82,12 +82,12 @@ const Page = () => {
                       </CardContent>
                     </div>
                     <div className="flex gap-4 h-10 my-auto pr-6">
-                      <Button variant={"outline"} className="text-text-dim">
+                      <Button variant={"outline"} className="text-text-dim hover:bg-gray-100 px-4">
                         Edit
                       </Button>
                       <Button
                         variant={"ghost"}
-                        className="border border-primary p-2 text-text-dim"
+                        className="border border-primary p-2 text-text-dim hover:bg-primary/90 hover:text-white"
                       >
                         Delete
                       </Button>
