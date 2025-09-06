@@ -52,7 +52,7 @@ export default function Login() {
   };
 
   return (
-    <div className="font-sans items-center justify-items-center min-h-screen ">
+    <div className="font-sans items-center justify-items-center  ">
       <main className="flex flex-col items-center py-20 w-full">
         <Link href="/">
           <Image

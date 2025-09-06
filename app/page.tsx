@@ -1,4 +1,5 @@
 import PaperSearchInput from "@/components/shared/paper-search-input";
+import PublicNav from "@/components/shared/public-nav";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import Image from "next/image";
@@ -9,7 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../components/ui/card";
-import PublicNav from "@/components/shared/public-nav";
 
 // add 4 categories with name, tagline, and image URL. Categories - Applied science, arts & humanities, blockchain technology, medical science
 
@@ -41,61 +41,60 @@ export default function Home() {
     <div>
       <PublicNav />
 
-      <div className="items-center justify-items-center min-h-screen">
-      <main className="flex flex-col items-center pb-20 w-full">
-        <section className="md:w-2/5 w-full mx-auto my-10 space-y-6 px-8">
-          <Text
-            weight={"bold"}
-            className="text-center leading-6 text-3xl font-semibold"
-          >
-            EXPLORE ACADEMIC PAPERS ACROSS DISCIPLINES
-          </Text>
+      <div className="items-center justify-items-center ">
+        <main className="flex flex-col items-center pb-20 w-full">
+          <section className="md:w-2/5 w-full mx-auto my-10 space-y-6 px-8">
+            <Text
+              weight={"bold"}
+              className="text-center leading-6 text-3xl font-semibold"
+            >
+              EXPLORE ACADEMIC PAPERS ACROSS DISCIPLINES
+            </Text>
 
-          <PaperSearchInput />
-        </section>
-        <section className="w-full">
-          <div className="flex flex-wrap gap-4 items-center justify-center mx-auto">
-            {categories.map((category) => {
-              return (
-                <Card
-                  key={crypto.randomUUID()}
-                  className="justify-center border-none shadow-none flex flex-col gap-2 md:w-1/6 w-[18em]"
-                >
-                  <CardHeader className="h-1/3 w-fit">
-                    <Image
-                      src={category.imageUrl}
-                      alt={category.name}
-                      width={250}
-                      height={205}
-                      className="object-cover"
-                    />
-                  </CardHeader>
-                  <CardContent className="space-y-1">
-                    <CardTitle>{category.name.toUpperCase()}</CardTitle>
-                    <CardDescription>
-                      <Text
-                        size={"xs"}
-                        variant={"secondary"}
-                        className="text-wrap"
-                      >
-                        {category.tagline}
-                      </Text>
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
+            <PaperSearchInput />
+          </section>
+          <section className="w-full">
+            <div className="flex flex-wrap gap-4 items-center justify-center mx-auto">
+              {categories.map((category) => {
+                return (
+                  <Card
+                    key={crypto.randomUUID()}
+                    className="justify-center border-none shadow-none flex flex-col gap-2 md:w-1/6 w-[18em]"
+                  >
+                    <CardHeader className="h-1/3 w-fit">
+                      <Image
+                        src={category.imageUrl}
+                        alt={category.name}
+                        width={250}
+                        height={205}
+                        className="object-cover"
+                      />
+                    </CardHeader>
+                    <CardContent className="space-y-1">
+                      <CardTitle>{category.name.toUpperCase()}</CardTitle>
+                      <CardDescription>
+                        <Text
+                          size={"xs"}
+                          variant={"secondary"}
+                          className="text-wrap"
+                        >
+                          {category.tagline}
+                        </Text>
+                      </CardDescription>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
 
-          <div className="flex justify-center">
-            <Button variant={"destructive"} className="mt-10">
-              EXPLORE MORE PAPERS
-            </Button>
-          </div>
-        </section>
-      </main>
+            <div className="flex justify-center">
+              <Button variant={"destructive"} className="mt-10">
+                EXPLORE MORE PAPERS
+              </Button>
+            </div>
+          </section>
+        </main>
+      </div>
     </div>
-    </div>
-    
   );
 }

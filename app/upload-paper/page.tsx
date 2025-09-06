@@ -1,32 +1,38 @@
 "use client";
-import React, { useState, useRef } from "react";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
 import { ChevronLeft } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "@/components/ui/form";
-import TextField from "@/components/ui/text-field";
-import { Text } from "@/components/ui/text";
 import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Text } from "@/components/ui/text";
+import TextField from "@/components/ui/text-field";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
   MultiSelect,
   SelectValueBase,
   type SelectValue as CreateableSelectValue,
 } from "@/components/ui/createable-select";
-import { $http } from "@/lib/http";
 import { Keyword } from "@/domains/paper/types";
+import { $http } from "@/lib/http";
 
 import { useDebouncedCallback } from "use-debounce";
 
-import useGetFields from "@/domains/fields/hooks/use-get-fields";
 import useGetFieldCategories from "@/domains/fields/hooks/use-get-field-categories";
+import useGetFields from "@/domains/fields/hooks/use-get-fields";
 import useUploadPaper from "@/domains/paper/hooks/use-upload-paper";
 
 const ALLOWED_FILE_TYPES = ["application/pdf"];
@@ -93,7 +99,6 @@ const Page = () => {
         selectedKeywordsArr.push(keyword.value.trim());
       }
     });
-    
 
     const payload = {
       ...values,
@@ -106,8 +111,8 @@ const Page = () => {
       onSuccess: () => {
         form.reset();
         fileUploadComponentRef.current?.files == null;
-        setSelectedKeywords([])
-        setNewKeywords([])
+        setSelectedKeywords([]);
+        setNewKeywords([]);
         setSelectedFile(null);
 
         alert("Paper uploaded successfully");

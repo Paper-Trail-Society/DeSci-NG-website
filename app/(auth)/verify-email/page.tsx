@@ -51,7 +51,7 @@ export default function VerifyEmail() {
 
   if (status === "loading") {
     return (
-      <div className="font-sans items-center justify-items-center min-h-screen">
+      <div className="font-sans items-center justify-items-center ">
         <main className="flex flex-col items-center py-20 w-full">
           <Link href="/">
             <Image
@@ -81,7 +81,7 @@ export default function VerifyEmail() {
 
   if (status === "success") {
     return (
-      <div className="font-sans items-center justify-items-center min-h-screen">
+      <div className="font-sans items-center justify-items-center ">
         <main className="flex flex-col items-center py-20 w-full">
           <Link href="/">
             <Image
@@ -119,7 +119,7 @@ export default function VerifyEmail() {
 
   if (status === "expired") {
     return (
-      <div className="font-sans items-center justify-items-center min-h-screen">
+      <div className="font-sans items-center justify-items-center ">
         <main className="flex flex-col items-center py-20 w-full">
           <Link href="/">
             <Image
@@ -169,7 +169,7 @@ export default function VerifyEmail() {
 
   // Error state
   return (
-    <div className="font-sans items-center justify-items-center min-h-screen">
+    <div className="font-sans items-center justify-items-center ">
       <main className="flex flex-col items-center py-20 w-full">
         <Link href="/">
           <Image

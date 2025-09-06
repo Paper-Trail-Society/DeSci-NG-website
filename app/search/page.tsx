@@ -6,7 +6,6 @@ import { Text } from "@/components/ui/text";
 import PaperCard from "@/domains/paper/components/paper-card";
 import useGetPapers from "@/domains/paper/hooks/use-get-papers";
 import { useSearchParams } from "next/navigation";
-import React from "react";
 
 const page = () => {
   const searchQuery = useSearchParams().get("query");
@@ -19,7 +18,7 @@ const page = () => {
     <div>
       <PublicNav />
 
-      <div className="items-center justify-items-center min-h-screen">
+      <div className="items-center justify-items-center ">
         <main className="flex flex-col gap-14 items-center pt-10 pb-20 w-full">
           <div className="space-y-4 w-2/5">
             {searchQuery && (

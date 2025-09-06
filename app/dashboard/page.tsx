@@ -1,11 +1,10 @@
 "use client";
 
+import AuthNav from "@/components/shared/auth-nav";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
-import { useSignOut } from "@/domains/auth/hooks";
 import { useAuthContext } from "@/lib/contexts/auth-context";
-import { Loader2, LogOut, User } from "lucide-react";
-import Image from "next/image";
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -21,22 +20,9 @@ export default function Dashboard() {
     }
   }, [isLoading, isAuthenticated, router]);
 
-  const signOutMutation = useSignOut({
-    onSuccess: () => {
-      router.push("/");
-    },
-    onError: (error) => {
-      console.error("Sign out error:", error);
-    },
-  });
-
-  const handleSignOut = () => {
-    signOutMutation.mutate();
-  };
-
   if (isLoading) {
     return (
-      <div className="font-sans items-center justify-items-center min-h-screen">
+      <div className="items-center justify-items-center ">
         <main className="flex flex-col items-center justify-center py-20 w-full">
           <Loader2 size={32} className="animate-spin" />
           <Text className="mt-4">Loading...</Text>
@@ -47,7 +33,7 @@ export default function Dashboard() {
 
   if (!isAuthenticated) {
     return (
-      <div className="font-sans items-center justify-items-center min-h-screen">
+      <div className="items-center justify-items-center ">
         <main className="flex flex-col items-center justify-center py-20 w-full">
           <Loader2 size={32} className="animate-spin" />
           <Text className="mt-4">Redirecting...</Text>
@@ -56,88 +42,111 @@ export default function Dashboard() {
     );
   }
 
+  // Mock data
+  const profileData = {
+    name: user?.name || "Mosadoluwa Fasasi",
+    email: user?.email || "mosadoluwamorphing@gmail.com",
+    institution: "University of Ilorin, Nigeria",
+    areasOfInterest: [
+      "Blockchain & Cryptography",
+      "BioTech",
+      "Artificial Intelligence",
+    ],
+    papersUploaded: 5,
+    totalDownloads: 2025,
+    avatar: "/assets/profile-avatar.jpg",
+  };
+
   return (
-    <div className="font-sans min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <Link href="/">
-                <Image
-                  src="/assets/desci-ng-logo.png"
-                  alt="Desci NG Logo"
-                  width={40}
-                  height={40}
-                />
-              </Link>
-              <Text className="ml-3 text-xl font-semibold">Dashboard</Text>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <User size={20} className="text-gray-600" />
-                <Text className="text-sm text-gray-700">
-                  {user?.email || "User"}
-                </Text>
-              </div>
-
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleSignOut}
-                disabled={signOutMutation.isPending}
-                className="flex items-center space-x-2"
-              >
-                {signOutMutation.isPending ? (
-                  <Loader2 size={16} className="animate-spin" />
-                ) : (
-                  <LogOut size={16} />
-                )}
-                <span>Sign Out</span>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="bg-white">
+      <AuthNav />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="text-center">
-            <User size={48} className="mx-auto text-gray-400 mb-4" />
-            <Text className="text-2xl font-semibold text-gray-900 mb-2">
-              Welcome to Desci NG Dashboard
-            </Text>
-            <Text className="text-gray-600 mb-6">
-              You have successfully signed in to your account.
-            </Text>
+      <main className="max-w-6xl mx-auto px-4 py-8">
+        <div className="bg-white rounded-lg shadow-sm p-8">
+          {/* Profile Section */}
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-8 mb-8">
+            {/* Avatar */}
+            <div className="flex-shrink-0">
+              <div className="w-32 h-32 rounded-full bg-gray-300 overflow-hidden">
+                <div className="w-full h-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center">
+                  <Text className="text-white text-2xl font-semibold">
+                    {profileData.name
+                      .split(" ")
+                      .map((n: string) => n[0])
+                      .join("")}
+                  </Text>
+                </div>
+              </div>
+            </div>
 
-            <div className="bg-white rounded-lg shadow p-6 max-w-md mx-auto">
-              <Text className="text-lg font-medium text-gray-900 mb-4">
-                Account Information
+            {/* Profile Info */}
+            <div className="flex-1 space-y-4">
+              <Text className="text-3xl font-bold text-gray-900">
+                {profileData.name}
               </Text>
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <Text className="text-sm text-gray-600">Email:</Text>
-                  <Text className="text-sm font-medium text-gray-900">
-                    {user?.email || "Not available"}
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <Text className="text-sm font-medium text-gray-600 mb-1">
+                    Affiliated Institution
+                  </Text>
+                  <Text className="text-gray-900">
+                    {profileData.institution}
                   </Text>
                 </div>
-                <div className="flex justify-between">
-                  <Text className="text-sm text-gray-600">Name:</Text>
-                  <Text className="text-sm font-medium text-gray-900">
-                    {user?.name || "Not provided"}
+
+                <div>
+                  <Text className="text-sm font-medium text-gray-600 mb-1">
+                    Email Address
                   </Text>
-                </div>
-                <div className="flex justify-between">
-                  <Text className="text-sm text-gray-600">Status:</Text>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                    Active
-                  </span>
+                  <Text className="text-gray-900">{profileData.email}</Text>
                 </div>
               </div>
             </div>
           </div>
+
+          {/* Areas of Interest */}
+          <div className="mb-8">
+            <Text className="text-lg font-medium text-gray-900 mb-4">
+              Areas of Interest
+            </Text>
+            <div className="flex flex-wrap gap-3">
+              {profileData.areasOfInterest.map((area, index) => (
+                <span
+                  key={index}
+                  className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm border border-gray-300"
+                >
+                  {area}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Statistics */}
+          <div className="grid md:grid-cols-2 gap-8 mb-8">
+            <div className="text-center">
+              <Text className="text-4xl font-bold text-gray-900 mb-2">
+                {profileData.papersUploaded}
+              </Text>
+              <Text className="text-gray-600">Papers uploaded</Text>
+            </div>
+
+            <div className="text-center">
+              <Text className="text-4xl font-bold text-gray-900 mb-2">
+                {profileData.totalDownloads.toLocaleString()}
+              </Text>
+              <Text className="text-gray-600">Total Downloads</Text>
+            </div>
+          </div>
+
+          <Button
+            asChild
+            variant="destructive"
+            className="px-8 py-3 w-sm text-white font-medium"
+          >
+            <Link href="/upload-paper">UPLOAD NEW PAPER</Link>
+          </Button>
         </div>
       </main>
     </div>
