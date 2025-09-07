@@ -1,5 +1,6 @@
 "use client";
 
+import { RouteGuard } from "@/components/auth/route-guard";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { useSignOut } from "@/domains/auth/hooks";
@@ -8,19 +9,11 @@ import { useAuthContext } from "@/lib/contexts/auth-context";
 import { Loader2, LogOut } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
-export default function Profile() {
-  const { user, isLoading, isAuthenticated } = useAuthContext();
+function ProfileContent() {
+  const { user } = useAuthContext();
   const router = useRouter();
   const { data: institutions } = useGetInstitutions();
-
-  // Handle redirect to login if not authenticated
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      router.push("/login");
-    }
-  }, [isLoading, isAuthenticated, router]);
 
   const signOutMutation = useSignOut({
     onSuccess: () => {
@@ -34,28 +27,6 @@ export default function Profile() {
   const handleSignOut = () => {
     signOutMutation.mutate();
   };
-
-  if (isLoading) {
-    return (
-      <div className="items-center justify-items-center min-h-screen">
-        <main className="flex flex-col items-center justify-center py-20 w-full">
-          <Loader2 size={32} className="animate-spin" />
-          <Text className="mt-4">Loading...</Text>
-        </main>
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return (
-      <div className="items-center justify-items-center min-h-screen">
-        <main className="flex flex-col items-center justify-center py-20 w-full">
-          <Loader2 size={32} className="animate-spin" />
-          <Text className="mt-4">Redirecting...</Text>
-        </main>
-      </div>
-    );
-  }
 
   // Get user's institution name
   const userInstitution = institutions?.find(
@@ -243,5 +214,13 @@ export default function Profile() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function Profile() {
+  return (
+    <RouteGuard requireAuth>
+      <ProfileContent />
+    </RouteGuard>
   );
 }

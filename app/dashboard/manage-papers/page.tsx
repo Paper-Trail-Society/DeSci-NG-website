@@ -1,5 +1,6 @@
 "use client";
 
+import { RouteGuard } from "@/components/auth/route-guard";
 import PublicNav from "@/components/shared/public-nav";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,7 +14,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
 
-const ManagePapersPage = () => {
+function ManagePapersContent() {
   const { user } = useAuthContext();
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearchValue] = useDebounce(searchValue, 1500);
@@ -22,7 +23,6 @@ const ManagePapersPage = () => {
     userId: user?.id,
     isEnabled: !!user?.id,
   });
-  
 
   return (
     <div>
@@ -132,6 +132,12 @@ const ManagePapersPage = () => {
       </div>
     </div>
   );
-};
+}
 
-export default ManagePapersPage;
+export default function ManagePapersPage() {
+  return (
+    <RouteGuard requireAuth>
+      <ManagePapersContent />
+    </RouteGuard>
+  );
+}

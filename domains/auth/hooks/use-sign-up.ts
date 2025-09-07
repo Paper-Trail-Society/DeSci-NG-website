@@ -18,6 +18,7 @@ export function useSignUp(options?: UseSignUpOptions) {
         areasOfInterest: data.areasOfInterest
           ? JSON.stringify(data.areasOfInterest)
           : undefined,
+        callbackURL: `${window.location.origin}/login`,
       });
 
       if (result.error) {

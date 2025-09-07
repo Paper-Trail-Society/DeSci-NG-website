@@ -14,11 +14,12 @@ export function useSignIn(options?: UseSignInOptions) {
         email: data.email,
         password: data.password,
       });
-      
+
       if (result.error) {
         throw new Error(result.error.message);
       }
-      
+
+      // Better-auth with JWT plugin handles all token management automatically
       return result.data;
     },
     onSuccess: options?.onSuccess,

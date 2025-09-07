@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -31,11 +31,11 @@ import { $http } from "@/lib/http";
 
 import { useDebouncedCallback } from "use-debounce";
 
+import { RouteGuard } from "@/components/auth/route-guard";
+import PublicNav from "@/components/shared/public-nav";
 import useGetFieldCategories from "@/domains/fields/hooks/use-get-field-categories";
 import useGetFields from "@/domains/fields/hooks/use-get-fields";
 import useUploadPaper from "@/domains/paper/hooks/use-upload-paper";
-import { useAuthContext } from "@/lib/contexts/auth-context";
-import PublicNav from "@/components/shared/public-nav";
 
 const ALLOWED_FILE_TYPES = ["application/pdf"];
 
@@ -47,20 +47,12 @@ const uploadPaperSchema = z.object({
   fieldId: z.number({ message: "Field is required" }),
 });
 
-const Page = () => {
+function UploadPaperContent() {
   const router = useRouter();
-  const { isAuthenticated, isLoading } = useAuthContext();
   const [selectedKeywords, setSelectedKeywords] = useState<
     CreateableSelectValue[]
   >([]);
   const [newKeywords, setNewKeywords] = useState<CreateableSelectValue[]>([]);
-
-  // Redirect to login if not authenticated
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      router.push("/login");
-    }
-  }, [isLoading, isAuthenticated, router]);
 
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
 
@@ -427,6 +419,12 @@ const Page = () => {
       </div>
     </div>
   );
-};
+}
 
-export default Page;
+export default function Page() {
+  return (
+    <RouteGuard requireAuth>
+      <UploadPaperContent />
+    </RouteGuard>
+  );
+}
