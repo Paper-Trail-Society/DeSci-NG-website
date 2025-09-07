@@ -25,7 +25,7 @@ export function SocialAuth({ mode }: SocialAuthProps) {
         await authClient.signIn.social(
           {
             provider: "google",
-            callbackURL: "/dashboard",
+            callbackURL: `${window.location.origin}/dashboard`,
           },
           {
             onSuccess: () => {
