@@ -14,12 +14,16 @@ export function useSignUp(options?: UseSignUpOptions) {
         email: data.email,
         password: data.password,
         name: data.name,
+        institutionId: data.institutionId,
+        areasOfInterest: data.areasOfInterest
+          ? JSON.stringify(data.areasOfInterest)
+          : undefined,
       });
-      
+
       if (result.error) {
         throw new Error(result.error.message);
       }
-      
+
       return result.data;
     },
     onSuccess: options?.onSuccess,

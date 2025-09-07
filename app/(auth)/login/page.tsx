@@ -6,17 +6,26 @@ import { Text } from "@/components/ui/text";
 import TextField from "@/components/ui/text-field";
 import { useSignIn } from "@/domains/auth/hooks";
 import { LoginFormData, loginSchema } from "@/domains/auth/schemas";
+import { useAuthContext } from "@/lib/contexts/auth-context";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function Login() {
   const [generalError, setGeneralError] = useState("");
   const router = useRouter();
+  const { isAuthenticated, isLoading } = useAuthContext();
+
+  // Redirect authenticated users away from login page
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      window.location.href = "/dashboard";
+    }
+  }, [isAuthenticated, isLoading]);
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -52,7 +61,7 @@ export default function Login() {
   };
 
   return (
-    <div className="font-sans items-center justify-items-center min-h-screen ">
+    <div className="items-center justify-items-center  ">
       <main className="flex flex-col items-center py-20 w-full">
         <Link href="/">
           <Image
@@ -103,7 +112,7 @@ export default function Login() {
 
               <Button
                 variant="destructive"
-                className="mt-10 py-4 rounded-lg w-full"
+                className="mt-4 py-4 rounded-lg w-full"
                 type="submit"
                 disabled={signInMutation.isPending}
               >
@@ -118,21 +127,13 @@ export default function Login() {
 
           {/* <SocialAuth mode="signin" /> */}
 
-          <div className="text-center space-y-2">
-            <Text className="text-sm text-gray-600">
-              <Link
-                href="/forgot-password"
-                className="text-[#B52221] hover:underline"
-              >
-                Forgot your password?
-              </Link>
-            </Text>
-            <Text className="text-sm text-gray-600">
-              Don't have an account?{" "}
-              <Link href="/signup" className="text-[#B52221] hover:underline">
-                Sign up
-              </Link>
-            </Text>
+          <div className="flex justify-between text-sm text-gray-600">
+            <Link href="/signup" className="hover:underline">
+              Create an account
+            </Link>
+            <Link href="/forgot-password" className="hover:underline">
+              Forgot password?
+            </Link>
           </div>
         </section>
       </main>

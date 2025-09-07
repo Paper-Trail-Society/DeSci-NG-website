@@ -1,10 +1,9 @@
 import Image from "next/image";
-import React from "react";
 import { Text } from "../ui/text";
 
 const Footer = () => {
   return (
-    <footer className="w-full 2xl:p-container-md pt-10 sm:pt-4 border-t border-t-[var(--primary)]">
+    <footer className="w-full 2xl:p-container-md py-10 sm:pt-4 border-t border-t-[var(--primary)]">
       <div className="w-[70%] mx-auto space-y-4 md:mx-auto">
         <Image
           src="/assets/desci-ng-logo.png"

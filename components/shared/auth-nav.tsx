@@ -1,10 +1,4 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import Link from "next/link";
-
-const AuthNav = () => {
-  return <nav></nav>;
-};
-
-export default AuthNav;
+// This component is temporarily no longer used - navigation is handled inline in each page for now till I figure out modal subroutes
+export default function AuthNav() {
+  return null;
+}

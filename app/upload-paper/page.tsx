@@ -1,33 +1,40 @@
 "use client";
-import React, { useState, useRef } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
-import * as z from "zod";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ChevronLeft } from "lucide-react";
+import * as z from "zod";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "@/components/ui/form";
-import TextField from "@/components/ui/text-field";
-import { Text } from "@/components/ui/text";
 import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Text } from "@/components/ui/text";
+import TextField from "@/components/ui/text-field";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
   MultiSelect,
   SelectValueBase,
   type SelectValue as CreateableSelectValue,
 } from "@/components/ui/createable-select";
-import { $http } from "@/lib/http";
 import { Keyword } from "@/domains/paper/types";
+import { $http } from "@/lib/http";
 
 import { useDebouncedCallback } from "use-debounce";
 
-import useGetFields from "@/domains/fields/hooks/use-get-fields";
 import useGetFieldCategories from "@/domains/fields/hooks/use-get-field-categories";
+import useGetFields from "@/domains/fields/hooks/use-get-fields";
 import useUploadPaper from "@/domains/paper/hooks/use-upload-paper";
+import { useAuthContext } from "@/lib/contexts/auth-context";
 
 const ALLOWED_FILE_TYPES = ["application/pdf"];
 
@@ -41,10 +48,18 @@ const uploadPaperSchema = z.object({
 
 const Page = () => {
   const router = useRouter();
+  const { isAuthenticated, isLoading } = useAuthContext();
   const [selectedKeywords, setSelectedKeywords] = useState<
     CreateableSelectValue[]
   >([]);
   const [newKeywords, setNewKeywords] = useState<CreateableSelectValue[]>([]);
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.push("/login");
+    }
+  }, [isLoading, isAuthenticated, router]);
 
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
 
@@ -93,7 +108,6 @@ const Page = () => {
         selectedKeywordsArr.push(keyword.value.trim());
       }
     });
-    
 
     const payload = {
       ...values,
@@ -106,8 +120,8 @@ const Page = () => {
       onSuccess: () => {
         form.reset();
         fileUploadComponentRef.current?.files == null;
-        setSelectedKeywords([])
-        setNewKeywords([])
+        setSelectedKeywords([]);
+        setNewKeywords([]);
         setSelectedFile(null);
 
         alert("Paper uploaded successfully");
@@ -144,20 +158,14 @@ const Page = () => {
   return (
     <div className="md:p-container-lg p-container-base">
       <section className="bg-[#F3E7E780] h-full md:w-3/5 w-full mx-auto md:px-container-md md:py-container-base p-container-base">
-        <div className="mb-2">
-          <Button
-            onClick={() => router.back()}
-            variant={"ghost"}
-            className="px-0 hover:underline transition duration-150 flex items-center gap-1"
-          >
-            <ChevronLeft className="size-4" />
-            <Text size={"sm"}>Back</Text>
-          </Button>
-        </div>
-
         <div className="flex flex-wrap justify-between">
           <Text className="md:text-lg text-md" weight={"bold"}>
-            Your Profile
+            <Link
+              href="/dashboard/profile"
+              className="hover:text-[#B52221] transition-colors"
+            >
+              Your Profile
+            </Link>
           </Text>
           <div className="flex items-center gap-2">
             <div className="bg-[#B52221] h-5 w-1 rounded-md"></div>
@@ -167,7 +175,12 @@ const Page = () => {
           </div>
 
           <Text className="md:text-lg text-md" weight={"bold"}>
-            Manage Papers
+            <Link
+              href="/dashboard/manage-papers"
+              className="hover:text-[#B52221] transition-colors"
+            >
+              Manage Papers
+            </Link>
           </Text>
         </div>
 

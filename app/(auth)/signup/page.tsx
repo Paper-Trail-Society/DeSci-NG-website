@@ -1,21 +1,77 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
+import {
+  MultiSelect,
+  SelectValueBase,
+} from "@/components/ui/createable-select";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Text } from "@/components/ui/text";
 import TextField from "@/components/ui/text-field";
 import { useSignUp } from "@/domains/auth/hooks";
 import { SignupFormData, signupSchema } from "@/domains/auth/schemas";
+import useGetInstitutions from "@/domains/institutions/hooks/use-get-institutions";
+import { Keyword } from "@/domains/paper/types";
+import { useAuthContext } from "@/lib/contexts/auth-context";
+import { $http } from "@/lib/http";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDebouncedCallback } from "use-debounce";
 
 export default function Signup() {
   const [success, setSuccess] = useState(false);
   const [signupEmail, setSignupEmail] = useState("");
+  const [selectedKeywords, setSelectedKeywords] = useState<SelectValueBase[]>(
+    []
+  );
+  const [keywordOptions, setKeywordOptions] = useState<SelectValueBase[]>([]);
+  const { isAuthenticated, isLoading } = useAuthContext();
+  const {
+    data: institutions,
+    isLoading: institutionsLoading,
+    error: institutionsError,
+  } = useGetInstitutions();
+
+  // Redirect authenticated users away from signup page
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      window.location.href = "/dashboard";
+    }
+  }, [isAuthenticated, isLoading]);
+
+  // Debounced keyword search
+  const debouncedKeywordSearch = useDebouncedCallback(async (query: string) => {
+    if (query.length < 2) {
+      setKeywordOptions([]);
+      return;
+    }
+
+    try {
+      const response = await $http.get<{ keywords: Keyword[] }>(
+        `/keywords/search?q=${encodeURIComponent(query)}`
+      );
+      const options = response.data.keywords.map((keyword) => ({
+        value: keyword.name,
+        label: keyword.name,
+      }));
+      setKeywordOptions(options);
+    } catch (error) {
+      console.error("Error searching keywords:", error);
+      setKeywordOptions([]);
+    }
+  }, 300);
 
   const form = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
@@ -24,11 +80,13 @@ export default function Signup() {
       email: "",
       password: "",
       confirmPassword: "",
+      institutionId: undefined,
+      areasOfInterest: [],
     },
   });
 
   const signUpMutation = useSignUp({
-    onSuccess: (data) => {
+    onSuccess: () => {
       setSignupEmail(form.getValues("email"));
       setSuccess(true);
     },
@@ -45,7 +103,7 @@ export default function Signup() {
 
   if (success) {
     return (
-      <div className="font-sans items-center justify-items-center min-h-screen">
+      <div className="items-center justify-items-center ">
         <main className="flex flex-col items-center py-20 w-full">
           <Link href="/">
             <Image
@@ -98,7 +156,7 @@ export default function Signup() {
   }
 
   return (
-    <div className="font-sans items-center justify-items-center min-h-screen">
+    <div className="items-center justify-items-center ">
       <main className="flex flex-col items-center py-20 w-full">
         <Link href="/">
           <Image
@@ -166,6 +224,148 @@ export default function Signup() {
                 autoComplete="new-password"
                 className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
                 required
+              />
+
+              {/* Institution Selection */}
+              <FormField
+                control={form.control}
+                name="institutionId"
+                render={({ field }) => (
+                  <FormItem className="pb-2">
+                    <Label className="md:text-lg text-sm text-text font-bold">
+                      Affiliated Institution
+                    </Label>
+                    <FormControl>
+                      <Select
+                        value={field.value?.toString() || ""}
+                        onValueChange={(value) => {
+                          const numValue = value ? parseInt(value) : undefined;
+                          field.onChange(numValue);
+                        }}
+                      >
+                        <SelectTrigger className="h-14 px-6 py-4 text-left bg-white ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50 focus:ring-2 focus:ring-[#B52221]/20 rounded-md">
+                          <SelectValue
+                            placeholder={
+                              institutionsLoading
+                                ? "Loading institutions..."
+                                : institutionsError
+                                ? "Error loading institutions"
+                                : !institutions || institutions.length === 0
+                                ? "No institutions available"
+                                : "Select your institution (optional)"
+                            }
+                            className="text-gray-900 placeholder:text-gray-500"
+                          />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border border-gray-200 shadow-lg rounded-md z-50 max-h-60 overflow-y-auto">
+                          {institutionsLoading ? (
+                            <SelectItem
+                              value="loading"
+                              disabled
+                              className="text-gray-500 cursor-not-allowed"
+                            >
+                              Loading institutions...
+                            </SelectItem>
+                          ) : institutionsError ? (
+                            <SelectItem
+                              value="error"
+                              disabled
+                              className="text-red-500 cursor-not-allowed"
+                            >
+                              Error loading institutions
+                            </SelectItem>
+                          ) : institutions && institutions.length > 0 ? (
+                            institutions.map((institution) => (
+                              <SelectItem
+                                key={institution.id}
+                                value={institution.id.toString()}
+                                className="px-4 py-3 text-gray-900 hover:bg-gray-50 focus:bg-[#B52221]/10 cursor-pointer"
+                              >
+                                {institution.name}
+                              </SelectItem>
+                            ))
+                          ) : (
+                            <SelectItem
+                              value="no-institutions"
+                              disabled
+                              className="text-gray-500 cursor-not-allowed"
+                            >
+                              No institutions available
+                            </SelectItem>
+                          )}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              {/* Areas of Interest */}
+              <FormField
+                control={form.control}
+                name="areasOfInterest"
+                render={({ field }) => (
+                  <FormItem className="pb-2">
+                    <Label className="md:text-lg text-sm text-text font-bold">
+                      Areas of Interest
+                    </Label>
+                    <FormControl>
+                      <MultiSelect
+                        name="areasOfInterest"
+                        value={selectedKeywords}
+                        handleChange={(
+                          newKeywords: readonly SelectValueBase[]
+                        ) => {
+                          const keywordArray = Array.from(newKeywords);
+                          setSelectedKeywords(keywordArray);
+                          const values = keywordArray.map((k) => k.value);
+                          field.onChange(values);
+                        }}
+                        options={keywordOptions}
+                        loadOptions={(searchVal, setOptions) => {
+                          debouncedKeywordSearch(searchVal);
+                          setOptions(keywordOptions);
+                        }}
+                        placeholder="Search and select your areas of interest..."
+                        className="min-h-14"
+                        controlStyles={{
+                          backgroundColor: "white",
+                          border: "none",
+                          borderRadius: "6px",
+                          padding: "8px 16px",
+                          minHeight: "56px",
+                          boxShadow: "0 0 0 1px rgb(163 163 163)",
+                          "&:hover": {
+                            boxShadow: "0 0 0 1px rgb(163 163 163)",
+                          },
+                          "&:focus-within": {
+                            boxShadow:
+                              "0 0 0 1px #B52221, 0 0 0 3px rgba(181, 34, 33, 0.2)",
+                          },
+                        }}
+                        menuStyles={{
+                          backgroundColor: "white",
+                          border: "1px solid rgb(229 231 235)",
+                          borderRadius: "6px",
+                          boxShadow:
+                            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                          zIndex: 50,
+                        }}
+                        optionStyles={{
+                          padding: "12px 16px",
+                          "&:hover": {
+                            backgroundColor: "rgb(249 250 251)",
+                          },
+                          "&:focus": {
+                            backgroundColor: "rgba(181, 34, 33, 0.1)",
+                          },
+                        }}
+                        isCreatable={true}
+                        isAsync={true}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
               />
 
               <Button

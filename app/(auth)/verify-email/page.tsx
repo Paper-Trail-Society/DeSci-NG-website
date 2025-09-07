@@ -7,9 +7,9 @@ import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
-export default function VerifyEmail() {
+function VerifyEmailContent() {
   const [status, setStatus] = useState<
     "loading" | "success" | "error" | "expired"
   >("loading");
@@ -51,7 +51,7 @@ export default function VerifyEmail() {
 
   if (status === "loading") {
     return (
-      <div className="font-sans items-center justify-items-center min-h-screen">
+      <div className="items-center justify-items-center ">
         <main className="flex flex-col items-center py-20 w-full">
           <Link href="/">
             <Image
@@ -81,7 +81,7 @@ export default function VerifyEmail() {
 
   if (status === "success") {
     return (
-      <div className="font-sans items-center justify-items-center min-h-screen">
+      <div className="items-center justify-items-center ">
         <main className="flex flex-col items-center py-20 w-full">
           <Link href="/">
             <Image
@@ -119,7 +119,7 @@ export default function VerifyEmail() {
 
   if (status === "expired") {
     return (
-      <div className="font-sans items-center justify-items-center min-h-screen">
+      <div className="items-center justify-items-center ">
         <main className="flex flex-col items-center py-20 w-full">
           <Link href="/">
             <Image
@@ -169,7 +169,7 @@ export default function VerifyEmail() {
 
   // Error state
   return (
-    <div className="font-sans items-center justify-items-center min-h-screen">
+    <div className="items-center justify-items-center ">
       <main className="flex flex-col items-center py-20 w-full">
         <Link href="/">
           <Image
@@ -213,5 +213,34 @@ export default function VerifyEmail() {
         </section>
       </main>
     </div>
+  );
+}
+
+export default function VerifyEmail() {
+  return (
+    <Suspense
+      fallback={
+        <div className="items-center justify-items-center min-h-screen">
+          <main className="flex flex-col items-center py-20 w-full">
+            <Link href="/">
+              <Image
+                src="/assets/desci-ng-logo.png"
+                alt="logo"
+                width={100}
+                height={100}
+              />
+            </Link>
+            <section className="md:w-1/3 w-full mx-auto my-10 space-y-6 px-8 text-center">
+              <div className="flex flex-col items-center space-y-4">
+                <Loader2 size={32} className="animate-spin" />
+                <Text className="text-gray-600">Loading...</Text>
+              </div>
+            </section>
+          </main>
+        </div>
+      }
+    >
+      <VerifyEmailContent />
+    </Suspense>
   );
 }
