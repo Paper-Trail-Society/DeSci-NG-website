@@ -4,6 +4,18 @@ import { API_AUTH_URL } from "./constants";
 
 export const authClient = createAuthClient({
   baseURL: API_AUTH_URL,
+  fetchOptions: {
+    auth: {
+      type: "Bearer",
+      token: () => localStorage.getItem("bearer_token") || "",
+    },
+    onSuccess: (ctx) => {
+      const authToken = ctx.response.headers.get("set-auth-token");
+      if (authToken) {
+        localStorage.setItem("bearer_token", authToken);
+      }
+    },
+  },
   plugins: [
     inferAdditionalFields({
       user: {

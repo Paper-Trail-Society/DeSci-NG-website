@@ -18,7 +18,9 @@ interface UseUpdateProfileOptions {
 
 export function useUpdateProfile(options?: UseUpdateProfileOptions) {
   return useMutation({
-    mutationFn: async (data: UpdateProfileData): Promise<UpdateProfileResponse> => {
+    mutationFn: async (
+      data: UpdateProfileData
+    ): Promise<UpdateProfileResponse> => {
       const response = await $http.put<UpdateProfileResponse>("/profile", data);
       return response.data;
     },

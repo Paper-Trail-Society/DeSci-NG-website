@@ -6,26 +6,19 @@ import { Text } from "@/components/ui/text";
 import TextField from "@/components/ui/text-field";
 import { useSignIn } from "@/domains/auth/hooks";
 import { LoginFormData, loginSchema } from "@/domains/auth/schemas";
-import { useAuthContext } from "@/lib/contexts/auth-context";
+import { useRedirectIfAuthenticated } from "@/lib/hooks/use-auth-guard";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function Login() {
+function LoginContent() {
   const [generalError, setGeneralError] = useState("");
   const router = useRouter();
-  const { isAuthenticated, isLoading } = useAuthContext();
-
-  // Redirect authenticated users away from login page
-  useEffect(() => {
-    if (!isLoading && isAuthenticated) {
-      window.location.href = "/dashboard";
-    }
-  }, [isAuthenticated, isLoading]);
+  const { shouldRedirect, isLoading } = useRedirectIfAuthenticated();
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -59,6 +52,30 @@ export default function Login() {
     setGeneralError("");
     signInMutation.mutate(data);
   };
+
+  // Show loading while checking auth
+  if (isLoading) {
+    return (
+      <div className="items-center justify-items-center min-h-screen">
+        <main className="flex flex-col items-center justify-center py-20 w-full">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+        </main>
+      </div>
+    );
+  }
+
+  // Don't render login form if user should be redirected
+  if (shouldRedirect) {
+    return (
+      <div className="items-center justify-items-center min-h-screen">
+        <main className="flex flex-col items-center justify-center py-20 w-full">
+          <div className="text-center">
+            <p>Redirecting...</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="items-center justify-items-center  ">
@@ -139,4 +156,8 @@ export default function Login() {
       </main>
     </div>
   );
+}
+
+export default function Login() {
+  return <LoginContent />;
 }

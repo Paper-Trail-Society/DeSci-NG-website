@@ -1,4 +1,4 @@
-import { authClient } from "@/lib/auth-client";
+import { useAuthContext } from "@/lib/contexts/auth-context";
 import { useMutation } from "@tanstack/react-query";
 
 interface UseSignOutOptions {
@@ -7,14 +7,12 @@ interface UseSignOutOptions {
 }
 
 export function useSignOut(options?: UseSignOutOptions) {
+  const { logout } = useAuthContext();
+
   return useMutation({
     mutationFn: async () => {
-      try {
-        await authClient.signOut();
-      } catch (error) {
-        console.error("Sign out error:", error);
-        throw error;
-      }
+      await logout();
+      // Context handles Bearer token cleanup
     },
     onSuccess: options?.onSuccess,
     onError: options?.onError,

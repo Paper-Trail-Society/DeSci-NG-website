@@ -20,36 +20,30 @@ import { useSignUp } from "@/domains/auth/hooks";
 import { SignupFormData, signupSchema } from "@/domains/auth/schemas";
 import useGetInstitutions from "@/domains/institutions/hooks/use-get-institutions";
 import { Keyword } from "@/domains/paper/types";
-import { useAuthContext } from "@/lib/contexts/auth-context";
+import { useRedirectIfAuthenticated } from "@/lib/hooks/use-auth-guard";
 import { $http } from "@/lib/http";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebouncedCallback } from "use-debounce";
 
-export default function Signup() {
+function SignupContent() {
   const [success, setSuccess] = useState(false);
   const [signupEmail, setSignupEmail] = useState("");
   const [selectedKeywords, setSelectedKeywords] = useState<SelectValueBase[]>(
     []
   );
   const [keywordOptions, setKeywordOptions] = useState<SelectValueBase[]>([]);
-  const { isAuthenticated, isLoading } = useAuthContext();
+  const { shouldRedirect, isLoading: authLoading } =
+    useRedirectIfAuthenticated();
   const {
     data: institutions,
     isLoading: institutionsLoading,
     error: institutionsError,
   } = useGetInstitutions();
-
-  // Redirect authenticated users away from signup page
-  useEffect(() => {
-    if (!isLoading && isAuthenticated) {
-      window.location.href = "/dashboard";
-    }
-  }, [isAuthenticated, isLoading]);
 
   // Debounced keyword search
   const debouncedKeywordSearch = useDebouncedCallback(async (query: string) => {
@@ -83,7 +77,7 @@ export default function Signup() {
       institutionId: undefined,
       areasOfInterest: [],
     },
-    mode: "onChange"
+    mode: "onChange",
   });
 
   const signUpMutation = useSignUp({
@@ -102,6 +96,30 @@ export default function Signup() {
   const onSubmit = (data: SignupFormData) => {
     signUpMutation.mutate(data);
   };
+
+  // Show loading while checking auth
+  if (authLoading) {
+    return (
+      <div className="items-center justify-items-center min-h-screen">
+        <main className="flex flex-col items-center justify-center py-20 w-full">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+        </main>
+      </div>
+    );
+  }
+
+  // Only redirect if authenticated AND not showing success message
+  if (shouldRedirect && !success) {
+    return (
+      <div className="items-center justify-items-center min-h-screen">
+        <main className="flex flex-col items-center justify-center py-20 w-full">
+          <div className="text-center">
+            <p>Redirecting...</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   if (success) {
     return (
@@ -233,7 +251,7 @@ export default function Signup() {
                 control={form.control}
                 name="institutionId"
                 render={({ field }) => (
-                  <FormItem className="pb-2">
+                  <FormItem>
                     <Label className="md:text-lg text-sm text-text font-bold">
                       Affiliated Institution
                     </Label>
@@ -399,4 +417,8 @@ export default function Signup() {
       </main>
     </div>
   );
+}
+
+export default function Signup() {
+  return <SignupContent />;
 }
