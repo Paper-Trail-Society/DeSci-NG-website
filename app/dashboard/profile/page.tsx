@@ -149,15 +149,21 @@ export default function Profile() {
                 Areas of Interest
               </Text>
               <div className="flex flex-wrap gap-3">
-                {profileData.areasOfInterest.map(
-                  (area: string, index: number) => (
-                    <span
-                      key={index}
-                      className="px-4 py-2   rounded-full text-sm border border-primary"
-                    >
-                      {area}
-                    </span>
+                {profileData.areasOfInterest.length > 0 ? (
+                  profileData.areasOfInterest.map(
+                    (area: string, index: number) => (
+                      <span
+                        key={index}
+                        className="px-4 py-2 rounded-full text-sm border border-primary"
+                      >
+                        {area}
+                      </span>
+                    )
                   )
+                ) : (
+                  <span className="px-4 py-2 rounded-full text-sm bg-gray-100 text-gray-500 border border-gray-300">
+                    No areas of interest selected
+                  </span>
                 )}
               </div>
             </div>
