@@ -5,11 +5,15 @@ import { Paper } from "../types";
 import Link from "next/link";
 
 const PaperCard = (props: Paper) => {
-  const { title, abstract, user, id } = props;
+  const { title, abstract, user, id, ipfsUrl } = props;
   return (
     <Card className="border-none">
       <CardHeader>
-        <Text>desci.ng.1308.2025 [pdf]</Text>
+        <Text size={"xs"} className="hover:underline">
+          <Link href={ipfsUrl} target="_blank">
+            desci.ng.1308.2025 [pdf]
+          </Link>
+        </Text>
         <CardTitle>
           <Link href={`/paper/${id}`}>{title}</Link>
         </CardTitle>
