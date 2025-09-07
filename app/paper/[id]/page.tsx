@@ -32,7 +32,7 @@ const Page = ({ params }: { params: { id: string } }) => {
 
             <div className="w-2/3 mx-auto flex flex-col gap-3">
               <p className="flex flex-wrap gap-4 text-xs">
-                <Link href={paper?.ipfsUrl ?? "#"} className="hover:underline">
+                <Link href={paper?.ipfsUrl ?? "#"} target="_blank" className="hover:underline">
                   [View PDF]
                 </Link>
 
