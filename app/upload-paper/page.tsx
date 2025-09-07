@@ -35,6 +35,7 @@ import useGetFieldCategories from "@/domains/fields/hooks/use-get-field-categori
 import useGetFields from "@/domains/fields/hooks/use-get-fields";
 import useUploadPaper from "@/domains/paper/hooks/use-upload-paper";
 import { useAuthContext } from "@/lib/contexts/auth-context";
+import PublicNav from "@/components/shared/public-nav";
 
 const ALLOWED_FILE_TYPES = ["application/pdf"];
 
@@ -156,265 +157,274 @@ const Page = () => {
   );
 
   return (
-    <div className="md:p-container-lg p-container-base">
-      <section className="bg-[#F3E7E780] h-full md:w-3/5 w-full mx-auto md:px-container-md md:py-container-base p-container-base">
-        <div className="flex flex-wrap justify-between">
-          <Text className="md:text-lg text-md" weight={"bold"}>
-            <Link
-              href="/dashboard/profile"
-              className="hover:text-[#B52221] transition-colors"
-            >
-              Your Profile
-            </Link>
-          </Text>
-          <div className="flex items-center gap-2">
-            <div className="bg-[#B52221] h-5 w-1 rounded-md"></div>
+    <div>
+      <PublicNav />
+
+      <div className="md:p-container-lg p-container-base">
+        <section className="bg-[#F3E7E780] h-full md:w-3/5 w-full mx-auto md:px-container-md md:py-container-base p-container-base">
+          <div className="flex flex-wrap justify-between">
             <Text className="md:text-lg text-md" weight={"bold"}>
-              Upload New Paper
+              <Link
+                href="/dashboard/profile"
+                className="hover:text-[#B52221] transition-colors"
+              >
+                Your Profile
+              </Link>
+            </Text>
+            <div className="flex items-center gap-2">
+              <div className="bg-[#B52221] h-5 w-1 rounded-md"></div>
+              <Text className="md:text-lg text-md" weight={"bold"}>
+                Upload New Paper
+              </Text>
+            </div>
+
+            <Text className="md:text-lg text-md" weight={"bold"}>
+              <Link
+                href="/dashboard/manage-papers"
+                className="hover:text-[#B52221] transition-colors"
+              >
+                Manage Papers
+              </Link>
             </Text>
           </div>
 
-          <Text className="md:text-lg text-md" weight={"bold"}>
-            <Link
-              href="/dashboard/manage-papers"
-              className="hover:text-[#B52221] transition-colors"
-            >
-              Manage Papers
-            </Link>
-          </Text>
-        </div>
-
-        <div>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="mt-8 flex flex-col gap-4"
-            >
-              <TextField
-                control={form.control}
-                name="title"
-                label="Research Title"
-                placeholder="0/250 characters"
-                className="rounded-md bg-white py-2"
-                required
-              />
-
-              <div className="flex flex-col gap-1">
-                <Label className="md:text-lg text-sm text-text font-bold">
-                  Abstract
-                </Label>
-                <Textarea
-                  variant={"noBorderAndFocus"}
-                  size={"lg"}
-                  name="abstract"
-                  onChange={(e) =>
-                    form.setValue("abstract", e.target.value.trim())
-                  }
-                  value={form.watch("abstract")}
-                  placeholder="0/2000 characters"
-                  className="rounded-md bg-white py-2 placeholder:text-xs"
+          <div>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="mt-8 flex flex-col gap-4"
+              >
+                <TextField
+                  control={form.control}
+                  name="title"
+                  label="Research Title"
+                  placeholder="0/250 characters"
+                  className="rounded-md bg-white py-2"
                   required
                 />
-              </div>
 
-              <div className="md:grid md:grid-cols-2 flex flex-col gap-4">
                 <div className="flex flex-col gap-1">
                   <Label className="md:text-lg text-sm text-text font-bold">
-                    Primary Field
+                    Abstract
                   </Label>
-                  <Select
-                    onValueChange={(value: string) => {
-                      fieldIdToNameMap &&
-                        form.setValue("fieldId", fieldIdToNameMap[value]);
-                    }}
-                  >
-                    <SelectTrigger className="text-text ring-1 ring-neutral-300">
-                      <SelectValue placeholder="Select field" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white text-text">
-                      {fields?.map((field) => {
-                        return (
-                          <SelectItem
-                            key={crypto.randomUUID()}
-                            value={field.name}
-                            className="text-xs hover:bg-[#F3E7E780]"
-                          >
-                            {field.name}
-                          </SelectItem>
-                        );
-                      })}
-                    </SelectContent>
-                  </Select>
+                  <Textarea
+                    variant={"noBorderAndFocus"}
+                    size={"lg"}
+                    name="abstract"
+                    onChange={(e) =>
+                      form.setValue("abstract", e.target.value.trim())
+                    }
+                    value={form.watch("abstract")}
+                    placeholder="0/2000 characters"
+                    className="rounded-md bg-white py-2 placeholder:text-xs"
+                    required
+                  />
                 </div>
 
-                <div className="flex flex-col gap-1">
-                  <Label className="md:text-lg text-sm text-text font-bold">
-                    Category
-                  </Label>
-                  <Select
-                    onValueChange={(value: string) => {
-                      categoryIdToNameMap &&
-                        form.setValue("categoryId", categoryIdToNameMap[value]);
-                    }}
-                  >
-                    <SelectTrigger className="text-text">
-                      <SelectValue
-                        placeholder={
-                          selectedFieldCategories
-                            ? "Select category"
-                            : "Select a field to choose a category"
-                        }
-                      />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white text-text">
-                      {selectedFieldCategories ? (
-                        selectedFieldCategories.map((category) => {
+                <div className="md:grid md:grid-cols-2 flex flex-col gap-4">
+                  <div className="flex flex-col gap-1">
+                    <Label className="md:text-lg text-sm text-text font-bold">
+                      Primary Field
+                    </Label>
+                    <Select
+                      onValueChange={(value: string) => {
+                        fieldIdToNameMap &&
+                          form.setValue("fieldId", fieldIdToNameMap[value]);
+                      }}
+                    >
+                      <SelectTrigger className="text-text ring-1 ring-neutral-300">
+                        <SelectValue placeholder="Select field" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white text-text">
+                        {fields?.map((field) => {
                           return (
                             <SelectItem
                               key={crypto.randomUUID()}
-                              value={category.name}
+                              value={field.name}
                               className="text-xs hover:bg-[#F3E7E780]"
                             >
-                              {category.name}
+                              {field.name}
                             </SelectItem>
                           );
-                        })
-                      ) : (
-                        <div className="text-xs opacity-50 px-4 py-2 text-center">
-                          Select a field to choose a category
-                        </div>
-                      )}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
+                        })}
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-              <div className="flex flex-col gap-1">
-                <Label className="md:text-lg text-sm text-text font-bold">
-                  Keywords (that describe your research)
-                </Label>
-                <MultiSelect
-                  name="keywords"
-                  isCreatable
-                  isAsync
-                  loadOptions={loadKeywordOptions}
-                  value={selectedKeywords}
-                  handleChange={(value, meta) => {
-                    if (meta?.action === "create-option") {
-                      // add the value to the newKeywords state
-                      setNewKeywords((prev) => [
-                        ...prev,
-                        ...value.map((val) => ({
-                          value: val.value,
-                          label: val.label,
-                        })),
-                      ]);
-                    }
-                    setSelectedKeywords(
-                      value.map((val) => ({
-                        value: val.value,
-                        label: val.label,
-                      }))
-                    );
-                  }}
-                  placeholder="Keywords..."
-                  className="rounded-md bg-white px-2 text-text-dim placeholder:text-xs"
-                />
-              </div>
-
-              <div className="flex flex-col gap-1">
-                <Label className="md:text-lg text-sm text-text font-bold">
-                  Local relevance / Application
-                </Label>
-                <Textarea
-                  variant={"noBorderAndFocus"}
-                  size={"lg"}
-                  name="notes"
-                  onChange={(e) =>
-                    form.setValue("notes", e.target.value.trim())
-                  }
-                  value={form.watch("abstract")}
-                  placeholder="0/2000 characters"
-                  className="rounded-md bg-white py-2 placeholder:text-xs"
-                  required
-                />
-              </div>
-
-              <div className="flex flex-col gap-1">
-                <Label className="md:text-lg text-sm text-text font-bold">
-                  Upload Paper
-                </Label>
-                <div
-                  className="bg-white p-10 flex flex-col items-center rounded-md"
-                  onClick={() => fileUploadComponentRef.current?.click()}
-                >
-                  <input
-                    ref={fileUploadComponentRef}
-                    type="file"
-                    className="hidden"
-                    id="file"
-                    accept={ALLOWED_FILE_TYPES.join(", ")}
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file && file.size > 10 * 1024 * 1024) {
-                        alert("File size should be less than or equal to 10MB");
-                        e.target.value = "";
-                      } else {
-                        file && setSelectedFile(file);
-                      }
-                    }}
-                  />
-                  <Image
-                    src="/assets/page-facing-up.png"
-                    width={30}
-                    height={30}
-                    alt="page-facing-up"
-                  />
-
-                  <div className="text-center">
-                    {selectedFile && (
-                      <Text
-                        variant={"secondary"}
-                        className="cursor-default hover:text-text transition"
-                      >
-                        {selectedFile.name}
-                      </Text>
-                    )}
-
-                    <Text size={"xs"} variant={"secondary"}>
-                      Click to select or drag and drop your paper (PDF)
-                    </Text>
-
-                    {!selectedFile && (
-                      <Text size={"xs"} variant={"secondary"}>
-                        (max. 10MB)
-                      </Text>
-                    )}
+                  <div className="flex flex-col gap-1">
+                    <Label className="md:text-lg text-sm text-text font-bold">
+                      Category
+                    </Label>
+                    <Select
+                      onValueChange={(value: string) => {
+                        categoryIdToNameMap &&
+                          form.setValue(
+                            "categoryId",
+                            categoryIdToNameMap[value]
+                          );
+                      }}
+                    >
+                      <SelectTrigger className="text-text">
+                        <SelectValue
+                          placeholder={
+                            selectedFieldCategories
+                              ? "Select category"
+                              : "Select a field to choose a category"
+                          }
+                        />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white text-text">
+                        {selectedFieldCategories ? (
+                          selectedFieldCategories.map((category) => {
+                            return (
+                              <SelectItem
+                                key={crypto.randomUUID()}
+                                value={category.name}
+                                className="text-xs hover:bg-[#F3E7E780]"
+                              >
+                                {category.name}
+                              </SelectItem>
+                            );
+                          })
+                        ) : (
+                          <div className="text-xs opacity-50 px-4 py-2 text-center">
+                            Select a field to choose a category
+                          </div>
+                        )}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
-              </div>
 
-              <div className="md:mt-8 flex gap-4 items-center justify-center">
-                <Button
-                  type="button"
-                  className="bg-[#B52221CC] w-24 text-xs md:text-sm"
-                  variant={"outline"}
-                  onClick={() => router.back()}
-                >
-                  CANCEL
-                </Button>
-                <Button
-                  type="submit"
-                  variant={"destructive"}
-                  className="text-xs md:text-sm"
-                >
-                  UPLOAD PAPER
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </div>
-      </section>
+                <div className="flex flex-col gap-1">
+                  <Label className="md:text-lg text-sm text-text font-bold">
+                    Keywords (that describe your research)
+                  </Label>
+                  <MultiSelect
+                    name="keywords"
+                    isCreatable
+                    isAsync
+                    loadOptions={loadKeywordOptions}
+                    value={selectedKeywords}
+                    handleChange={(value, meta) => {
+                      if (meta?.action === "create-option") {
+                        // add the value to the newKeywords state
+                        setNewKeywords((prev) => [
+                          ...prev,
+                          ...value.map((val) => ({
+                            value: val.value,
+                            label: val.label,
+                          })),
+                        ]);
+                      }
+                      setSelectedKeywords(
+                        value.map((val) => ({
+                          value: val.value,
+                          label: val.label,
+                        }))
+                      );
+                    }}
+                    placeholder="Keywords..."
+                    className="rounded-md bg-white px-2 text-text-dim placeholder:text-xs"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <Label className="md:text-lg text-sm text-text font-bold">
+                    Local relevance / Application
+                  </Label>
+                  <Textarea
+                    variant={"noBorderAndFocus"}
+                    size={"lg"}
+                    name="notes"
+                    onChange={(e) =>
+                      form.setValue("notes", e.target.value.trim())
+                    }
+                    value={form.watch("abstract")}
+                    placeholder="0/2000 characters"
+                    className="rounded-md bg-white py-2 placeholder:text-xs"
+                    required
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <Label className="md:text-lg text-sm text-text font-bold">
+                    Upload Paper
+                  </Label>
+                  <div
+                    className="bg-white p-10 flex flex-col items-center rounded-md"
+                    onClick={() => fileUploadComponentRef.current?.click()}
+                  >
+                    <input
+                      ref={fileUploadComponentRef}
+                      type="file"
+                      className="hidden"
+                      id="file"
+                      accept={ALLOWED_FILE_TYPES.join(", ")}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file && file.size > 10 * 1024 * 1024) {
+                          alert(
+                            "File size should be less than or equal to 10MB"
+                          );
+                          e.target.value = "";
+                        } else {
+                          file && setSelectedFile(file);
+                        }
+                      }}
+                    />
+                    <Image
+                      src="/assets/page-facing-up.png"
+                      width={30}
+                      height={30}
+                      alt="page-facing-up"
+                    />
+
+                    <div className="text-center">
+                      {selectedFile && (
+                        <Text
+                          variant={"secondary"}
+                          className="cursor-default hover:text-text transition"
+                        >
+                          {selectedFile.name}
+                        </Text>
+                      )}
+
+                      <Text size={"xs"} variant={"secondary"}>
+                        Click to select or drag and drop your paper (PDF)
+                      </Text>
+
+                      {!selectedFile && (
+                        <Text size={"xs"} variant={"secondary"}>
+                          (max. 10MB)
+                        </Text>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="md:mt-8 flex gap-4 items-center justify-center">
+                  <Button
+                    type="button"
+                    className="bg-[#B52221CC] w-24 text-xs md:text-sm"
+                    variant={"outline"}
+                    onClick={() => router.back()}
+                  >
+                    CANCEL
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant={"destructive"}
+                    className="text-xs md:text-sm"
+                  >
+                    UPLOAD PAPER
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </div>
+        </section>
+      </div>
     </div>
   );
 };
