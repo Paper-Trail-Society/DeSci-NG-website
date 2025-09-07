@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../components/ui/card";
+import Link from "next/link";
 
 // add 4 categories with name, tagline, and image URL. Categories - Applied science, arts & humanities, blockchain technology, medical science
 
@@ -89,7 +90,7 @@ export default function Home() {
 
             <div className="flex justify-center">
               <Button variant={"destructive"} className="mt-10">
-                EXPLORE MORE PAPERS
+                <Link href="/search">EXPLORE MORE PAPERS</Link>
               </Button>
             </div>
           </section>

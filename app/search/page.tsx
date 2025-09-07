@@ -46,7 +46,7 @@ const SearchPageContent = () => {
                 {searchQuery ? (
                   <span>
                     No papers found for{" "}
-                    <b>${decodeURIComponent(searchQuery ?? "")}</b>
+                    <b>{decodeURIComponent(searchQuery ?? "")}</b>
                   </span>
                 ) : (
                   "No papers found"
