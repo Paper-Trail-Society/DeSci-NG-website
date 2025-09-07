@@ -51,7 +51,7 @@ function VerifyEmailContent() {
 
   if (status === "loading") {
     return (
-      <div className="font-sans items-center justify-items-center ">
+      <div className="items-center justify-items-center ">
         <main className="flex flex-col items-center py-20 w-full">
           <Link href="/">
             <Image
@@ -81,7 +81,7 @@ function VerifyEmailContent() {
 
   if (status === "success") {
     return (
-      <div className="font-sans items-center justify-items-center ">
+      <div className="items-center justify-items-center ">
         <main className="flex flex-col items-center py-20 w-full">
           <Link href="/">
             <Image
@@ -119,7 +119,7 @@ function VerifyEmailContent() {
 
   if (status === "expired") {
     return (
-      <div className="font-sans items-center justify-items-center ">
+      <div className="items-center justify-items-center ">
         <main className="flex flex-col items-center py-20 w-full">
           <Link href="/">
             <Image
@@ -169,7 +169,7 @@ function VerifyEmailContent() {
 
   // Error state
   return (
-    <div className="font-sans items-center justify-items-center ">
+    <div className="items-center justify-items-center ">
       <main className="flex flex-col items-center py-20 w-full">
         <Link href="/">
           <Image
