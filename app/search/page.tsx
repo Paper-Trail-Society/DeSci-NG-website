@@ -14,9 +14,6 @@ const SearchPageContent = () => {
   const { data: response, isLoading: isLoadingPapers } = useGetPapers({
     search: searchQuery ?? undefined,
   });
-  const { data: response, isLoading: isLoadingPapers } = useGetPapers({
-    search: searchQuery ?? undefined,
-  });
 
   return (
     <div>
