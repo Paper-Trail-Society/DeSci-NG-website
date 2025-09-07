@@ -112,7 +112,7 @@ export default function Login() {
 
               <Button
                 variant="destructive"
-                className="mt-10 py-4 rounded-lg w-full"
+                className="mt-4 py-4 rounded-lg w-full"
                 type="submit"
                 disabled={signInMutation.isPending}
               >
@@ -127,21 +127,13 @@ export default function Login() {
 
           {/* <SocialAuth mode="signin" /> */}
 
-          <div className="text-center space-y-2">
-            <Text className="text-sm text-gray-600">
-              <Link
-                href="/forgot-password"
-                className="text-[#B52221] hover:underline"
-              >
-                Forgot your password?
-              </Link>
-            </Text>
-            <Text className="text-sm text-gray-600">
-              Don't have an account?{" "}
-              <Link href="/signup" className="text-[#B52221] hover:underline">
-                Sign up
-              </Link>
-            </Text>
+          <div className="flex justify-between text-sm text-gray-600">
+            <Link href="/signup" className="hover:underline">
+              Create an account
+            </Link>
+            <Link href="/forgot-password" className="hover:underline">
+              Forgot password?
+            </Link>
           </div>
         </section>
       </main>
