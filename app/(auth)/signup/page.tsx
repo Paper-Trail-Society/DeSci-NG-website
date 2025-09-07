@@ -6,16 +6,25 @@ import { Text } from "@/components/ui/text";
 import TextField from "@/components/ui/text-field";
 import { useSignUp } from "@/domains/auth/hooks";
 import { SignupFormData, signupSchema } from "@/domains/auth/schemas";
+import { useAuthContext } from "@/lib/contexts/auth-context";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function Signup() {
   const [success, setSuccess] = useState(false);
   const [signupEmail, setSignupEmail] = useState("");
+  const { isAuthenticated, isLoading } = useAuthContext();
+
+  // Redirect authenticated users away from signup page
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      window.location.href = "/dashboard";
+    }
+  }, [isAuthenticated, isLoading]);
 
   const form = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
@@ -28,7 +37,7 @@ export default function Signup() {
   });
 
   const signUpMutation = useSignUp({
-    onSuccess: (data) => {
+    onSuccess: () => {
       setSignupEmail(form.getValues("email"));
       setSuccess(true);
     },

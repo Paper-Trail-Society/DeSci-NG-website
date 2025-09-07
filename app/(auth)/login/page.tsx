@@ -6,17 +6,26 @@ import { Text } from "@/components/ui/text";
 import TextField from "@/components/ui/text-field";
 import { useSignIn } from "@/domains/auth/hooks";
 import { LoginFormData, loginSchema } from "@/domains/auth/schemas";
+import { useAuthContext } from "@/lib/contexts/auth-context";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function Login() {
   const [generalError, setGeneralError] = useState("");
   const router = useRouter();
+  const { isAuthenticated, isLoading } = useAuthContext();
+
+  // Redirect authenticated users away from login page
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      window.location.href = "/dashboard";
+    }
+  }, [isAuthenticated, isLoading]);
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
