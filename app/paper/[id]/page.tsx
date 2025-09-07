@@ -2,6 +2,7 @@
 import PaperSearchInput from "@/components/shared/paper-search-input";
 import PublicNav from "@/components/shared/public-nav";
 import { Text } from "@/components/ui/text";
+import { TooltipInfo } from "@/components/ui/tooltip-info";
 import useGetPaper from "@/domains/paper/hooks/use-get-paper";
 import { format } from "date-fns";
 import Link from "next/link";
@@ -30,25 +31,41 @@ const Page = ({ params }: { params: { id: string } }) => {
               <Text>{paper?.abstract}</Text>
             </div>
 
-            <div className="w-2/3 mx-auto flex flex-col gap-3">
-              <p className="flex flex-wrap gap-4 text-xs">
-                <Link href={paper?.ipfsUrl ?? "#"} target="_blank" className="hover:underline">
-                  [View PDF]
-                </Link>
+            <section className="w-2/3 mx-auto flex flex-col gap-3">
+              <div>
+                <div className="flex flex-wrap justify-between gap-4 text-xs">
+                  <p className="flex gap-2">
+                    <TooltipInfo text="Coming soon">
+                      <Text size={"xs"}>[AI Cross-Ref]</Text>
+                    </TooltipInfo>
 
-                <Text size={"xs"}>[Cite as: desci.ng.1308.2025]</Text>
-              </p>
-              <p className="flex flex-wrap gap-4">
-                <Text size={"xs"}>
-                  [Uploaded on {format(paper?.createdAt ?? new Date(), "PPpp")}]
-                </Text>
+                    <Link
+                      href={paper?.ipfsUrl ?? "#"}
+                      target="_blank"
+                      className="hover:underline font-semibold"
+                    >
+                      [View PDF]
+                    </Link>
+                  </p>
 
-                {/* TODO: Add an hyperlink to the rendered tags that links to the search page and adds a tag as a query */}
-                <Text size={"xs"}>
-                  [{paper?.keywords.map((keyword) => keyword.name).join(", ")}]
-                </Text>
-              </p>
-            </div>
+                  <Text size={"xs"}>[Cite as: desci.ng.1308.2025]</Text>
+                </div>
+              </div>
+              <div>
+                <p className="flex flex-wrap justify-between gap-4 text-xs">
+                  <Text size={"xs"}>
+                    [Uploaded on{" "}
+                    {format(paper?.createdAt ?? new Date(), "PPpp")}]
+                  </Text>
+
+                  {/* TODO: Add an hyperlink to the rendered tags that links to the search page and adds a tag as a query */}
+                  <Text size={"xs"}>
+                    [{paper?.keywords.map((keyword) => keyword.name).join(", ")}
+                    ]
+                  </Text>
+                </p>
+              </div>
+            </section>
           </div>
         </section>
       </div>

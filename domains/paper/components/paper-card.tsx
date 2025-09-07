@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const PaperCard = (props: Paper) => {
   const { title, abstract, user, id, ipfsUrl } = props;
-  return (
+  return ( 
     <Card className="border-none">
       <CardHeader>
         <Text size={"xs"} className="hover:underline">
