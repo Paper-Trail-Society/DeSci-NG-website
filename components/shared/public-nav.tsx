@@ -1,9 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { useAuthContext } from "@/lib/contexts/auth-context";
 import Image from "next/image";
 import Link from "next/link";
 
 const PublicNav = () => {
+  const { isAuthenticated } = useAuthContext();
   return (
     <nav className="w-full 2xl:p-container-md pt-10 sm:pt-4">
       <div className="w-full md:w-[70%] px-4 md:px-2 md:mx-auto flex justify-between items-center">
@@ -42,11 +44,19 @@ const PublicNav = () => {
               Upload paper
             </Button>
           </Link>
-          <Link href="/login">
-            <Button variant={"destructive"} className="px-4">
-              LOGIN
-            </Button>
-          </Link>
+          {isAuthenticated ? (
+            <Link href="/dashboard/profile">
+              <Button variant={"destructive"} className="px-4">
+                Dashboard
+              </Button>
+            </Link>
+          ) : (
+            <Link href="/login">
+              <Button variant={"destructive"} className="px-4">
+                LOGIN
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </nav>
