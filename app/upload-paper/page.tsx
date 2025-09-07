@@ -332,7 +332,7 @@ function UploadPaperContent() {
                     onChange={(e) =>
                       form.setValue("notes", e.target.value.trim())
                     }
-                    value={form.watch("abstract")}
+                    value={form.watch("notes")}
                     placeholder="0/2000 characters"
                     className="rounded-md bg-white py-2 placeholder:text-xs"
                     required
