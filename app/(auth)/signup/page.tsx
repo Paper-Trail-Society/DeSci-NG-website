@@ -1,23 +1,46 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  MultiSelect,
+  SelectValueBase,
+} from "@/components/ui/createable-select";
 import { Form } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Text } from "@/components/ui/text";
 import TextField from "@/components/ui/text-field";
 import { useSignUp } from "@/domains/auth/hooks";
 import { SignupFormData, signupSchema } from "@/domains/auth/schemas";
+import useGetInstitutions from "@/domains/institutions/hooks/use-get-institutions";
+import { Keyword } from "@/domains/paper/types";
 import { useAuthContext } from "@/lib/contexts/auth-context";
+import { $http } from "@/lib/http";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDebouncedCallback } from "use-debounce";
 
 export default function Signup() {
   const [success, setSuccess] = useState(false);
   const [signupEmail, setSignupEmail] = useState("");
+  const [selectedInstitution, setSelectedInstitution] = useState<string>("");
+  const [selectedKeywords, setSelectedKeywords] = useState<SelectValueBase[]>(
+    []
+  );
+  const [keywordOptions, setKeywordOptions] = useState<SelectValueBase[]>([]);
   const { isAuthenticated, isLoading } = useAuthContext();
+  const { data: institutions, isLoading: institutionsLoading } =
+    useGetInstitutions();
 
   // Redirect authenticated users away from signup page
   useEffect(() => {
@@ -26,6 +49,28 @@ export default function Signup() {
     }
   }, [isAuthenticated, isLoading]);
 
+  // Debounced keyword search
+  const debouncedKeywordSearch = useDebouncedCallback(async (query: string) => {
+    if (query.length < 2) {
+      setKeywordOptions([]);
+      return;
+    }
+
+    try {
+      const response = await $http.get<{ keywords: Keyword[] }>(
+        `/keywords/search?q=${encodeURIComponent(query)}`
+      );
+      const options = response.data.keywords.map((keyword) => ({
+        value: keyword.name,
+        label: keyword.name,
+      }));
+      setKeywordOptions(options);
+    } catch (error) {
+      console.error("Error searching keywords:", error);
+      setKeywordOptions([]);
+    }
+  }, 300);
+
   const form = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -33,6 +78,8 @@ export default function Signup() {
       email: "",
       password: "",
       confirmPassword: "",
+      institutionId: undefined,
+      areasOfInterest: [],
     },
   });
 
@@ -176,6 +223,111 @@ export default function Signup() {
                 className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
                 required
               />
+
+              {/* Institution Selection */}
+              <div className="pb-2">
+                <Label className="md:text-lg text-sm text-text font-bold">
+                  Affiliated Institution
+                </Label>
+                <Select
+                  value={selectedInstitution}
+                  onValueChange={(value) => {
+                    setSelectedInstitution(value);
+                    form.setValue(
+                      "institutionId",
+                      parseInt(value) || undefined
+                    );
+                  }}
+                >
+                  <SelectTrigger className="h-14 px-6 py-4 text-left bg-white ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50 focus:ring-2 focus:ring-[#B52221]/20 rounded-md">
+                    <SelectValue
+                      placeholder="Select your institution"
+                      className="text-gray-900 placeholder:text-gray-500"
+                    />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white border border-gray-200 shadow-lg rounded-md z-50 max-h-60 overflow-y-auto">
+                    {institutionsLoading ? (
+                      <SelectItem
+                        value="loading"
+                        disabled
+                        className="text-gray-500 cursor-not-allowed"
+                      >
+                        Loading institutions...
+                      </SelectItem>
+                    ) : (
+                      institutions?.map((institution) => (
+                        <SelectItem
+                          key={institution.id}
+                          value={institution.id.toString()}
+                          className="px-4 py-3 text-gray-900 hover:bg-gray-50 focus:bg-[#B52221]/10 cursor-pointer"
+                        >
+                          {institution.name}
+                        </SelectItem>
+                      ))
+                    )}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Areas of Interest */}
+              <div className="pb-2">
+                <Label className="md:text-lg text-sm text-text font-bold">
+                  Areas of Interest
+                </Label>
+                <MultiSelect
+                  name="areasOfInterest"
+                  value={selectedKeywords}
+                  handleChange={(newKeywords: readonly SelectValueBase[]) => {
+                    const keywordArray = Array.from(newKeywords);
+                    setSelectedKeywords(keywordArray);
+                    form.setValue(
+                      "areasOfInterest",
+                      keywordArray.map((k) => k.value)
+                    );
+                  }}
+                  options={keywordOptions}
+                  loadOptions={(searchVal, setOptions) => {
+                    debouncedKeywordSearch(searchVal);
+                    setOptions(keywordOptions);
+                  }}
+                  placeholder="Search and select your areas of interest..."
+                  className="min-h-14"
+                  controlStyles={{
+                    backgroundColor: "white",
+                    border: "none",
+                    borderRadius: "6px",
+                    padding: "8px 16px",
+                    minHeight: "56px",
+                    boxShadow: "0 0 0 1px rgb(163 163 163)",
+                    "&:hover": {
+                      boxShadow: "0 0 0 1px rgb(163 163 163)",
+                    },
+                    "&:focus-within": {
+                      boxShadow:
+                        "0 0 0 1px #B52221, 0 0 0 3px rgba(181, 34, 33, 0.2)",
+                    },
+                  }}
+                  menuStyles={{
+                    backgroundColor: "white",
+                    border: "1px solid rgb(229 231 235)",
+                    borderRadius: "6px",
+                    boxShadow:
+                      "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                    zIndex: 50,
+                  }}
+                  optionStyles={{
+                    padding: "12px 16px",
+                    "&:hover": {
+                      backgroundColor: "rgb(249 250 251)",
+                    },
+                    "&:focus": {
+                      backgroundColor: "rgba(181, 34, 33, 0.1)",
+                    },
+                  }}
+                  isCreatable={true}
+                  isAsync={true}
+                />
+              </div>
 
               <Button
                 variant="destructive"

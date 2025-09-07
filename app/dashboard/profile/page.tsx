@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { useSignOut } from "@/domains/auth/hooks";
+import useGetInstitutions from "@/domains/institutions/hooks/use-get-institutions";
 import { useAuthContext } from "@/lib/contexts/auth-context";
 import { Loader2, LogOut } from "lucide-react";
 import Link from "next/link";
@@ -12,6 +13,7 @@ import { useEffect } from "react";
 export default function Profile() {
   const { user, isLoading, isAuthenticated } = useAuthContext();
   const router = useRouter();
+  const { data: institutions } = useGetInstitutions();
 
   // Handle redirect to login if not authenticated
   useEffect(() => {
@@ -55,18 +57,18 @@ export default function Profile() {
     );
   }
 
-  // Mock data - replace with real data from API
+  // Get user's institution name
+  const userInstitution = institutions?.find(
+    (inst) => inst.id === user?.institutionId
+  );
+
   const profileData = {
-    name: user?.name || "Mosadoluwa Fasasi",
-    email: user?.email || "mosadoluwamorphing@gmail.com",
-    institution: "University of Ilorin, Nigeria",
-    areasOfInterest: [
-      "Blockchain & Cryptography",
-      "BioTech",
-      "Artificial Intelligence",
-    ],
-    papersUploaded: 5,
-    totalDownloads: 2025,
+    name: user?.name || "User",
+    email: user?.email || "",
+    institution: userInstitution?.name || "No institution selected",
+    areasOfInterest: user?.areasOfInterest || [],
+    papersUploaded: 5, // TODO: Get from API
+    totalDownloads: 2025, // TODO: Get from API
   };
 
   return (
@@ -147,14 +149,16 @@ export default function Profile() {
                 Areas of Interest
               </Text>
               <div className="flex flex-wrap gap-3">
-                {profileData.areasOfInterest.map((area, index) => (
-                  <span
-                    key={index}
-                    className="px-4 py-2   rounded-full text-sm border border-primary"
-                  >
-                    {area}
-                  </span>
-                ))}
+                {profileData.areasOfInterest.map(
+                  (area: string, index: number) => (
+                    <span
+                      key={index}
+                      className="px-4 py-2   rounded-full text-sm border border-primary"
+                    >
+                      {area}
+                    </span>
+                  )
+                )}
               </div>
             </div>
 
