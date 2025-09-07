@@ -11,7 +11,7 @@ import { Suspense } from "react";
 const SearchPageContent = () => {
   const searchQuery = useSearchParams().get("query");
 
-  const { data: response, isLoading: isLoadingPapers } = useGetPapers({
+  const { data: response, isPending: isLoadingPapers } = useGetPapers({
     search: searchQuery ?? undefined,
   });
 
