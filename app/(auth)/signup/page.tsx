@@ -5,7 +5,7 @@ import {
   MultiSelect,
   SelectValueBase,
 } from "@/components/ui/createable-select";
-import { Form } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -33,14 +33,16 @@ import { useDebouncedCallback } from "use-debounce";
 export default function Signup() {
   const [success, setSuccess] = useState(false);
   const [signupEmail, setSignupEmail] = useState("");
-  const [selectedInstitution, setSelectedInstitution] = useState<string>("");
   const [selectedKeywords, setSelectedKeywords] = useState<SelectValueBase[]>(
     []
   );
   const [keywordOptions, setKeywordOptions] = useState<SelectValueBase[]>([]);
   const { isAuthenticated, isLoading } = useAuthContext();
-  const { data: institutions, isLoading: institutionsLoading } =
-    useGetInstitutions();
+  const {
+    data: institutions,
+    isLoading: institutionsLoading,
+    error: institutionsError,
+  } = useGetInstitutions();
 
   // Redirect authenticated users away from signup page
   useEffect(() => {
@@ -225,109 +227,146 @@ export default function Signup() {
               />
 
               {/* Institution Selection */}
-              <div className="pb-2">
-                <Label className="md:text-lg text-sm text-text font-bold">
-                  Affiliated Institution
-                </Label>
-                <Select
-                  value={selectedInstitution}
-                  onValueChange={(value) => {
-                    setSelectedInstitution(value);
-                    form.setValue(
-                      "institutionId",
-                      parseInt(value) || undefined
-                    );
-                  }}
-                >
-                  <SelectTrigger className="h-14 px-6 py-4 text-left bg-white ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50 focus:ring-2 focus:ring-[#B52221]/20 rounded-md">
-                    <SelectValue
-                      placeholder="Select your institution"
-                      className="text-gray-900 placeholder:text-gray-500"
-                    />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white border border-gray-200 shadow-lg rounded-md z-50 max-h-60 overflow-y-auto">
-                    {institutionsLoading ? (
-                      <SelectItem
-                        value="loading"
-                        disabled
-                        className="text-gray-500 cursor-not-allowed"
+              <FormField
+                control={form.control}
+                name="institutionId"
+                render={({ field }) => (
+                  <FormItem className="pb-2">
+                    <Label className="md:text-lg text-sm text-text font-bold">
+                      Affiliated Institution
+                    </Label>
+                    <FormControl>
+                      <Select
+                        value={field.value?.toString() || ""}
+                        onValueChange={(value) => {
+                          const numValue = value ? parseInt(value) : undefined;
+                          field.onChange(numValue);
+                        }}
                       >
-                        Loading institutions...
-                      </SelectItem>
-                    ) : (
-                      institutions?.map((institution) => (
-                        <SelectItem
-                          key={institution.id}
-                          value={institution.id.toString()}
-                          className="px-4 py-3 text-gray-900 hover:bg-gray-50 focus:bg-[#B52221]/10 cursor-pointer"
-                        >
-                          {institution.name}
-                        </SelectItem>
-                      ))
-                    )}
-                  </SelectContent>
-                </Select>
-              </div>
+                        <SelectTrigger className="h-14 px-6 py-4 text-left bg-white ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50 focus:ring-2 focus:ring-[#B52221]/20 rounded-md">
+                          <SelectValue
+                            placeholder={
+                              institutionsLoading
+                                ? "Loading institutions..."
+                                : institutionsError
+                                ? "Error loading institutions"
+                                : !institutions || institutions.length === 0
+                                ? "No institutions available"
+                                : "Select your institution (optional)"
+                            }
+                            className="text-gray-900 placeholder:text-gray-500"
+                          />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border border-gray-200 shadow-lg rounded-md z-50 max-h-60 overflow-y-auto">
+                          {institutionsLoading ? (
+                            <SelectItem
+                              value="loading"
+                              disabled
+                              className="text-gray-500 cursor-not-allowed"
+                            >
+                              Loading institutions...
+                            </SelectItem>
+                          ) : institutionsError ? (
+                            <SelectItem
+                              value="error"
+                              disabled
+                              className="text-red-500 cursor-not-allowed"
+                            >
+                              Error loading institutions
+                            </SelectItem>
+                          ) : institutions && institutions.length > 0 ? (
+                            institutions.map((institution) => (
+                              <SelectItem
+                                key={institution.id}
+                                value={institution.id.toString()}
+                                className="px-4 py-3 text-gray-900 hover:bg-gray-50 focus:bg-[#B52221]/10 cursor-pointer"
+                              >
+                                {institution.name}
+                              </SelectItem>
+                            ))
+                          ) : (
+                            <SelectItem
+                              value="no-institutions"
+                              disabled
+                              className="text-gray-500 cursor-not-allowed"
+                            >
+                              No institutions available
+                            </SelectItem>
+                          )}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
 
               {/* Areas of Interest */}
-              <div className="pb-2">
-                <Label className="md:text-lg text-sm text-text font-bold">
-                  Areas of Interest
-                </Label>
-                <MultiSelect
-                  name="areasOfInterest"
-                  value={selectedKeywords}
-                  handleChange={(newKeywords: readonly SelectValueBase[]) => {
-                    const keywordArray = Array.from(newKeywords);
-                    setSelectedKeywords(keywordArray);
-                    form.setValue(
-                      "areasOfInterest",
-                      keywordArray.map((k) => k.value)
-                    );
-                  }}
-                  options={keywordOptions}
-                  loadOptions={(searchVal, setOptions) => {
-                    debouncedKeywordSearch(searchVal);
-                    setOptions(keywordOptions);
-                  }}
-                  placeholder="Search and select your areas of interest..."
-                  className="min-h-14"
-                  controlStyles={{
-                    backgroundColor: "white",
-                    border: "none",
-                    borderRadius: "6px",
-                    padding: "8px 16px",
-                    minHeight: "56px",
-                    boxShadow: "0 0 0 1px rgb(163 163 163)",
-                    "&:hover": {
-                      boxShadow: "0 0 0 1px rgb(163 163 163)",
-                    },
-                    "&:focus-within": {
-                      boxShadow:
-                        "0 0 0 1px #B52221, 0 0 0 3px rgba(181, 34, 33, 0.2)",
-                    },
-                  }}
-                  menuStyles={{
-                    backgroundColor: "white",
-                    border: "1px solid rgb(229 231 235)",
-                    borderRadius: "6px",
-                    boxShadow:
-                      "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                    zIndex: 50,
-                  }}
-                  optionStyles={{
-                    padding: "12px 16px",
-                    "&:hover": {
-                      backgroundColor: "rgb(249 250 251)",
-                    },
-                    "&:focus": {
-                      backgroundColor: "rgba(181, 34, 33, 0.1)",
-                    },
-                  }}
-                  isCreatable={true}
-                  isAsync={true}
-                />
-              </div>
+              <FormField
+                control={form.control}
+                name="areasOfInterest"
+                render={({ field }) => (
+                  <FormItem className="pb-2">
+                    <Label className="md:text-lg text-sm text-text font-bold">
+                      Areas of Interest
+                    </Label>
+                    <FormControl>
+                      <MultiSelect
+                        name="areasOfInterest"
+                        value={selectedKeywords}
+                        handleChange={(
+                          newKeywords: readonly SelectValueBase[]
+                        ) => {
+                          const keywordArray = Array.from(newKeywords);
+                          setSelectedKeywords(keywordArray);
+                          const values = keywordArray.map((k) => k.value);
+                          field.onChange(values);
+                        }}
+                        options={keywordOptions}
+                        loadOptions={(searchVal, setOptions) => {
+                          debouncedKeywordSearch(searchVal);
+                          setOptions(keywordOptions);
+                        }}
+                        placeholder="Search and select your areas of interest..."
+                        className="min-h-14"
+                        controlStyles={{
+                          backgroundColor: "white",
+                          border: "none",
+                          borderRadius: "6px",
+                          padding: "8px 16px",
+                          minHeight: "56px",
+                          boxShadow: "0 0 0 1px rgb(163 163 163)",
+                          "&:hover": {
+                            boxShadow: "0 0 0 1px rgb(163 163 163)",
+                          },
+                          "&:focus-within": {
+                            boxShadow:
+                              "0 0 0 1px #B52221, 0 0 0 3px rgba(181, 34, 33, 0.2)",
+                          },
+                        }}
+                        menuStyles={{
+                          backgroundColor: "white",
+                          border: "1px solid rgb(229 231 235)",
+                          borderRadius: "6px",
+                          boxShadow:
+                            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                          zIndex: 50,
+                        }}
+                        optionStyles={{
+                          padding: "12px 16px",
+                          "&:hover": {
+                            backgroundColor: "rgb(249 250 251)",
+                          },
+                          "&:focus": {
+                            backgroundColor: "rgba(181, 34, 33, 0.1)",
+                          },
+                        }}
+                        isCreatable={true}
+                        isAsync={true}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
 
               <Button
                 variant="destructive"

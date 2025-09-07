@@ -62,11 +62,30 @@ export default function Profile() {
     (inst) => inst.id === user?.institutionId
   );
 
+  // Parse areas of interest from JSON string if it exists
+  const parseAreasOfInterest = (
+    areasOfInterest: string | null | undefined
+  ): string[] => {
+    if (!areasOfInterest) return [];
+    try {
+      const parsed = JSON.parse(areasOfInterest);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+      console.error("Error parsing areas of interest:", error);
+      return [];
+    }
+  };
+
   const profileData = {
     name: user?.name || "User",
     email: user?.email || "",
-    institution: userInstitution?.name || "No institution selected",
-    areasOfInterest: user?.areasOfInterest || [],
+    emailVerified: user?.emailVerified || false,
+    institution:
+      userInstitution?.name ||
+      (user?.institutionId
+        ? "Institution not found"
+        : "No institution selected"),
+    areasOfInterest: parseAreasOfInterest(user?.areasOfInterest),
     papersUploaded: 5, // TODO: Get from API
     totalDownloads: 2025, // TODO: Get from API
   };
@@ -139,7 +158,18 @@ export default function Profile() {
                 <Text className="text-sm font-medium text-gray-600 mb-1">
                   Email Address
                 </Text>
-                <Text className="text-gray-900">{profileData.email}</Text>
+                <div className="flex items-center gap-2">
+                  <Text className="text-gray-900">{profileData.email}</Text>
+                  {profileData.emailVerified ? (
+                    <span className="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">
+                      Verified
+                    </span>
+                  ) : (
+                    <span className="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">
+                      Unverified
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
 
