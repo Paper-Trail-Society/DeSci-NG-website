@@ -83,6 +83,7 @@ export default function Signup() {
       institutionId: undefined,
       areasOfInterest: [],
     },
+    mode: "onChange"
   });
 
   const signUpMutation = useSignUp({
@@ -91,6 +92,7 @@ export default function Signup() {
       setSuccess(true);
     },
     onError: (error) => {
+      console.error("Sign up error:", error);
       form.setError("root", {
         message: error.message || "An error occurred during signup",
       });
