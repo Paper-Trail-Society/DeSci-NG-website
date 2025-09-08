@@ -111,7 +111,7 @@ function SignupContent() {
   // Only redirect if authenticated AND not showing success message
   if (shouldRedirect && !success) {
     return (
-      <div className="items-center justify-items-center min-h-screen">
+      <div className="items-center justify-items-center">
         <main className="flex flex-col items-center justify-center py-20 w-full">
           <div className="text-center">
             <p>Redirecting...</p>
@@ -123,7 +123,7 @@ function SignupContent() {
 
   if (success) {
     return (
-      <div className="items-center justify-items-center ">
+      <div className="items-center justify-items-center">
         <main className="flex flex-col items-center py-20 w-full">
           <Link href="/">
             <Image
@@ -176,7 +176,7 @@ function SignupContent() {
   }
 
   return (
-    <div className="items-center justify-items-center ">
+    <div className="items-center justify-items-center min-h-screen">
       <main className="flex flex-col items-center py-20 w-full">
         <Link href="/">
           <Image

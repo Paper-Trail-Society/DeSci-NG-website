@@ -3,6 +3,7 @@ import PublicNav from "@/components/shared/public-nav";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Card,
   CardContent,
@@ -10,7 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../components/ui/card";
-import Link from "next/link";
 
 // add 4 categories with name, tagline, and image URL. Categories - Applied science, arts & humanities, blockchain technology, medical science
 
@@ -42,7 +42,7 @@ export default function Home() {
     <div>
       <PublicNav />
 
-      <div className="items-center justify-items-center ">
+      <div className="items-center justify-items-center min-h-screen">
         <main className="flex flex-col items-center pb-20 w-full">
           <section className="md:w-2/5 w-full mx-auto my-10 space-y-6 px-8">
             <Text
