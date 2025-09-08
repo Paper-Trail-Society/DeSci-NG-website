@@ -241,6 +241,10 @@ function UploadPaperContent() {
                         })}
                       </SelectContent>
                     </Select>
+
+                    <Text className="text-xs text-rose-600">
+                      {form.formState.errors["fieldId"]?.message}
+                    </Text>
                   </div>
 
                   <div className="flex flex-col gap-1">
@@ -285,6 +289,10 @@ function UploadPaperContent() {
                         )}
                       </SelectContent>
                     </Select>
+
+                    <Text className="text-xs text-rose-600">
+                      {form.formState.errors["categoryId"]?.message}
+                    </Text>
                   </div>
                 </div>
 
@@ -319,6 +327,12 @@ function UploadPaperContent() {
                     placeholder="Keywords..."
                     className="rounded-md bg-white px-2 text-text-dim placeholder:text-xs"
                   />
+
+                  {form.formState.isSubmitted && selectedKeywords.length === 0 && (
+                    <Text className="text-xs text-rose-600">
+                      Keywords are required
+                    </Text>
+                  )}
                 </div>
 
                 <div className="flex flex-col gap-1">
@@ -393,6 +407,11 @@ function UploadPaperContent() {
                       )}
                     </div>
                   </div>
+                  {form.formState.isSubmitted && !selectedFile && (
+                    <Text className="text-xs text-rose-600">
+                      Select a file
+                    </Text>
+                  )}
                 </div>
 
                 <div className="md:mt-8 flex gap-4 items-center justify-center">
