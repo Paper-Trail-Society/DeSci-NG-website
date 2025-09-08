@@ -9,16 +9,14 @@ import useGetInstitutions from "@/domains/institutions/hooks/use-get-institution
 import { useAuthContext } from "@/lib/contexts/auth-context";
 import { Loader2, LogOut } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 function ProfileContent() {
   const { user } = useAuthContext();
-  const router = useRouter();
   const { data: institutions } = useGetInstitutions();
 
   const signOutMutation = useSignOut({
     onSuccess: () => {
-      router.push("/");
+      window.location.href = "/";
     },
     onError: (error) => {
       console.error("Sign out error:", error);
@@ -212,7 +210,7 @@ function ProfileContent() {
                   ) : (
                     <LogOut size={16} />
                   )}
-                  <span>Logout</span>
+                  <Text size={'sm'}>Logout</Text>
                 </Button>
               </div>
             </div>

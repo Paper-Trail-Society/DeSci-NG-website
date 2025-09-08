@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useAuthContext } from "@/lib/contexts/auth-context";
 import { useRouter, usePathname } from "next/navigation";
@@ -16,16 +16,16 @@ const protectedRoutes = ["/dashboard", "/upload-paper"];
 // Auth routes that should redirect authenticated users away
 const authRoutes = [
   "/login",
-  "/signup", 
+  "/signup",
   "/forgot-password",
   "/reset-password",
   "/verify-email",
 ];
 
-export function RouteGuard({ 
-  children, 
-  requireAuth, 
-  redirectTo 
+export function RouteGuard({
+  children,
+  requireAuth,
+  redirectTo,
 }: RouteGuardProps) {
   const { isAuthenticated, isLoading } = useAuthContext();
   const router = useRouter();
@@ -34,12 +34,10 @@ export function RouteGuard({
   useEffect(() => {
     if (isLoading) return; // Wait for auth state to load
 
-    const isProtectedRoute = protectedRoutes.some(route => 
+    const isProtectedRoute = protectedRoutes.some((route) =>
       pathname.startsWith(route)
     );
-    const isAuthRoute = authRoutes.some(route => 
-      pathname === route
-    );
+    const isAuthRoute = authRoutes.some((route) => pathname === route);
 
     // Determine if auth is required
     const needsAuth = isProtectedRoute;
@@ -53,8 +51,10 @@ export function RouteGuard({
 
     if (isAuthRoute && isAuthenticated) {
       // Redirect authenticated users away from auth pages
-      const returnTo = new URLSearchParams(window.location.search).get('returnTo');
-      const redirectUrl = redirectTo || returnTo || '/dashboard';
+      const returnTo = new URLSearchParams(window.location.search).get(
+        "returnTo"
+      );
+      const redirectUrl = redirectTo || returnTo || "/dashboard";
       router.push(redirectUrl);
       return;
     }
@@ -70,12 +70,12 @@ export function RouteGuard({
   }
 
   // For protected routes, don't render until authenticated
-  const isProtectedRoute = protectedRoutes.some(route => 
-    pathname.startsWith(route)
+  const isProtectedRoute = protectedRoutes.some(
+    (route) => pathname.startsWith(route)
   );
   const needsAuth = isProtectedRoute;
 
-  if (needsAuth && !isAuthenticated) {
+  if (pathname !== '/' && needsAuth && !isAuthenticated) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
@@ -95,9 +95,7 @@ export function withRouteGuard<P extends object>(
 ) {
   return function GuardedComponent(props: P) {
     return (
-      <RouteGuard 
-        redirectTo={options?.redirectTo}
-      >
+      <RouteGuard redirectTo={options?.redirectTo}>
         <Component {...props} />
       </RouteGuard>
     );
