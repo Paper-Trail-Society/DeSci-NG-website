@@ -8,6 +8,7 @@ import { useSignIn } from "@/domains/auth/hooks";
 import { LoginFormData, loginSchema } from "@/domains/auth/schemas";
 import { useRedirectIfAuthenticated } from "@/lib/hooks/use-auth-guard";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -27,9 +28,13 @@ function LoginContent() {
       password: "",
     },
   });
+  const queryClient = useQueryClient();
 
   const signInMutation = useSignIn({
-    onSuccess: () => {
+    onSuccess: (data) => {
+      const user = data.user;
+      // push the `user` object into the `user` cache in react query
+      queryClient.setQueryData(["user"], user);
       router.push("/dashboard");
     },
     onError: (error) => {
