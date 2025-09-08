@@ -13,8 +13,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Desci NG",
-  description: "Decentralized Science",
+  title: "DeSci NG",
+  description: "Decentralised Science Nigeria",
 };
 
 export default function RootLayout({
