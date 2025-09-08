@@ -65,7 +65,7 @@ function ProfileContent() {
   return (
     <div>
       <PublicNav />
-      <div className="md:p-container-lg p-container-base">
+      <div className="md:p-container-lg p-container-base min-h-screen">
         <section className="bg-[#F3E7E780] h-full md:w-3/5 w-full mx-auto md:px-container-md md:py-container-base p-container-base">
           {/* Navigation Tabs */}
           <div className="flex flex-wrap justify-between mb-8">

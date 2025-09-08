@@ -97,7 +97,7 @@ function ResetPasswordContent() {
   }
 
   return (
-    <div className="items-center justify-items-center ">
+    <div className="items-center justify-items-center min-h-screen">
       <main className="flex flex-col items-center py-20 w-full">
         <Link href="/">
           <Image
