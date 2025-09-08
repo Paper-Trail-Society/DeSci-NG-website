@@ -26,7 +26,7 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href="mailto:info.descing@gmail.com">
                   <Text size="sm">Contact Us</Text>
                 </a>
               </li>
