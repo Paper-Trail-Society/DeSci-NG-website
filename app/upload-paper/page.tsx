@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
+import { Form, FormField } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -36,6 +36,7 @@ import PublicNav from "@/components/shared/public-nav";
 import useGetFieldCategories from "@/domains/fields/hooks/use-get-field-categories";
 import useGetFields from "@/domains/fields/hooks/use-get-fields";
 import useUploadPaper from "@/domains/paper/hooks/use-upload-paper";
+import { toast } from "sonner";
 
 const ALLOWED_FILE_TYPES = ["application/pdf"];
 
@@ -68,11 +69,11 @@ function UploadPaperContent() {
   const { data: fields } = useGetFields();
   const {
     data: selectedFieldCategories,
-    isLoading: isLoadingSelectedFieldCategories,
+    isPending: isLoadingSelectedFieldCategories,
   } = useGetFieldCategories({
     fieldId: form.watch("fieldId"),
   });
-  const { mutate: uploadPaper } = useUploadPaper();
+  const { mutate: uploadPaper, isPending: isUploadingPaper } = useUploadPaper();
 
   const fieldIdToNameMap = fields?.reduce((acc, field) => {
     acc[field.name] = field.id;
@@ -88,8 +89,8 @@ function UploadPaperContent() {
   );
 
   const onSubmit = async (values: UploadPaperFormFields) => {
-    if (!fileUploadComponentRef.current?.files) {
-      alert("No file selected");
+    if (!selectedFile) {
+      toast.error("No file selected");
       return;
     }
 
@@ -106,7 +107,7 @@ function UploadPaperContent() {
       ...values,
       keywords: selectedKeywordsArr,
       newKeywords: newKeywords.map((keyword) => keyword.value),
-      file: fileUploadComponentRef.current?.files[0],
+      file: selectedFile,
     };
 
     uploadPaper(payload, {
@@ -117,10 +118,10 @@ function UploadPaperContent() {
         setNewKeywords([]);
         setSelectedFile(null);
 
-        alert("Paper uploaded successfully");
+        toast.success("Paper uploaded successfully");
       },
       onError: (err) => {
-        alert(`Paper upload failed. ${err.message}`);
+        toast.error(`Paper upload failed. ${err.message}`);
       },
     });
   };
@@ -195,23 +196,25 @@ function UploadPaperContent() {
                   required
                 />
 
-                <div className="flex flex-col gap-1">
-                  <Label className="md:text-lg text-sm text-text font-bold">
-                    Abstract
-                  </Label>
-                  <Textarea
-                    variant={"noBorderAndFocus"}
-                    size={"lg"}
-                    name="abstract"
-                    onChange={(e) =>
-                      form.setValue("abstract", e.target.value.trim())
-                    }
-                    value={form.watch("abstract")}
-                    placeholder="0/2000 characters"
-                    className="rounded-md bg-white py-2 placeholder:text-xs"
-                    required
-                  />
-                </div>
+                <FormField
+                  control={form.control}
+                  name="abstract"
+                  render={({ field }) => (
+                    <div className="flex flex-col gap-1">
+                      <Label className="md:text-lg text-sm text-text font-bold">
+                        Abstract
+                      </Label>
+                      <Textarea
+                        variant={"noBorderAndFocus"}
+                        size={"lg"}
+                        placeholder="0/2000 characters"
+                        className="rounded-md bg-white py-2 placeholder:text-xs"
+                        required
+                        {...field}
+                      />
+                    </div>
+                  )}
+                />
 
                 <div className="md:grid md:grid-cols-2 flex flex-col gap-4">
                   <div className="flex flex-col gap-1">
@@ -224,7 +227,7 @@ function UploadPaperContent() {
                           form.setValue("fieldId", fieldIdToNameMap[value]);
                       }}
                     >
-                      <SelectTrigger className="text-text ring-1 ring-neutral-300">
+                      <SelectTrigger className="text-text text-xs ring-1 ring-neutral-300">
                         <SelectValue placeholder="Select field" />
                       </SelectTrigger>
                       <SelectContent className="bg-white text-text">
@@ -260,7 +263,7 @@ function UploadPaperContent() {
                           );
                       }}
                     >
-                      <SelectTrigger className="text-text">
+                      <SelectTrigger className="text-text text-xs">
                         <SelectValue
                           placeholder={
                             selectedFieldCategories
@@ -270,7 +273,11 @@ function UploadPaperContent() {
                         />
                       </SelectTrigger>
                       <SelectContent className="bg-white text-text">
-                        {selectedFieldCategories ? (
+                        {isLoadingSelectedFieldCategories ? (
+                          <Text size={"xs"} className="text-center">
+                            Loading...
+                          </Text>
+                        ) : selectedFieldCategories ? (
                           selectedFieldCategories.map((category) => {
                             return (
                               <SelectItem
@@ -324,34 +331,37 @@ function UploadPaperContent() {
                         }))
                       );
                     }}
-                    placeholder="Keywords..."
+                    placeholder="Type to search or add keyword"
                     className="rounded-md bg-white px-2 text-text-dim placeholder:text-xs"
                   />
 
-                  {form.formState.isSubmitted && selectedKeywords.length === 0 && (
-                    <Text className="text-xs text-rose-600">
-                      Keywords are required
-                    </Text>
-                  )}
+                  {form.formState.isSubmitted &&
+                    selectedKeywords.length === 0 && (
+                      <Text className="text-xs text-rose-600">
+                        Keywords are required
+                      </Text>
+                    )}
                 </div>
 
-                <div className="flex flex-col gap-1">
-                  <Label className="md:text-lg text-sm text-text font-bold">
-                    Local relevance / Application
-                  </Label>
-                  <Textarea
-                    variant={"noBorderAndFocus"}
-                    size={"lg"}
-                    name="notes"
-                    onChange={(e) =>
-                      form.setValue("notes", e.target.value.trim())
-                    }
-                    value={form.watch("notes")}
-                    placeholder="0/2000 characters"
-                    className="rounded-md bg-white py-2 placeholder:text-xs"
-                    required
-                  />
-                </div>
+                <FormField
+                  control={form.control}
+                  name="notes"
+                  render={({ field }) => (
+                    <div className="flex flex-col gap-1">
+                      <Label className="md:text-lg text-sm text-text font-bold">
+                        Local relevance / Application
+                      </Label>
+                      <Textarea
+                        variant={"noBorderAndFocus"}
+                        size={"lg"}
+                        placeholder="0/2000 characters"
+                        className="rounded-md bg-white py-2 placeholder:text-xs"
+                        required
+                        {...field}
+                      />
+                    </div>
+                  )}
+                />
 
                 <div className="flex flex-col gap-1">
                   <Label className="md:text-lg text-sm text-text font-bold">
@@ -370,7 +380,7 @@ function UploadPaperContent() {
                       onChange={(e) => {
                         const file = e.target.files?.[0];
                         if (file && file.size > 10 * 1024 * 1024) {
-                          alert(
+                          toast.error(
                             "File size should be less than or equal to 10MB"
                           );
                           e.target.value = "";
@@ -408,9 +418,7 @@ function UploadPaperContent() {
                     </div>
                   </div>
                   {form.formState.isSubmitted && !selectedFile && (
-                    <Text className="text-xs text-rose-600">
-                      Select a file
-                    </Text>
+                    <Text className="text-xs text-rose-600">Select a file</Text>
                   )}
                 </div>
 
@@ -425,6 +433,7 @@ function UploadPaperContent() {
                   </Button>
                   <Button
                     type="submit"
+                    disabled={isUploadingPaper}
                     variant={"destructive"}
                     className="text-xs md:text-sm"
                   >
@@ -442,7 +451,7 @@ function UploadPaperContent() {
 
 export default function Page() {
   return (
-    <RouteGuard requireAuth>
+    <RouteGuard>
       <UploadPaperContent />
     </RouteGuard>
   );
