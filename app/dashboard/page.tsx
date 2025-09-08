@@ -27,7 +27,7 @@ function DashboardContent() {
 
 export default function Dashboard() {
   return (
-    <RouteGuard requireAuth>
+    <RouteGuard>
       <DashboardContent />
     </RouteGuard>
   );

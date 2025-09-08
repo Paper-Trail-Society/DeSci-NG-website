@@ -136,7 +136,7 @@ function ManagePapersContent() {
 
 export default function ManagePapersPage() {
   return (
-    <RouteGuard requireAuth>
+    <RouteGuard>
       <ManagePapersContent />
     </RouteGuard>
   );

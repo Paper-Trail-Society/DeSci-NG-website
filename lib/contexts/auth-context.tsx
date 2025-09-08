@@ -1,11 +1,13 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import { createContext, ReactNode, useContext, useEffect } from "react";
+import { createContext, ReactNode, useContext } from "react";
+import { useUser } from "@/domains/auth/hooks/use-user";
+
+type User = NonNullable<ReturnType<typeof authClient.useSession>['data']>['user'];
 
 interface AuthContextType {
-  user: any | null;
-  session: any | null;
+  user: User;
   isLoading: boolean;
   isAuthenticated: boolean;
   logout: () => Promise<void>;
@@ -14,14 +16,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { data: session, isPending } = authClient.useSession();
-
-  // Clean up Bearer token when session ends
-  useEffect(() => {
-    if (!session?.user && typeof window !== "undefined") {
-      localStorage.removeItem("bearer_token");
-    }
-  }, [session?.user]);
+  const { data: user, isPending } = useUser();
 
   const logout = async () => {
     try {
@@ -39,10 +34,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const authValue: AuthContextType = {
-    user: session?.user || null,
-    session,
+    user,
     isLoading: isPending,
-    isAuthenticated: !!session?.user,
+    isAuthenticated: !!user,
     logout,
   };
 

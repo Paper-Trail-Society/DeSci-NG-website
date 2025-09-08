@@ -225,7 +225,7 @@ function ProfileContent() {
 
 export default function Profile() {
   return (
-    <RouteGuard requireAuth>
+    <RouteGuard>
       <ProfileContent />
     </RouteGuard>
   );

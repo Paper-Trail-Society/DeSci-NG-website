@@ -4,6 +4,7 @@ import ReactQueryProviders from "@/lib/react-query/provider";
 import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "sonner";
 
 const spaceGrotesk = Space_Grotesk({
   weight: ["400", "500", "700"],
@@ -25,10 +26,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${spaceGrotesk.className} antialiased`}>
-        <AuthProvider>
-          <ReactQueryProviders>{children}</ReactQueryProviders>
-        </AuthProvider>
+        <ReactQueryProviders>
+          <AuthProvider>{children}</AuthProvider>
+        </ReactQueryProviders>
         <Footer />
+        <Toaster richColors />
       </body>
     </html>
   );

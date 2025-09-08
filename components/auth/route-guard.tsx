@@ -42,7 +42,7 @@ export function RouteGuard({
     );
 
     // Determine if auth is required
-    const needsAuth = requireAuth ?? isProtectedRoute;
+    const needsAuth = isProtectedRoute;
 
     if (needsAuth && !isAuthenticated) {
       // Redirect to login with return URL
@@ -73,7 +73,7 @@ export function RouteGuard({
   const isProtectedRoute = protectedRoutes.some(route => 
     pathname.startsWith(route)
   );
-  const needsAuth = requireAuth ?? isProtectedRoute;
+  const needsAuth = isProtectedRoute;
 
   if (needsAuth && !isAuthenticated) {
     return (
@@ -91,12 +91,11 @@ export function RouteGuard({
 // Higher-order component for easy wrapping
 export function withRouteGuard<P extends object>(
   Component: React.ComponentType<P>,
-  options?: { requireAuth?: boolean; redirectTo?: string }
+  options?: { redirectTo?: string }
 ) {
   return function GuardedComponent(props: P) {
     return (
       <RouteGuard 
-        requireAuth={options?.requireAuth}
         redirectTo={options?.redirectTo}
       >
         <Component {...props} />
