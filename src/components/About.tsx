@@ -25,17 +25,17 @@ export const About = () => {
           <Link
             className="hover:text-primary-red"
             target="_blank"
-            to="/visit-repository"
+            to="https://repo.desci.ng/"
           >
             Visit Repository
           </Link>
-          <Link 
+{/*           <Link 
             className="hover:text-primary-red"
             target="_blank"
             to="https://docs.google.com/forms/d/e/1FAIpQLSeZN2EXjicOrCChhO2tvqF8rru_iyJ2MiqlR72DzyCQjRamew/viewform"
             >
               Host your Research
-          </Link>
+          </Link> */}
           <Link
             className="hover:text-primary-red"
             target="_blank"
