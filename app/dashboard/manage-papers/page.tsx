@@ -61,16 +61,20 @@ function ManagePapersContent() {
           <div>
             {/* Search */}
             <div className="mb-8">
-              <div className="relative max-w-md">
+              <div className="relative max-w-md mx-auto md:max-w-lg">
                 <Input
                   type="text"
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
                   placeholder="Search papers"
-                  className="pl-4 pr-10 py-2 bg-white"
+                  className="pl-4 pr-12 py-3 md:py-2 bg-white w-full"
                   name="search"
+                  autoComplete="off"
+                  inputMode="search"
                 />
-                <SearchIcon className="absolute w-4 h-4 top-3 right-3 text-gray-400" />
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                  <SearchIcon className="w-4 h-4 md:w-5 md:h-5 text-gray-400" />
+                </div>
               </div>
             </div>
 
