@@ -19,11 +19,11 @@ const PaperSearchInput = ({ className }: { className?: string }) => {
         <Input
           type="text"
           placeholder="Search papers by topic, author, or affiliated institution"
-          className="md:p-6 p-2 bg-[#F3E7E780] placeholder:text-xs"
+          className="md:p-6 py-6 px-4 bg-[#F3E7E780] placeholder:text-xs"
           name="search"
         />
 
-        <SearchIcon className="absolute w-3 h-3 top-3.25 right-1 md:top-4.25 md:right-3 text-[#0B0B0B]" />
+        <SearchIcon className="absolute w-3 h-3 md:w-4 md:h-4 top-4.5 right-2 md:right-3 text-[#0B0B0B]" />
       </form>
     </div>
   );

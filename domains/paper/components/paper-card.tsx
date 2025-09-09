@@ -19,7 +19,7 @@ const PaperCard = (props: Paper) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <Text>
+        <Text size={'sm'}>
           <b>Author(s)</b>: {user.name}
         </Text>
         <Text size={"sm"}>
