@@ -34,7 +34,7 @@ const SearchPageContent = () => {
 
           <div className="flex flex-col gap-2 md:w-3/5 w-full px-8 mx-auto">
             {isLoadingPapers ? (
-              <Text as="p" className="text-center w-full">
+              <Text as="p" className="text-center w-full mx-auto">
                 Loading...
               </Text>
             ) : response?.data.length ? (

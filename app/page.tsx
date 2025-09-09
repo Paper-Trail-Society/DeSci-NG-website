@@ -28,7 +28,7 @@ const categories = [
   {
     name: "Blockchain Technology",
     tagline: "Discover papers in Distributed Ledger, Crypto, and more",
-    imageUrl: "/assets/blockchain-tech.jpg",
+    imageUrl: "/assets/blockchain-tech.png",
   },
   {
     name: "Medical Science",

@@ -23,7 +23,7 @@ const PaperSearchInput = ({ className }: { className?: string }) => {
           name="search"
         />
 
-        <SearchIcon className="absolute w-3 h-3 md:w-4 md:h-4 top-4.5 right-2 md:right-3 text-[#0B0B0B]" />
+        <SearchIcon className="hidden md:block absolute w-3 h-3 md:w-4 md:h-4 top-4.5 right-2 md:right-3 text-[#0B0B0B]" />
       </form>
     </div>
   );
