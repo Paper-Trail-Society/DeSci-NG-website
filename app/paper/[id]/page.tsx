@@ -1,18 +1,34 @@
-"use client";
 import PaperSearchInput from "@/components/shared/paper-search-input";
 import PublicNav from "@/components/shared/public-nav";
-import { Text } from "@/components/ui/text";
-import { TooltipInfo } from "@/components/ui/tooltip-info";
-import useGetPaper from "@/domains/paper/hooks/use-get-paper";
-import { format } from "date-fns";
-import Link from "next/link";
-import { use } from "react";
+import ViewPaperContent from "@/domains/paper/components/view-paper-content";
+import { composeMetadata } from "@/lib/utils/metadata";
+import { Metadata, ResolvingMetadata } from "next";
 
 // TODO: Make this a server component and prefetch the paper data on the server
+type Props = {
+  params: Promise<{ id: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
+ 
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const paperId = (await params).id
+ 
+  // fetch post information
+  const paper = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/papers/${paperId}`).then((res) =>
+    res.json()
+  )
+ 
+  return {
+    title: paper.title,
+    description: paper.abstract,
+  }
+}
 
-const Page = ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = use(params);
-  const { data: paper } = useGetPaper({ id });
+const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
   return (
     <div>
       <PublicNav />
@@ -23,69 +39,7 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
             <PaperSearchInput className="w-full" />
           </div>
 
-          <div className="flex flex-col gap-10 w-3/5 mx-auto">
-            <div className="flex flex-col gap-4 text-center">
-              <Text size={"2xl"} weight={"semibold"}>
-                {paper?.title}
-              </Text>
-              <Text size={"md"}>{paper?.user.name}</Text>
-
-              <Text size={"sm"} className="leading-6">
-                {paper?.abstract}
-              </Text>
-            </div>
-
-            <section className="w-2/3 mx-auto flex flex-col gap-3">
-              <div>
-                <div className="flex flex-wrap justify-between gap-4 text-xs">
-                  <p className="flex gap-2">
-                    <TooltipInfo text="Coming soon">
-                      <Text size={"xs"}>[AI Cross-Ref]</Text>
-                    </TooltipInfo>
-
-                    <Link
-                      href={
-                        paper?.ipfsCid ? `/api/ipfs/${paper?.ipfsCid}` : "#"
-                      }
-                      target="_blank"
-                      className="hover:underline font-semibold"
-                    >
-                      [View PDF]
-                    </Link>
-                  </p>
-
-                  <Text size={"xs"}>[Cite as: desci.ng.1308.2025]</Text>
-                </div>
-              </div>
-              <div>
-                <p className="flex flex-wrap justify-between gap-4 text-xs">
-                  <Text size={"xs"}>
-                    [Uploaded on{" "}
-                    {format(paper?.createdAt ?? new Date(), "PPpp")}]
-                  </Text>
-
-                  {/* TODO: Add an hyperlink to the rendered tags that links to the search page and adds a tag as a query */}
-                  {paper && paper.keywords.length > 0 && (
-                    <Text size={"xs"}>
-                      [
-                      {paper.keywords.map((keyword) => keyword.name).join(", ")}
-                      ]
-                    </Text>
-                  )}
-                </p>
-              </div>
-            </section>
-
-            <section>
-              <Text as="p" size={"md"} weight={"semibold"}>
-                Notes
-              </Text>
-
-              <Text as="p" size={"sm"} className="leading-6">
-                {paper?.notes}
-              </Text>
-            </section>
-          </div>
+          <ViewPaperContent paperId={parseInt(id, 10)}/>
         </section>
       </div>
     </div>
