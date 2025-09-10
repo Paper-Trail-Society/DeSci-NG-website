@@ -7,17 +7,19 @@ import { paperKeys } from "@/lib/react-query/query-keys";
 const useGetPapers = ({
   search,
   userId,
+  page,
   isEnabled = true,
 }: {
   search?: string;
   userId?: string;
+  page?: number;
   isEnabled?: boolean;
 }) => {
   return useQuery({
-    queryKey: paperKeys.list(search ?? "", userId ?? ""),
+    queryKey: paperKeys.list(search ?? "", userId ?? "", page?.toString() ?? '1'),
     queryFn: async () => {
       const res = await $http.get<PaginatedPapersResponse>("/papers", {
-        params: { search, userId },
+        params: { search, userId, page },
       });
       return res.data;
     },
