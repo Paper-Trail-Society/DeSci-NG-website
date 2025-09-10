@@ -5,12 +5,12 @@ import { Paper } from "../types";
 import Link from "next/link";
 
 const PaperCard = (props: Paper) => {
-  const { title, abstract, user, id, ipfsUrl } = props;
-  return ( 
+  const { title, abstract, user, id, ipfsCid } = props;
+  return (
     <Card className="border-none">
       <CardHeader>
         <Text size={"xs"} className="hover:underline">
-          <Link href={ipfsUrl} target="_blank">
+          <Link href={`/api/ipfs/${ipfsCid}`} target="_blank">
             desci.ng.1308.2025 [pdf]
           </Link>
         </Text>
@@ -19,7 +19,7 @@ const PaperCard = (props: Paper) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <Text size={'sm'}>
+        <Text size={"sm"}>
           <b>Author(s)</b>: {user.name}
         </Text>
         <Text size={"sm"}>
