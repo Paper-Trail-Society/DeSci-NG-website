@@ -1,11 +1,10 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const PINATA_GATEWAY_URL = process.env.PINATA_GATEWAY_URL;
 const PINATA_GATEWAY_KEY = process.env.PINATA_GATEWAY_KEY;
 
-export const GET = async (req: NextApiRequest, { params }: { params: { cid: string }}) => {
-  const { cid } = params;
+export const GET = async (_: NextRequest, { params }: { params: Promise<{ cid: string }>}) => {
+  const { cid } = await params;
 
   if (!cid || typeof cid !== "string") {
     return NextResponse.json({ error: "CID is required" }, { status: 400});
