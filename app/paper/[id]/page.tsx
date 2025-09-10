@@ -28,7 +28,9 @@ const Page = ({ params }: { params: { id: string } }) => {
               </Text>
               <Text size={"md"}>{paper?.user.name}</Text>
 
-              <Text>{paper?.abstract}</Text>
+              <Text size={"sm"} className="leading-6">
+                {paper?.abstract}
+              </Text>
             </div>
 
             <section className="w-2/3 mx-auto flex flex-col gap-3">
@@ -62,14 +64,22 @@ const Page = ({ params }: { params: { id: string } }) => {
                   {paper && paper.keywords.length > 0 && (
                     <Text size={"xs"}>
                       [
-                      {paper.keywords
-                        .map((keyword) => keyword.name)
-                        .join(", ")}
+                      {paper.keywords.map((keyword) => keyword.name).join(", ")}
                       ]
                     </Text>
                   )}
                 </p>
               </div>
+            </section>
+
+            <section>
+              <Text as="p" size={"md"} weight={"semibold"}>
+                Notes
+              </Text>
+
+              <Text as="p" size={"sm"} className="leading-6">
+                {paper?.notes}
+              </Text>
             </section>
           </div>
         </section>
