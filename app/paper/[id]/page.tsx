@@ -6,11 +6,13 @@ import { TooltipInfo } from "@/components/ui/tooltip-info";
 import useGetPaper from "@/domains/paper/hooks/use-get-paper";
 import { format } from "date-fns";
 import Link from "next/link";
+import { use } from "react";
 
 // TODO: Make this a server component and prefetch the paper data on the server
 
-const Page = ({ params }: { params: { id: string } }) => {
-  const { data: paper } = useGetPaper({ id: params.id });
+const Page = ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = use(params);
+  const { data: paper } = useGetPaper({ id });
   return (
     <div>
       <PublicNav />
@@ -42,7 +44,9 @@ const Page = ({ params }: { params: { id: string } }) => {
                     </TooltipInfo>
 
                     <Link
-                      href={paper?.ipfsUrl ?? "#"}
+                      href={
+                        paper?.ipfsCid ? `/api/ipfs/${paper?.ipfsCid}` : "#"
+                      }
                       target="_blank"
                       className="hover:underline font-semibold"
                     >
