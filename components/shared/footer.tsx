@@ -18,17 +18,17 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <Link href="/about-us">
-                  <Text size={"sm"}>About Us</Text>
+                  <Text size={"sm"} weight={'medium'}>About Us</Text>
                 </Link>
               </li>
               <li>
                 <Link href="/how-to-upload-a-paper">
-                  <Text size={"sm"}>How to Upload a Paper</Text>
+                  <Text size={"sm"} weight={'medium'}>How to Upload a Paper</Text>
                 </Link>
               </li>
               <li>
                 <a href="mailto:info.descing@gmail.com">
-                  <Text size="sm">Contact Us</Text>
+                  <Text size="sm" weight={'medium'}>Contact Us</Text>
                 </a>
               </li>
             </ul>
@@ -38,24 +38,29 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <a href="#">
-                  <Text size="sm">X (Formerly Twitter)</Text>
+                  <Text size="sm" weight={'medium'}>X (Formerly Twitter)</Text>
                 </a>
               </li>
               <li>
-                <a href="#">
-                  <Text size="sm">LinkedIn, Instagram</Text>
-                </a>
+                <Link href="https://www.linkedin.com/company/desci-ng">
+                  <Text size="sm" weight={'medium'}>LinkedIn</Text>
+                </Link>
+              </li>
+              <li>
+                <Link href="https://www.linkedin.com/company/desci-ng">
+                  <Text size="sm" weight={'medium'}>Instagram</Text>
+                </Link>
               </li>
               <li>
                 <a href="#">
-                  <Text size="sm">TikTok, YouTube</Text>
+                  <Text size="sm" weight={'medium'}>TikTok, YouTube</Text>
                 </a>
               </li>
             </ul>
           </section>
 
           <section className="flex flex-col justify-end md:pt-14">
-            <Text size="sm"> &copy; {new Date().getFullYear()} Desci NG</Text>
+            <Text size="sm" weight={'medium'}> &copy; {new Date().getFullYear()} Desci NG</Text>
           </section>
         </div>
       </div>
