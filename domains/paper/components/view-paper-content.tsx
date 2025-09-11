@@ -10,8 +10,8 @@ const ViewPaperContent = ({ paperId }: { paperId: number }) => {
   const { data: paper } = useGetPaper({ id: paperId.toString() });
 
   return (
-    <div className="flex flex-col gap-10 w-3/5 mx-auto">
-      <div className="flex flex-col gap-4 text-center">
+    <div className="flex flex-col gap-10 md:w-3/5 w-full px-8 mx-auto">
+      <div className="flex flex-col gap-4 text-left md:text-center">
         <Text size={"2xl"} weight={"semibold"}>
           {paper?.title}
         </Text>
@@ -22,7 +22,7 @@ const ViewPaperContent = ({ paperId }: { paperId: number }) => {
         </Text>
       </div>
 
-      <section className="w-2/3 mx-auto flex flex-col gap-3">
+      <section className="md:w-2/3 w-full mx-auto flex flex-col gap-3">
         <div>
           <div className="flex flex-wrap justify-between gap-4 text-xs">
             <p className="flex gap-2">

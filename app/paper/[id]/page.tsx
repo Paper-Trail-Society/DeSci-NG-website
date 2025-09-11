@@ -35,7 +35,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
       <div className="items-center justify-items-center  pt-10 pb-20 w-full">
         <section className="flex flex-col gap-14 items-center pt-10 pb-20 w-full">
-          <div className="space-y-4 w-2/5">
+          <div className="space-y-4 md:w-2/5 w-full px-8">
             <PaperSearchInput className="w-full" />
           </div>
 
