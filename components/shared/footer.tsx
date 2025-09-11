@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Text } from "../ui/text";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -21,9 +22,9 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#">
+                <Link href="/how-to-upload-a-paper">
                   <Text size={"sm"}>How to Upload a Paper</Text>
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="mailto:info.descing@gmail.com">
