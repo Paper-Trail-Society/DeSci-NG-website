@@ -3,6 +3,11 @@ import { Card, CardContent, CardDescription } from "@/components/ui/card";
 import { Text } from "@/components/ui/text";
 import React from "react";
 
+export const metadata = {
+  title: "Desci NG | How to Upload a Paper",
+  description: "Learn how to upload a paper to desci.ng",
+}
+
 const StepCard = ({
   children,
   number,
