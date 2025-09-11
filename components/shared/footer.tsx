@@ -17,9 +17,9 @@ const Footer = () => {
           <section>
             <ul className="space-y-2">
               <li>
-                <a href="#">
+                <Link href="/about-us">
                   <Text size={"sm"}>About Us</Text>
-                </a>
+                </Link>
               </li>
               <li>
                 <Link href="/how-to-upload-a-paper">
