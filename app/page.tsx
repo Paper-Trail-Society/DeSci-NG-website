@@ -45,8 +45,8 @@ export default function Home() {
       <PublicNav />
 
       <div className="items-center justify-items-center min-h-screen">
-        <main className="flex flex-col items-center pb-20 w-full">
-          <section className="md:w-2/5 w-full mx-auto my-10 space-y-6 px-8">
+        <main className="flex flex-col items-center w-full md:py-24 pb-16">
+          <section className="lg:w-2/5 md:w-3/5 w-full mx-auto my-10 space-y-6 px-8">
             <Text
               weight={"bold"}
               className="text-center leading-6 text-3xl font-semibold"
@@ -62,7 +62,7 @@ export default function Home() {
                 return (
                   <Card
                     key={crypto.randomUUID()}
-                    className="justify-center border-none shadow-none flex flex-col gap-2 md:w-1/6 w-[18em]"
+                    className="justify-center border-none shadow-none flex flex-col gap-2 lg:w-1/6 md:w-2/5 w-[18em]"
                   >
                     <Link href={`/search?query=${category.query}`}>
                       <CardHeader className="h-1/3 w-fit">

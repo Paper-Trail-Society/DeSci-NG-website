@@ -10,7 +10,7 @@ const ViewPaperContent = ({ paperId }: { paperId: number }) => {
   const { data: paper } = useGetPaper({ id: paperId.toString() });
 
   return (
-    <div className="flex flex-col gap-10 md:w-3/5 w-full px-8 mx-auto">
+    <div className="flex flex-col gap-10 lg:w-3/5 md:w-4/5 w-full px-8 mx-auto">
       <div className="flex flex-col gap-4 text-left md:text-center">
         <Text size={"2xl"} weight={"semibold"}>
           {paper?.title}
