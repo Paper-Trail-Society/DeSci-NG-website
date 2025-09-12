@@ -36,10 +36,6 @@ const Page = () => {
               Our vision is an Africa where our discoveries endure and move the
               world forward.{" "}
             </Text>
-
-            <Text className="text-sm md:text-md" as="p">
-              Powered by the <b>Paper Trail Society</b>
-            </Text>
           </div>
         </section>
       </div>
