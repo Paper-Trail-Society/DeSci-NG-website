@@ -37,7 +37,7 @@ const Footer = () => {
           <section>
             <ul className="space-y-2">
               <li>
-                <a href="#">
+                <a href="https://x.com/DeSci_NG">
                   <Text size="sm" weight={'medium'}>X (Formerly Twitter)</Text>
                 </a>
               </li>
@@ -47,20 +47,25 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="https://www.linkedin.com/company/desci-ng">
+                <Link href="https://www.instagram.com/desci__ng">
                   <Text size="sm" weight={'medium'}>Instagram</Text>
                 </Link>
               </li>
               <li>
-                <a href="#">
-                  <Text size="sm" weight={'medium'}>TikTok, YouTube</Text>
+                <a href="http://tiktok.com/@desci_ng">
+                  <Text size="sm" weight={'medium'}>TikTok</Text>
+                </a>
+              </li>
+               <li>
+                <a href="https://www.youtube.com/@DeSci_NG">
+                  <Text size="sm" weight={'medium'}>YouTube</Text>
                 </a>
               </li>
             </ul>
           </section>
 
           <section className="flex flex-col justify-end md:pt-14">
-            <Text size="sm" weight={'medium'}> &copy; {new Date().getFullYear()} Desci NG</Text>
+            <Text size="sm" weight={'medium'}> &copy; {new Date().getFullYear()} Desci NG/Paper Trail Society.</Text>
           </section>
         </div>
       </div>
