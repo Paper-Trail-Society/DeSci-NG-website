@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "https://repo.desci.ng/*"
+  to = "https://desci.ng/:splat"
+  status = 301
+  force = true
