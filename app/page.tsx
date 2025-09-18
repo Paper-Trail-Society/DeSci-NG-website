@@ -13,7 +13,7 @@ import {
 } from "../components/ui/card";
 
 export const metadata = {
-  title: "Desci NG | Decentralized Science Nigeria",
+  title: "DeSci NG | Decentralized Science Nigeria",
 };
 
 const categories = [
