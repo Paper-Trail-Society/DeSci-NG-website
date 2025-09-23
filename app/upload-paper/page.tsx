@@ -123,7 +123,7 @@ function UploadPaperContent() {
       },
       onError: (err) => {
         if (isAxiosError(err)) {
-          toast.error(`Paper upload failed. ${err.response?.data.error}`);
+          toast.error(`Paper upload failed. ${String(err.response?.data)}`);
         } else {
           toast.error(`Paper upload failed. ${err.message}`);
         }
