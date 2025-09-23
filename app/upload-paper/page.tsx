@@ -37,6 +37,7 @@ import useGetFieldCategories from "@/domains/fields/hooks/use-get-field-categori
 import useGetFields from "@/domains/fields/hooks/use-get-fields";
 import useUploadPaper from "@/domains/paper/hooks/use-upload-paper";
 import { toast } from "sonner";
+import { isAxiosError } from "axios";
 
 const ALLOWED_FILE_TYPES = ["application/pdf"];
 
@@ -121,7 +122,11 @@ function UploadPaperContent() {
         toast.success("Paper uploaded successfully");
       },
       onError: (err) => {
-        toast.error(`Paper upload failed. ${err.message}`);
+        if (isAxiosError(err)) {
+          toast.error(`Paper upload failed. ${err.response?.data.error}`);
+        } else {
+          toast.error(`Paper upload failed. ${err.message}`);
+        }
       },
     });
   };
