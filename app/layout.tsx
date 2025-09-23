@@ -25,6 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+      <script defer src="https://cloud.umami.is/script.js" data-website-id="4b54eb0f-a700-48c1-b293-cbd68bb9689f"></script>
+      </head>
       <body className={`${spaceGrotesk.className} antialiased`}>
         <ReactQueryProviders>
           <AuthProvider>{children}</AuthProvider>
