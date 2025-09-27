@@ -19,7 +19,7 @@ export const metadata = {
 const initiatives = [
   {
     title: "Project Showcase",
-    description: "We support research endeavours across Africa. 10 researchers were supported in v1, v2 is currently ongong.",
+    description: "We support research endeavours across Africa. 10 researchers were supported in v1, v2 is currently ongoing.",
     imageUrl: "/assets/psv2.jpeg", 
     link: "https://x.com/DeSci_NG/status/1935309068463141225",
   },
