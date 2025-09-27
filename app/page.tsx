@@ -60,6 +60,25 @@ const categories = [
   },
 ];
 
+const successStories = [
+  {
+    name: "Emmanuel A. Ayoade (Industrial Chemistry Graduate, First Class Honours), Project Showcase V1 grantee",
+    quote:
+      "Honoured to be featured as a Spotlight Researcher by Decentralized Science Nigeria (DeSci NG)! This recognition means a lot, as it highlights my work on Green water treatment. I’m truly grateful for the DeSci NG community for providing a platform where young researchers can grow, share, and make an impact.",
+  },
+  {
+    name: "Sylvester Agose (Founder/President, Space Clubs - LASU)",
+    quote:
+      "Nigeria now has its first decentralized research repository. A platform where young researchers, students, and innovators can share their work freely, where anyone can read, critique, and build upon new ideas. This matters because innovation doesn’t only come from million-dollar labs. Most times it begins with a student asking a simple question, a young thinker making notes, or a community leader wondering, “What if?”",
+  },
+  {
+    name: "John Aboje (Editor at Journal of African Medical Students)",
+    quote:
+      "I’ve been involved in writing and publishing for 2 years now, and I’ve come across a lot of remarkable work, but this one truly stands out. With a record turnaround time of less than 3 months from submission to publication, I must acknowledge both the speed and novelty of this research. Even more exciting — this was my first-ever grant-funded study, sponsored by DeSci NG, and marks my 21st research publication.",
+  },
+];
+
+
 export default function Home() {
   return (
     <div>
@@ -159,8 +178,29 @@ export default function Home() {
                 </Card>
               ))}
             </div>
-
           </section>
+
+                        <section className="lg:w-2/5 md:w-3/5 w-full mx-auto my-16 space-y-8 px-8">
+            <Text
+              weight={"bold"}
+              className="text-center leading-6 text-3xl font-semibold"
+            >
+              Success Stories
+            </Text>
+            <div className="space-y-8 pt-4">
+              {successStories.map((story, idx) => (
+                <div key={idx} className="space-y-2 text-center">
+                  <Text size={"md"} className="italic leading-relaxed">
+                    “{story.quote}”
+                  </Text>
+                  <Text size={"sm"} weight={"medium"} className="text-gray-600">
+                    — {story.name}
+                  </Text>
+                </div>
+              ))}
+            </div>
+          </section>
+
         </main>
       </div>
     </div>
