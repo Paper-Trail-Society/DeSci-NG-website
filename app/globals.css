@@ -135,3 +135,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom CSS for the auto-scrolling marquee effect */
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(100%); /* Start off-screen right */
+  }
+  100% {
+    transform: translateX(-100%); /* End off-screen left */
+  }
+}
+
+.animate-marquee {
+  animation: marquee-scroll 25s linear infinite; /* Adjust 25s for speed */
+  white-space: nowrap; /* Keep content on a single line */
+  /* This setting is important for the seamless animation loop */
+  will-change: transform; 
+}
