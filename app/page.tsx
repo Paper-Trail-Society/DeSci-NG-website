@@ -16,6 +16,21 @@ export const metadata = {
   title: "DeSci NG | Decentralized Science Nigeria",
 };
 
+const initiatives = [
+  {
+    title: "Project Showcase",
+    description: "We support research endeavours across Africa. 10 researchers were supported in v1, v2 is currently ongong.",
+    imageUrl: "/assets/psv2.jpeg", 
+    link: "https://x.com/DeSci_NG/status/1935309068463141225",
+  },
+  {
+    title: "The Research Jam",
+    description: "A symposium for researchers, research institutes, and stakeholders to discuss innovation. Piloted in July 2025, more to come.",
+    imageUrl: "/assets/trj1.jpeg", 
+    link: "https://x.com/DeSci_NG/status/1944805322830303672",
+  },
+];
+
 const categories = [
   {
     name: "Applied Science",
@@ -101,6 +116,42 @@ export default function Home() {
                 <Link href="/search">EXPLORE MORE PAPERS</Link>
               </Button>
             </div>
+          </section>
+
+          <section className="lg:w-2/5 md:w-3/5 w-full mx-auto my-10 space-y-6 px-8">
+                        <Text
+              weight={"bold"}
+              className="text-center leading-6 text-3xl font-semibold"
+            >
+              Current Initiatives
+            </Text>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+            {initiatives.map((initiative) => (
+              <Card key={initiative.title}>
+                <Link href={initiative.link}>
+                  <CardHeader className="p-0">
+                    <Image
+                      src={initiative.imageUrl} // Ensure these paths are correct
+                      alt={initiative.title}
+                      width={600}
+                      height={400}
+                      className="object-cover w-full rounded-t-lg"
+                    />
+                  </CardHeader>
+                  <CardContent className="p-4 space-y-1">
+                    <CardTitle className="text-xl font-bold">{initiative.title}</CardTitle>
+                    <CardDescription>
+                      <Text size={"sm"} className="text-wrap">
+                        {initiative.description}
+                      </Text>
+                    </CardDescription>
+                    <Button variant="link" className="p-0">Learn More &rarr;</Button>
+                  </CardContent>
+                </Link>
+              </Card>
+            ))}
+          </div>
+            
           </section>
         </main>
       </div>
