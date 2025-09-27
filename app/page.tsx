@@ -185,7 +185,7 @@ export default function Home() {
               weight={"bold"}
               className="text-center leading-6 text-3xl font-semibold"
             >
-              Success Stories
+              Some Success Stories
             </Text>
             <div className="space-y-8 pt-4">
               {successStories.map((story, idx) => (
