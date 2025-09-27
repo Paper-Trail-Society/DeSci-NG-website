@@ -13,7 +13,7 @@ const Page = () => {
 
       <div className="items-center justify-items-center  pt-10 pb-20 w-full">
         <section className="flex flex-col gap-8 md:gap-14 items-center pt-10 pb-20 w-full">
-          <Text as="p" className="text-left md:text-center text-xl md:text-3xl leading-7">
+          <Text as="p" className="text-left lg:text-center text-xl md:text-3xl leading-7">
             About <b>Decentralized Science Nigeria</b>
           </Text>
 
