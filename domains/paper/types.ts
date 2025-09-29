@@ -1,6 +1,7 @@
 export type Paper = {
   id: number;
   title: string;
+  slug: string | null;
   abstract: string;
   notes: string | null;
   ipfsCid: string;
@@ -34,5 +35,5 @@ export type PaginatedPapersResponse = {
 export type Keyword = {
   id: number;
   name: string;
-  aliases: string[]
-}
+  aliases: string[];
+};

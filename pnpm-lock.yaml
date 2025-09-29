@@ -30,7 +30,7 @@ importers:
         specifier: ^5.85.6
         version: 5.85.6(react@19.1.0)
       '@tanstack/react-query-devtools':
-        specifier: ^5.90.2
+        specifier: ^5.89.0
         version: 5.90.2(@tanstack/react-query@5.85.6(react@19.1.0))(react@19.1.0)
       axios:
         specifier: ^1.11.0

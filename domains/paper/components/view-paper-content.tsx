@@ -6,8 +6,8 @@ import { TooltipInfo } from "@/components/ui/tooltip-info";
 import Link from "next/link";
 import { format } from "date-fns";
 
-const ViewPaperContent = ({ paperId }: { paperId: number }) => {
-  const { data: paper } = useGetPaper({ id: paperId.toString() });
+const ViewPaperContent = ({ paperId }: { paperId: string }) => {
+  const { data: paper } = useGetPaper({ id: paperId });
 
   return (
     <div className="flex flex-col gap-10 lg:w-3/5 md:w-4/5 w-full px-8 mx-auto">
