@@ -5,7 +5,7 @@ import { Paper } from "../types";
 import Link from "next/link";
 
 const PaperCard = (props: Paper) => {
-  const { title, abstract, user, id, ipfsCid } = props;
+  const { title, abstract, user, id, slug, ipfsCid } = props;
   return (
     <Card className="border-none">
       <CardHeader>
@@ -15,7 +15,7 @@ const PaperCard = (props: Paper) => {
           </Link>
         </Text>
         <CardTitle>
-          <Link href={`/paper/${id}`}>{title}</Link>
+          <Link href={`/paper/${slug ?? id}`}>{title}</Link>
         </CardTitle>
       </CardHeader>
       <CardContent>
