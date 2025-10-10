@@ -10,8 +10,8 @@ const Footer = () => {
           <Image
             src="/assets/desci-ng-logo.png"
             alt="logo"
-            width={105}
-            height={105}
+            width={102}
+            height={100}
           />
         </Link>
 

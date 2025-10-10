@@ -14,8 +14,8 @@ const PublicNav = () => {
             <Image
               src="/assets/desci-ng-logo.png"
               alt="logo"
-              width={120}
-              height={120}
+              width={102}
+              height={100}
             />
           </Link>
         </span>
