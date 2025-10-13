@@ -154,6 +154,7 @@ const MultiSelect = ({
       isMulti
       loadOptions={(inputValue, setOptions) => props.loadOptions?.(inputValue, setOptions)}
       cacheOptions={true}
+      defaultOptions
     />
   );
 };
