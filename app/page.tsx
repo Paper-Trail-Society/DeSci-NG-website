@@ -168,7 +168,7 @@ export default function Home() {
                     <CardContent className="p-4 space-y-1">
                       <CardTitle className="text-xl font-bold">{initiative.title}</CardTitle>
                       <CardDescription>
-                        <Text size={"sm"} className="text-wrap">
+                        <Text size={"sm"} variant={"secondary"} className="text-wrap">
                           {initiative.description}
                         </Text>
                       </CardDescription>
