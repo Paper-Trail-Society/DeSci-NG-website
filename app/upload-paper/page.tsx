@@ -38,6 +38,7 @@ import useGetFields from "@/domains/fields/hooks/use-get-fields";
 import useUploadPaper from "@/domains/paper/hooks/use-upload-paper";
 import { toast } from "sonner";
 import { isAxiosError } from "axios";
+import useGetKeywords from "@/domains/paper/hooks/use-get-keywords";
 
 const ALLOWED_FILE_TYPES = ["application/pdf"];
 
@@ -432,6 +433,7 @@ function UploadPaperContent() {
                     type="button"
                     className="bg-[#B52221CC] w-24 text-xs md:text-sm"
                     variant={"outline"}
+                    disabled={isUploadingPaper}
                     onClick={() => router.back()}
                   >
                     CANCEL
