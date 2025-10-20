@@ -6,11 +6,20 @@ export type Paper = {
   notes: string | null;
   ipfsCid: string;
   ipfsUrl: string;
-  userId: number;
+  userId: string;
   createdAt: string;
   updatedAt: string;
   categoryId: number;
-
+  fieldId?: number;
+  category: {
+    id: number;
+    name: string;
+    fieldId: number
+  };
+  field: {
+    id: number;
+    name: string
+  }
   keywords: {
     id: number;
     name: string;
