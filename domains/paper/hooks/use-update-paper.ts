@@ -2,7 +2,7 @@ import { $http } from "@/lib/http";
 import { useMutation } from "@tanstack/react-query";
 
 type UpdatePaperPayload = {
-  paperId: string;
+  paperId: number;
   title: string;
   abstract: string;
   categoryId: number;
@@ -12,6 +12,7 @@ type UpdatePaperPayload = {
   newKeywords?: string[];
   notes?: string | null;
 };
+
 
 const useUpdatePaper = () => {
   return useMutation({

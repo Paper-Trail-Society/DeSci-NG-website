@@ -197,6 +197,9 @@ function EditPaper() {
   }, [paper]);
 
   const onSubmit = (values: UploadPaperFormFields) => {
+    if (!paper) return;
+
+    
     if (selectedKeywords.length === 0) {
       toast.error("Add at least one keyword");
       return;
@@ -229,7 +232,7 @@ function EditPaper() {
     );
     updatePaper(
       {
-        paperId: id,
+        paperId: paper.id,
         ...values,
         notes: values.notes ?? undefined,
         addedKeywords,
