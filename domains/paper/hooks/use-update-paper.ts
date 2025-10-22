@@ -48,7 +48,7 @@ const useUpdatePaper = () => {
         formData.append("notes", notes);
       }
 
-      return $http.patch(`/papers/${paperId}`, formData, {
+      return $http.put(`/papers/${paperId}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

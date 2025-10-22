@@ -170,7 +170,7 @@ function ManagePapersContent() {
                     <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
                       <div className="space-y-3">
                         <Link
-                          href={`/paper/${paper.id}`}
+                          href={`/paper/${paper.slug}`}
                           className="text-lg font-semibold leading-snug text-gray-900 transition-colors hover:text-[#B52221]"
                         >
                           {paper.title}
@@ -205,7 +205,7 @@ function ManagePapersContent() {
                           asChild
                         >
                           <Link
-                            href={`/paper/${paper.id}/edit`}
+                            href={`/paper/${paper.slug}/edit`}
                             className="flex items-center gap-2"
                           >
                             <PenSquare className="h-4 w-4" />
