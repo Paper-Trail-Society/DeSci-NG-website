@@ -38,7 +38,6 @@ import useGetFields from "@/domains/fields/hooks/use-get-fields";
 import useUploadPaper from "@/domains/paper/hooks/use-upload-paper";
 import { toast } from "sonner";
 import { isAxiosError } from "axios";
-import useGetKeywords from "@/domains/paper/hooks/use-get-keywords";
 
 const ALLOWED_FILE_TYPES = ["application/pdf"];
 
@@ -113,7 +112,7 @@ function UploadPaperContent() {
     };
 
     uploadPaper(payload, {
-      onSuccess: () => {
+      onSuccess: (res) => {
         form.reset();
         fileUploadComponentRef.current?.files == null;
         setSelectedKeywords([]);
@@ -121,6 +120,7 @@ function UploadPaperContent() {
         setSelectedFile(null);
 
         toast.success("Paper uploaded successfully");
+        router.push(`/paper/${res.data.id}`)
       },
       onError: (err) => {
         if (isAxiosError(err)) {
