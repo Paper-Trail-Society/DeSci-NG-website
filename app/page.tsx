@@ -18,6 +18,12 @@ export const metadata = {
 
 const initiatives = [
   {
+    title: "Dialogues",
+    description: "A new series where researchers share what they are working on, the questions shaping their studies, and how it concerns to you. Join us next Friday for our first episode.",
+    imageUrl: "/assets/dialogues1.jpeg",
+    link: "https://x.com/DeSci_NG/status/1991852009495081458",
+  },
+  {
     title: "Project Showcase",
     description: "We support research endeavours across Africa. 10 researchers were supported in v1, v2 is currently ongoing.",
     imageUrl: "/assets/psv2.jpeg",
@@ -86,7 +92,7 @@ export default function Home() {
 
       <div className="items-center justify-items-center min-h-screen">
         <main className="flex flex-col items-center w-full md:pt-10 pb-16">
-          <section className="lg:w-2/5 md:w-3/5 w-full mx-auto my-10 space-y-6 px-8">
+          <section className="lg:w-2/5 md:w-3/5 w-full mx-auto my-6 space-y-6 px-8">
             <Text
               weight={"bold"}
               className="text-center leading-6 text-3xl font-semibold"
@@ -97,7 +103,7 @@ export default function Home() {
             <PaperSearchInput />
           </section>
           <section className="w-full">
-            <section className="w-full mt-10"> 
+            <section className="w-full mt-10">
               <div className="flex flex-wrap gap-6 items-center justify-center mx-auto">
                 {categories.map((category) => {
                   return (
@@ -142,37 +148,37 @@ export default function Home() {
                   <Link href="/search">EXPLORE MORE PAPERS</Link>
                 </Button>
               </div>
-            </section>          
+            </section>
           </section>
 
-          <section className="lg:w-2/5 md:w-3/5 w-full mx-auto my-10 space-y-6 px-8">
+          <section className="w-full mx-auto my-10 space-y-6 px-8">
             <Text
               weight={"bold"}
               className="text-center leading-6 text-3xl font-semibold"
             >
               Current Initiatives
             </Text>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4 max-w-4xl mx-auto">
               {initiatives.map((initiative) => (
-                <Card key={initiative.title}>
-                  <Link href={initiative.link}>
+                <Card key={initiative.title} className="flex flex-col h-full">
+                  <Link href={initiative.link} className="flex flex-col h-full">
                     <CardHeader className="p-0">
                       <Image
-                        src={initiative.imageUrl} // Ensure these paths are correct
+                        src={initiative.imageUrl}
                         alt={initiative.title}
                         width={600}
                         height={400}
                         className="object-cover w-full rounded-t-lg"
                       />
                     </CardHeader>
-                    <CardContent className="p-4 space-y-1">
+                    <CardContent className="p-4 space-y-2 flex flex-col">
                       <CardTitle className="text-xl font-bold">{initiative.title}</CardTitle>
-                      <CardDescription>
+                      <CardDescription className="flex-grow">
                         <Text size={"sm"} className="text-wrap">
                           {initiative.description}
                         </Text>
                       </CardDescription>
-                      <Button variant="link" className="p-0">Learn More &rarr;</Button>
+                      <Button variant="link" className="p-0 self-start">Learn More &rarr;</Button>
                     </CardContent>
                   </Link>
                 </Card>
@@ -180,7 +186,7 @@ export default function Home() {
             </div>
           </section>
 
-                        <section className="lg:w-2/5 md:w-3/5 w-full mx-auto my-16 space-y-8 px-8">
+          <section className="lg:w-2/5 md:w-3/5 w-full mx-auto my-16 space-y-8 px-8">
             <Text
               weight={"bold"}
               className="text-center leading-6 text-3xl font-semibold"
