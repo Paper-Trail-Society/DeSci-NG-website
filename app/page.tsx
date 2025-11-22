@@ -173,8 +173,8 @@ export default function Home() {
                     </CardHeader>
                     <CardContent className="p-4 space-y-2 flex flex-col">
                       <CardTitle className="text-xl font-bold">{initiative.title}</CardTitle>
-                      <CardDescription className="flex-grow">
-                        <Text size={"sm"} className="text-wrap">
+                      <CardDescription>
+                        <Text size={"sm"} variant={"secondary"} className="text-wrap">
                           {initiative.description}
                         </Text>
                       </CardDescription>

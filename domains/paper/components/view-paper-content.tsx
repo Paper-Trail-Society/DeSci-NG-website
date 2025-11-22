@@ -1,20 +1,32 @@
-'use client'
+"use client";
 import { Text } from "@/components/ui/text";
 import React from "react";
 import useGetPaper from "../hooks/use-get-paper";
 import { TooltipInfo } from "@/components/ui/tooltip-info";
 import Link from "next/link";
 import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
+import { useAuthContext } from "@/lib/contexts/auth-context";
 
-const ViewPaperContent = ({ paperId }: { paperId: number }) => {
-  const { data: paper } = useGetPaper({ id: paperId.toString() });
+const ViewPaperContent = ({ paperId }: { paperId: string }) => {
+  const { data: paper } = useGetPaper({ id: paperId });
+  const { user } = useAuthContext();
 
   return (
     <div className="flex flex-col gap-10 lg:w-3/5 md:w-4/5 w-full px-8 mx-auto">
       <div className="flex flex-col gap-4 text-left md:text-center">
-        <Text size={"2xl"} weight={"semibold"}>
-          {paper?.title}
-        </Text>
+        <div className="flex justify-between items-center">
+          <Text size={"2xl"} weight={"semibold"}>
+            {paper?.title}
+          </Text>
+
+          {user?.id === paper?.userId && (
+            <Button variant={"outline"} size={"sm"}>
+              <Link href={`/paper/${paperId}/edit`}>Edit</Link>
+            </Button>
+          )}
+        </div>
+
         <Text size={"md"}>{paper?.user.name}</Text>
 
         <Text size={"sm"} className="leading-6">

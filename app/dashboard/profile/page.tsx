@@ -3,16 +3,18 @@
 import { RouteGuard } from "@/components/auth/route-guard";
 import PublicNav from "@/components/shared/public-nav";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Text } from "@/components/ui/text";
 import { useSignOut } from "@/domains/auth/hooks";
 import useGetInstitutions from "@/domains/institutions/hooks/use-get-institutions";
 import { useAuthContext } from "@/lib/contexts/auth-context";
-import { Loader2, LogOut } from "lucide-react";
+import { Loader2, LogOut, Mail, School } from "lucide-react";
 import Link from "next/link";
 
 function ProfileContent() {
   const { user } = useAuthContext();
-  const { data: institutions } = useGetInstitutions();
+  const { data: institutions, isLoading: isInstitutionsLoading } =
+    useGetInstitutions();
 
   const signOutMutation = useSignOut({
     onSuccess: () => {
@@ -24,7 +26,9 @@ function ProfileContent() {
   });
 
   const handleSignOut = () => {
-    signOutMutation.mutate();
+    if (!signOutMutation.isPending) {
+      signOutMutation.mutate();
+    }
   };
 
   // Get user's institution name
@@ -61,160 +65,114 @@ function ProfileContent() {
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-white">
       <PublicNav />
-      <div className="md:p-container-lg p-container-base min-h-screen">
-        <section className="bg-[#F3E7E780] h-full md:w-3/5 w-full mx-auto md:px-container-md md:py-container-base p-container-base">
-          {/* Navigation Tabs */}
-          <div className="flex flex-wrap justify-between mb-8">
-            <div className="flex items-center gap-2">
-              <div className="bg-[#B52221] h-5 w-1 rounded-md"></div>
-              <Text className="md:text-lg text-md" weight={"bold"}>
-                Your Profile
+      <div className="md:p-container-lg p-container-base">
+        <section className="mx-auto flex h-full w-full max-w-4xl flex-col gap-8 rounded-2xl border border-gray-200 bg-white p-container-base shadow-sm">
+          <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div className="space-y-1">
+              <Text size={"lg"} weight={"semibold"}>
+                Profile
+              </Text>
+              <Text size={"sm"} className="text-gray-500">
+                Personal information and account controls
               </Text>
             </div>
+            <div className="flex flex-wrap gap-3">
+              <Button asChild variant="outline" className="rounded-full px-4 py-2">
+                <Link href="/dashboard/manage-papers">Manage papers</Link>
+              </Button>
+              <Button variant="destructive" asChild className="rounded-full px-4 py-2">
+                <Link href="/upload-paper">Upload paper</Link>
+              </Button>
+            </div>
+          </header>
 
-            <Text className="md:text-lg text-md" weight={"bold"}>
-              <Link
-                href="/upload-paper"
-                className="hover:text-[#B52221] transition-colors"
-              >
-                Upload New Paper
-              </Link>
-            </Text>
-
-            <Text className="md:text-lg text-md" weight={"bold"}>
-              <Link
-                href="/dashboard/manage-papers"
-                className="hover:text-[#B52221] transition-colors"
-              >
-                Manage Papers
-              </Link>
-            </Text>
-          </div>
-
-          {/* Profile Content */}
-          <div className="flex flex-col lg:flex-row gap-8 mt-8 py-8">
-            {/* Left Side - Avatar */}
-            <div className="flex flex-col items-center">
-              {/* Avatar */}
-              <div className="w-32 h-32 rounded-full bg-gray-300 overflow-hidden flex-shrink-0">
-                <div className="w-full h-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center">
-                  <Text className="text-white text-2xl font-semibold">
-                    {profileData.name
-                      .split(" ")
-                      .map((n: string) => n[0])
-                      .join("")}
+          <Card className="border border-gray-200 bg-white p-6 shadow-sm">
+            <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+              <div className="flex items-center gap-4">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 text-xl font-semibold text-gray-700">
+                  {profileData.name
+                    .split(" ")
+                    .map((n: string) => n[0])
+                    .join("")}
+                </div>
+                <div>
+                  <Text size={"lg"} weight={"semibold"}>
+                    {profileData.name}
+                  </Text>
+                  <Text size={"sm"} className="text-gray-500">
+                    Member since 2024
                   </Text>
                 </div>
               </div>
+
+              <Button
+                variant="outline"
+                className="rounded-full border-gray-200 px-4 py-2 text-sm text-gray-700 transition hover:text-[#B52221]"
+                disabled={signOutMutation.isPending}
+                onClick={handleSignOut}
+              >
+                {signOutMutation.isPending ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <LogOut className="mr-2 h-4 w-4" />
+                )}
+                {signOutMutation.isPending ? "Signing out..." : "Sign out"}
+              </Button>
             </div>
 
-            {/* Right Side - Profile Info */}
-            <div className="flex-1 space-y-6">
-              {/* Name */}
-              <Text className="text-3xl font-bold text-gray-900">
-                {profileData.name}
-              </Text>
-
-              {/* Institution and Email */}
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <Text className="text-sm font-medium text-gray-600 mb-1">
-                    Affiliated Institution
-                  </Text>
-                  <Text className="text-gray-900">
-                    {profileData.institution}
-                  </Text>
-                </div>
-
-                <div>
-                  <Text className="text-sm font-medium text-gray-600 mb-1">
-                    Email Address
-                  </Text>
-                  <div className="flex items-center gap-2">
-                    <Text className="text-gray-900">{profileData.email}</Text>
-                    {profileData.emailVerified ? (
-                      <span className="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">
-                        Verified
-                      </span>
-                    ) : (
-                      <span className="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">
-                        Unverified
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Areas of Interest */}
-              <div>
-                <Text className="text-md font-medium text-gray-900 mb-4 pt-4">
-                  Areas of Interest
+            <div className="mt-6 grid gap-6 md:grid-cols-2">
+              <div className="space-y-2">
+                <Text size={"sm"} className="flex items-center gap-2 text-gray-500">
+                  <Mail className="h-4 w-4" /> Email
                 </Text>
-                <div className="flex flex-wrap gap-3">
-                  {profileData.areasOfInterest.length > 0 ? (
-                    profileData.areasOfInterest.map(
-                      (area: string, index: number) => (
-                        <span
-                          key={index}
-                          className="px-4 py-2 rounded-full text-sm border border-primary"
-                        >
-                          {area}
-                        </span>
-                      )
-                    )
+                <div className="flex items-center gap-2">
+                  <Text>{profileData.email}</Text>
+                  {profileData.emailVerified ? (
+                    <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
+                      Verified
+                    </span>
                   ) : (
-                    <span className="px-4 py-2 rounded-full text-sm bg-gray-100 text-gray-500 border border-gray-300">
-                      No areas of interest selected
+                    <span className="rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
+                      Unverified
                     </span>
                   )}
                 </div>
               </div>
 
-              {/* Statistics */}
-              {/* <div className="grid md:grid-cols-2 gap-8 py-6">
-              <div className="text-center">
-                <Text className="text-4xl font-bold text-gray-900 mb-2">
-                  {profileData.papersUploaded}
+              <div className="space-y-2">
+                <Text size={"sm"} className="flex items-center gap-2 text-gray-500">
+                  <School className="h-4 w-4" /> Institution
                 </Text>
-                <Text className="text-gray-600">Papers uploaded</Text>
-              </div>
-
-              <div className="text-center">
-                <Text className="text-4xl font-bold text-gray-900 mb-2">
-                  {profileData.totalDownloads.toLocaleString()}
+                <Text>
+                  {isInstitutionsLoading ? "Loading..." : profileData.institution}
                 </Text>
-                <Text className="text-gray-600">Total Downloads</Text>
-              </div>
-            </div> */}
-
-              {/* Action Buttons */}
-              <div className="flex gap-4 mt-6">
-                <Button
-                  asChild
-                  variant="destructive"
-                  className="px-8 py-3 text-white font-medium"
-                >
-                  <Link href="/upload-paper">UPLOAD NEW PAPER</Link>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  onClick={handleSignOut}
-                  disabled={signOutMutation.isPending}
-                  className="flex items-center space-x-2 px-6 py-3"
-                >
-                  {signOutMutation.isPending ? (
-                    <Loader2 size={16} className="animate-spin" />
-                  ) : (
-                    <LogOut size={16} />
-                  )}
-                  <Text size={'sm'}>Logout</Text>
-                </Button>
               </div>
             </div>
-          </div>
+
+            <div className="mt-8 space-y-3">
+              <Text size={"sm"} className="text-gray-500">
+                Areas of interest
+              </Text>
+              <div className="flex flex-wrap gap-2">
+                {profileData.areasOfInterest.length > 0 ? (
+                  profileData.areasOfInterest.map((area: string, index: number) => (
+                    <span
+                      key={index}
+                      className="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-medium text-gray-700"
+                    >
+                      {area}
+                    </span>
+                  ))
+                ) : (
+                  <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-500">
+                    No areas of interest selected
+                  </span>
+                )}
+              </div>
+            </div>
+          </Card>
         </section>
       </div>
     </div>

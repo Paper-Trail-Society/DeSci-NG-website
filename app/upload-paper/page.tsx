@@ -112,7 +112,7 @@ function UploadPaperContent() {
     };
 
     uploadPaper(payload, {
-      onSuccess: () => {
+      onSuccess: (res) => {
         form.reset();
         fileUploadComponentRef.current?.files == null;
         setSelectedKeywords([]);
@@ -120,6 +120,7 @@ function UploadPaperContent() {
         setSelectedFile(null);
 
         toast.success("Paper uploaded successfully");
+        router.push(`/paper/${res.data.id}`)
       },
       onError: (err) => {
         if (isAxiosError(err)) {
@@ -432,6 +433,7 @@ function UploadPaperContent() {
                     type="button"
                     className="bg-[#B52221CC] w-24 text-xs md:text-sm"
                     variant={"outline"}
+                    disabled={isUploadingPaper}
                     onClick={() => router.back()}
                   >
                     CANCEL
