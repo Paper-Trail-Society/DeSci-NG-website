@@ -19,7 +19,7 @@ export const metadata = {
 const initiatives = [
   {
     title: "Dialogues",
-    description: "A new series where researchers share what they are working on, the questions shaping their studies, and how it concerns to you. Join us next Friday for our first episode.",
+    description: "A new series where researchers share what they are working on, the questions shaping their studies, and how it concerns to you. Join us on Saturday for our second episode.",
     imageUrl: "/assets/dialogues1.jpeg",
     link: "https://x.com/DeSci_NG/status/1991852009495081458",
   },
