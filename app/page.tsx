@@ -112,7 +112,7 @@ export default function Home() {
                       // Adjusted width classes for a more standard grid look
                       className="flex flex-col gap-3 lg:w-1/6 md:w-1/3 w-[18em] h-full shadow-md transition-shadow hover:shadow-xl"
                     >
-                      <Link href={`/search?query=${category.query}`} className="block">
+                      <Link href={`/search?q=${category.query}`} className="block">
                         <CardHeader className="p-0">
                           <Image
                             src={category.imageUrl}
