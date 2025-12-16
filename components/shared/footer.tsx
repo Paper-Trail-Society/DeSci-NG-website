@@ -15,8 +15,8 @@ const Footer = () => {
           />
         </Link>
 
-        <div className="w-full px-4 md:px-2 md:mx-auto md:flex md:flex-wrap md:items-center md:justify-between space-y-4">
-          <section>
+        <div className="w-full md:px-4 mx-auto flex flex-wrap items-center md:justify-between my-4 space-y-4 md:space-y-0">
+          <section className="w-full md:w-auto">
             <ul className="space-y-2">
               <li>
                 <Link href="/about-us">
@@ -42,7 +42,7 @@ const Footer = () => {
             </ul>
           </section>
 
-          <section>
+          <section className="w-full md:w-auto">
             <ul className="space-y-2">
               <li>
                 <a href="https://x.com/DeSci_NG">
@@ -82,7 +82,7 @@ const Footer = () => {
             </ul>
           </section>
 
-          <section className="flex flex-col justify-end md:pt-14">
+          <section className="flex flex-col justify-end md:mt-14">
             <Text size="sm" weight={"medium"}>
               {" "}
               &copy; {new Date().getFullYear()} Desci NG/Paper Trail Society.
