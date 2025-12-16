@@ -9,9 +9,9 @@
   :root {
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
-    --primary: #b52221;
+    --primary: #B52221;
 
-    --text-link: var(--primary);
+    --text-link: #B52221;
     --text: #1b1f28;
     --text-dim: #83838b;
 
