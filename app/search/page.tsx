@@ -10,12 +10,11 @@ import {
 const Page = async ({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
   const { q, page } = await searchParams;
   const queryClient = new QueryClient();
 
-  // fetch post information
   await queryClient.ensureQueryData({
     queryKey: paperKeys.list(q?.toString() ?? "", "", page?.toString() ?? "1"),
     queryFn: async () => {

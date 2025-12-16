@@ -13,7 +13,7 @@ const SearchPageContent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const searchQuery = searchParams.get("query");
+  const searchQuery = searchParams.get("q");
   const [currentPage, setCurrentPage] = useState(
     searchParams.get("page") ?? "1"
   );

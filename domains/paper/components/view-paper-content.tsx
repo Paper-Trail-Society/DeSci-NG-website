@@ -7,12 +7,10 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { useAuthContext } from "@/lib/contexts/auth-context";
-import { ABSTRACT_PREVIEW_LENGTH } from "../constants";
 
 const ViewPaperContent = ({ paperId }: { paperId: string }) => {
   const { data: paper, isPending } = useGetPaper({ id: paperId });
   const { user, isAuthenticated } = useAuthContext();
-  const [isAbstractExpanded, setIsAbstractExpanded] = useState(false);
 
   if (isPending && !paper) {
     return (
@@ -52,21 +50,8 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
         <Text size={"md"}>{paper.user.name}</Text>
 
         <Text size={"sm"} className="leading-6 duration-300 transition-all ease-in-out">
-          {isAbstractExpanded
-            ? paper.abstract
-            : paper.abstract.length > ABSTRACT_PREVIEW_LENGTH
-            ? `${paper.abstract.slice(0, ABSTRACT_PREVIEW_LENGTH)}...`
-            : paper.abstract}
+          {paper.abstract}
         </Text>
-        {paper.abstract.length > ABSTRACT_PREVIEW_LENGTH && (
-          <Button
-            variant={"primary"}
-            onClick={() => setIsAbstractExpanded(!isAbstractExpanded)}
-            className="hover:underline text-sm w-fit mx-auto text-text-link py-0 cursor-pointer"
-          >
-            {isAbstractExpanded ? "See less" : "See more"}
-          </Button>
-        )}
       </div>
 
       <section className="md:w-2/3 w-full mx-auto flex flex-col gap-3">
