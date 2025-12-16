@@ -5,6 +5,7 @@ import { Paper } from "../types";
 import Link from "next/link";
 import { ABSTRACT_PREVIEW_LENGTH } from "../constants";
 import { Button } from "@/components/ui/button";
+import { BookOpenIcon, ChevronDown, ChevronUp, ExternalLink, Icon } from "lucide-react";
 
 const PaperCard = (props: Paper) => {
   const { title, abstract, user, id, slug, ipfsCid } = props;
@@ -19,7 +20,7 @@ const PaperCard = (props: Paper) => {
           </Link>
         </Text>
         <CardTitle>
-          <Link href={`/paper/${slug ?? id}`}>{title}</Link>
+          <Link href={`/paper/${slug}`}>{title}</Link>
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -38,15 +39,31 @@ const PaperCard = (props: Paper) => {
               ? `${abstract.slice(0, ABSTRACT_PREVIEW_LENGTH)}...`
               : abstract}
           </Text>{" "}
-          {abstract.length > ABSTRACT_PREVIEW_LENGTH && (
+
+          <div className="flex gap-2 mt-1">
+{abstract.length > ABSTRACT_PREVIEW_LENGTH && (
             <Button
-              variant={"primary"}
+              variant={"ghost"}
               onClick={() => setIsAbstractExpanded(!isAbstractExpanded)}
-              className="hover:underline text-sm w-fit mx-auto text-text-link py-0 cursor-pointer"
+              className="hover:bg-[#F3E7E780] text-sm w-fit text-text-link p-1 cursor-pointer gap-1"
             >
               {isAbstractExpanded ? "See less" : "See more"}
+              {isAbstractExpanded && <ChevronUp className="h-4 w-4" />}
             </Button>
           )}
+
+          {isAbstractExpanded && (
+            <Button variant={"link"} className="text-text-link px-1">
+              <Link
+                href={`/paper/${slug}`}
+                className="hover:underline text-sm"
+              >
+                Read full paper
+              </Link>
+            </Button>
+          )}
+          </div>
+          
         </Text>
       </CardContent>
     </Card>
