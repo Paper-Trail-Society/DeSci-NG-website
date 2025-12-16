@@ -1,0 +1,1 @@
+export const ABSTRACT_PREVIEW_LENGTH = 340;

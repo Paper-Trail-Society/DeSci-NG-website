@@ -1,7 +1,7 @@
 export type Paper = {
   id: number;
   title: string;
-  slug: string | null;
+  slug: string;
   abstract: string;
   notes: string | null;
   ipfsCid: string;

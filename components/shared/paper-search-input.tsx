@@ -10,7 +10,7 @@ const PaperSearchInput = ({ className }: { className?: string }) => {
     event.preventDefault();
     const form = event.currentTarget as HTMLFormElement;
     const searchQuery = new FormData(form).get("search") as string;
-    window.location.href = `/search?query=${encodeURIComponent(searchQuery)}`;
+    window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
   };
 
   return (

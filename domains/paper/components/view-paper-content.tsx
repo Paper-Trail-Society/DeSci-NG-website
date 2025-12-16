@@ -1,6 +1,6 @@
 "use client";
 import { Text } from "@/components/ui/text";
-import React from "react";
+import React, { useState } from "react";
 import useGetPaper from "../hooks/use-get-paper";
 import { TooltipInfo } from "@/components/ui/tooltip-info";
 import Link from "next/link";
@@ -49,8 +49,8 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
 
         <Text size={"md"}>{paper.user.name}</Text>
 
-        <Text size={"sm"} className="leading-6">
-          {paper?.abstract}
+        <Text size={"sm"} className="leading-6 duration-300 transition-all ease-in-out">
+          {paper.abstract}
         </Text>
       </div>
 
