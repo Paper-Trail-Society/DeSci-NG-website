@@ -24,6 +24,7 @@ const useGetPapers = ({
       return res.data;
     },
     enabled: isEnabled,
+    staleTime: 60 * 1000, // 1 minute
   });
 };
 
