@@ -24,6 +24,7 @@ const config: Config = {
       colors: {
         text: {
           DEFAULT: 'var(--text)',
+          link: 'var(--text-link)',
           dim: 'var(--text-dim)',
           danger: '#DC2626',
         },
