@@ -3,6 +3,8 @@ import { Text } from "@/components/ui/text";
 import React from "react";
 import { Paper } from "../types";
 import Link from "next/link";
+import { ABSTRACT_PREVIEW_LENGTH } from "../constants";
+
 
 const PaperCard = (props: Paper) => {
   const { title, abstract, user, id, slug, ipfsCid } = props;
@@ -23,7 +25,8 @@ const PaperCard = (props: Paper) => {
           <b>Author(s)</b>: {user.name}
         </Text>
         <Text size={"sm"}>
-          <b>Abstract</b>: {abstract}
+          <b>Abstract</b>:{" "}
+          {abstract.length > ABSTRACT_PREVIEW_LENGTH ? `${abstract.slice(0, ABSTRACT_PREVIEW_LENGTH)}...` : abstract}
         </Text>
       </CardContent>
     </Card>
