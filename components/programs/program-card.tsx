@@ -42,7 +42,7 @@ export default function ProgramCard({
             className="px-0"
           >
             <Link href={link} target="_blank" rel="noopener noreferrer" className="hover:underline">
-              View Recording
+              Recorded here
             </Link>
           </Button>
         </div>

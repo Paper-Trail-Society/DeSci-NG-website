@@ -3,16 +3,16 @@ import ProgramCard from "./program-card";
 
 const projects = [
   {
-    title: "Project 1",
-    image: "/assets/project1.jpg",
-    description: "Description for Project 1.",
-    link: "https://example.com/project1",
+    title: "v2",
+    image: "/assets/psv2.jpeg",
+    description: "We support research endeavours across Africa. 10 researchers were supported in v2.",
+    link: "https://x.com/DeSci_NG/status/1935309068463141225",
   },
-  {
-    title: "Project 2",
-    image: "/assets/project2.jpg",
-    description: "Description for Project 2.",
-    link: "https://example.com/project2",
+    {
+    title: "v1",
+    image: "/assets/psv1.jpeg",
+    description: "We support research endeavours across Africa. 10 researchers were supported in v1.",
+    link: "https://x.com/DeSci_NG/status/1886355157094461780",
   },
 ];
 
