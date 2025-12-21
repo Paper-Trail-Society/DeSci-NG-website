@@ -25,7 +25,6 @@ import { isAxiosError } from "axios";
 import { useDebouncedCallback } from "use-debounce";
 
 import { RouteGuard } from "@/components/auth/route-guard";
-import PublicNav from "@/components/shared/public-nav";
 import {
   MultiSelect,
   SelectValueBase,
@@ -55,7 +54,6 @@ const uploadPaperSchema = z.object({
 function EditPaperSkeleton() {
   return (
     <div>
-      <PublicNav />
       <div className="md:p-container-lg p-container-base">
         <section className="mx-auto flex h-full w-full max-w-4xl flex-col gap-8 rounded-2xl border border-gray-200 bg-white p-container-base shadow-sm">
           <div className="space-y-8 animate-pulse">
@@ -293,7 +291,6 @@ function EditPaper() {
 
   return (
     <div>
-      <PublicNav />
 
       <div className="md:p-container-lg p-container-base">
         <section className="bg-[#F3E7E780] h-full md:w-3/5 w-full mx-auto md:px-container-md md:py-container-base p-container-base">

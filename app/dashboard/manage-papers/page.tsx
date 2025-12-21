@@ -1,7 +1,6 @@
 "use client";
 
 import { RouteGuard } from "@/components/auth/route-guard";
-import PublicNav from "@/components/shared/public-nav";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -93,7 +92,6 @@ function ManagePapersContent() {
 
   return (
     <div className="min-h-screen bg-white">
-      <PublicNav />
       <div className="md:p-container-lg p-container-base">
         <section className="mx-auto flex h-full w-full max-w-4xl flex-col gap-8 rounded-2xl border border-gray-200 bg-white p-container-base shadow-sm">
           <header className="flex flex-wrap items-center justify-between gap-4">
