@@ -1,5 +1,4 @@
 import PaperSearchInput from "@/components/shared/paper-search-input";
-import PublicNav from "@/components/shared/public-nav";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import Image from "next/image";
@@ -88,8 +87,6 @@ const successStories = [
 export default function Home() {
   return (
     <div>
-      <PublicNav />
-
       <div className="items-center justify-items-center min-h-screen">
         <main className="flex flex-col items-center w-full pt-10 md:pt-4 pb-16">
           <section className="lg:w-2/5 md:w-3/5 w-full mx-auto my-7 md:my-6 space-y-6 px-8">

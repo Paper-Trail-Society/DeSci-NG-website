@@ -1,4 +1,5 @@
 import Footer from "@/components/shared/footer";
+import PublicNav from "@/components/shared/public-nav";
 import { AuthProvider } from "@/lib/contexts/auth-context";
 import ReactQueryProviders from "@/lib/react-query/provider";
 import type { Metadata } from "next";
@@ -26,11 +27,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-      <script defer src="https://cloud.umami.is/script.js" data-website-id="4b54eb0f-a700-48c1-b293-cbd68bb9689f"></script>
+        <script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="4b54eb0f-a700-48c1-b293-cbd68bb9689f"
+        ></script>
       </head>
       <body className={`${spaceGrotesk.className} antialiased`}>
         <ReactQueryProviders>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <PublicNav />
+            <div className="max-w-6xl mx-auto px-4">
+            </div>
+            {children}
+          </AuthProvider>
         </ReactQueryProviders>
         <Footer />
         <Toaster richColors />

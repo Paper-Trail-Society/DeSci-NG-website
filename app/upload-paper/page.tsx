@@ -32,7 +32,6 @@ import { $http } from "@/lib/http";
 import { useDebouncedCallback } from "use-debounce";
 
 import { RouteGuard } from "@/components/auth/route-guard";
-import PublicNav from "@/components/shared/public-nav";
 import useGetFieldCategories from "@/domains/fields/hooks/use-get-field-categories";
 import useGetFields from "@/domains/fields/hooks/use-get-fields";
 import useUploadPaper from "@/domains/paper/hooks/use-upload-paper";
@@ -157,8 +156,6 @@ function UploadPaperContent() {
 
   return (
     <div>
-      <PublicNav />
-
       <div className="md:p-container-lg p-container-base">
         <section className="bg-[#F3E7E780] h-full md:w-3/5 w-full mx-auto md:px-container-md md:py-container-base p-container-base">
           <div className="flex flex-wrap justify-between">
