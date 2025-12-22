@@ -165,13 +165,13 @@ export default function Home() {
               <div
                 role="region"
                 aria-label="Success stories carousel"
-                className="mt-6 -mx-4 px-4 overflow-x-auto scrollbar-hide"
+                className="w-full mt-6 px-4 overflow-x-auto scrollbar-hide"
               >
-                <div className="flex gap-4 justify-center items-stretch pb-4">
+                <div className="snap-x w-fit flex gap-4 pb-4 mx-auto">
                   {successStories.map((story, idx) => (
                     <Card
-                      key={idx}
-                      className="flex-none w-80 min-h-[160px] p-0 shadow-md hover:shadow-lg transition-shadow duration-200 snap-center"
+                      key={crypto.randomUUID()}
+                      className="snap-center flex-none w-80 min-h-[160px] p-0 shadow-md hover:shadow-lg transition-shadow duration-200"
                     >
                       <CardContent className="p-4 flex flex-col h-full">
                         <Text

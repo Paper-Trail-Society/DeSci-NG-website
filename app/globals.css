@@ -152,3 +152,12 @@
   /* This setting is important for the seamless animation loop */
   will-change: transform; 
 }
+
+/* Utility to hide native scrollbars while keeping scroll functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
