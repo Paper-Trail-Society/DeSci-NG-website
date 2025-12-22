@@ -18,19 +18,22 @@ export const metadata = {
 const initiatives = [
   {
     title: "Dialogues",
-    description: "A new series where researchers share what they are working on, the questions shaping their studies, and how it concerns to you. Join us on Saturday for our third episode.",
+    description:
+      "A new series where researchers share what they are working on, the questions shaping their studies, and how it concerns to you. Join us on Saturday for our third episode.",
     imageUrl: "/assets/dialogues1.jpg",
     link: "https://x.com/DeSci_NG/status/2000911841405624800",
   },
   {
     title: "Project Showcase",
-    description: "We support research endeavours across Africa. 10 researchers were supported in v1, v2 is currently ongoing.",
+    description:
+      "We support research endeavours across Africa. 10 researchers were supported in v1, v2 is currently ongoing.",
     imageUrl: "/assets/psv2.jpeg",
     link: "https://x.com/DeSci_NG/status/1935309068463141225",
   },
   {
     title: "The Research Jam",
-    description: "A symposium for researchers, research institutes, and stakeholders to discuss innovation. Piloted in July 2025, more to come.",
+    description:
+      "A symposium for researchers, research institutes, and stakeholders to discuss innovation. Piloted in July 2025, more to come.",
     imageUrl: "/assets/trj1.jpeg",
     link: "https://x.com/DeSci_NG/status/1944805322830303672",
   },
@@ -83,7 +86,6 @@ const successStories = [
   },
 ];
 
-
 export default function Home() {
   return (
     <div>
@@ -109,7 +111,10 @@ export default function Home() {
                       // Adjusted width classes for a more standard grid look
                       className="flex flex-col gap-2 lg:w-1/4 md:w-1/3 w-4/5 h-full shadow-md transition-shadow hover:shadow-xl"
                     >
-                      <Link href={`/search?q=${category.query}`} className="block">
+                      <Link
+                        href={`/search?q=${category.query}`}
+                        className="block"
+                      >
                         <CardHeader className="p-0">
                           <Image
                             src={category.imageUrl}
@@ -148,27 +153,49 @@ export default function Home() {
             </section>
           </section>
 
-          <section className="lg:w-2/5 md:w-3/5 w-full mx-auto my-16 space-y-8 px-8">
-            <Text
-              weight={"bold"}
-              className="text-center leading-6 text-3xl font-semibold"
-            >
-              Some Success Stories
-            </Text>
-            <div className="space-y-8 pt-4">
-              {successStories.map((story, idx) => (
-                <div key={idx} className="space-y-2 text-center">
-                  <Text size={"md"} className="italic leading-relaxed">
-                    “{story.quote}”
-                  </Text>
-                  <Text size={"sm"} weight={"medium"} className="text-gray-600">
-                    — {story.name}
-                  </Text>
+          <section className="w-full mx-auto my-16 px-4">
+            <div className="max-w-6xl mx-auto">
+              <Text
+                weight={"bold"}
+                className="text-center leading-6 text-3xl font-semibold"
+              >
+                Some Success Stories
+              </Text>
+
+              <div
+                role="region"
+                aria-label="Success stories carousel"
+                className="mt-6 -mx-4 px-4 overflow-x-auto scrollbar-hide"
+              >
+                <div className="flex gap-4 justify-center items-stretch pb-4">
+                  {successStories.map((story, idx) => (
+                    <Card
+                      key={idx}
+                      className="flex-none w-80 min-h-[160px] p-0 shadow-md hover:shadow-lg transition-shadow duration-200 snap-center"
+                    >
+                      <CardContent className="p-4 flex flex-col h-full">
+                        <Text
+                          size={"sm"}
+                          className="italic leading-relaxed text-gray-800 flex-1"
+                        >
+                          “{story.quote}”
+                        </Text>
+                        <div className="mt-4">
+                          <Text
+                            size={"sm"}
+                            weight={"medium"}
+                            className="text-gray-600"
+                          >
+                            — {story.name}
+                          </Text>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           </section>
-
         </main>
       </div>
     </div>
