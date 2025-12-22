@@ -5,7 +5,7 @@ const projects = [
   {
     title: "v2",
     image: "/assets/psv2.jpeg",
-    description: "We support research endeavours across Africa. 10 researchers were supported in v2.",
+    description: "We support research endeavours across Africa. Take a look at how v2 is shaping out.",
     link: "https://x.com/DeSci_NG/status/1935309068463141225",
   },
     {

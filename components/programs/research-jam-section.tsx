@@ -5,7 +5,7 @@ const jams = [
   {
     title: "The Research Jam",
     image: "/assets/trj1.jpeg",
-    description: "A symposium for researchers, research institutes, and stakeholders to discuss innovation.",
+    description: "A symposium for researchers, research institutes, and stakeholders to sense-make.",
     link: "https://drive.google.com/file/d/162pPmgLQUG0PK-QW7h22MI_VJnokn8uG/view",
   },
   // {
