@@ -77,7 +77,7 @@ const successStories = [
   {
     name: "Sylvester Agose (Founder/President, Space Clubs - LASU)",
     quote:
-      "Nigeria now has its first decentralized research repository. A platform where young researchers, students, and innovators can share their work freely, where anyone can read, critique, and build upon new ideas. This matters because innovation doesn’t only come from million-dollar labs. Most times it begins with a student asking a simple question, a young thinker making notes, or a community leader wondering, “What if?”",
+      "Nigeria now has its first decentralized research repository. A platform where young researchers, students, and innovators can share their work freely, where anyone can read, critique, and build upon new ideas. This matters because innovation doesn’t only come from million-dollar labs. Most times it begins with a student asking a simple question, a young thinker making notes, or a community leader wondering, 'What if?'",
   },
   {
     name: "John Aboje (Editor at Journal of African Medical Students)",
@@ -159,7 +159,7 @@ export default function Home() {
                 weight={"bold"}
                 className="text-center leading-6 text-3xl font-semibold"
               >
-                Some Success Stories
+                What contributors are saying
               </Text>
 
               <div
