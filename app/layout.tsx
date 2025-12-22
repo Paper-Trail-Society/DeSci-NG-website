@@ -37,9 +37,9 @@ export default function RootLayout({
         <ReactQueryProviders>
           <AuthProvider>
             <PublicNav />
-            <div className="max-w-6xl mx-auto px-4">
-            </div>
+            <div className="max-w-6xl mx-auto py-8 md:px-0 px-6">
             {children}
+            </div>
           </AuthProvider>
         </ReactQueryProviders>
         <Footer />

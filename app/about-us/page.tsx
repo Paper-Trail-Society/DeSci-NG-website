@@ -31,19 +31,11 @@ const featuredItems = [
 const Page = () => {
   return (
     <div>
-      <div className="max-w-6xl mx-auto px-4 pt-10">
-        <Breadcrumb
-          links={[
-            { label: "Home", href: "/" },
-            { label: "About Us", href: "/about-us" },
-          ]}
-        />
-      </div>
-      <div className="items-center justify-items-center pt-10 pb-20 w-full">
+      <div className="items-center justify-items-center pb-20 w-full">
         <section className="flex flex-col gap-8 md:gap-14 items-center pt-10 pb-20 w-full">
           <Text
-            as="p"
-            className="text-left lg:text-center text-xl md:text-3xl leading-7"
+            as="h2"
+            className="w-full pl-4 md:pl-0 text-left lg:text-center text-xl md:text-3xl leading-7"
           >
             About <b>Decentralized Science Nigeria</b>
           </Text>

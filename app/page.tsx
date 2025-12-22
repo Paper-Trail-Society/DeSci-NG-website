@@ -89,7 +89,7 @@ export default function Home() {
     <div>
       <div className="items-center justify-items-center min-h-screen">
         <main className="flex flex-col items-center w-full pt-10 md:pt-4 pb-16">
-          <section className="lg:w-2/5 md:w-3/5 w-full mx-auto my-7 md:my-6 space-y-6 px-8">
+          <section className="md:w-3/5 w-full mx-auto my-7 md:my-6 space-y-6 px-8">
             <Text
               weight={"bold"}
               className="text-center leading-6 text-3xl font-semibold"
@@ -101,13 +101,13 @@ export default function Home() {
           </section>
           <section className="w-full">
             <section className="w-full mt-10">
-              <div className="flex flex-wrap gap-6 items-center justify-center mx-auto">
+              <div className="flex flex-wrap md:flex-nowrap gap-6 items-center justify-center">
                 {categories.map((category) => {
                   return (
                     <Card
                       key={category.name} // Use name for the key instead of randomUUID
                       // Adjusted width classes for a more standard grid look
-                      className="flex flex-col gap-3 lg:w-1/6 md:w-1/3 w-[18em] h-full shadow-md transition-shadow hover:shadow-xl"
+                      className="flex flex-col gap-2 lg:w-1/4 md:w-1/3 w-4/5 h-full shadow-md transition-shadow hover:shadow-xl"
                     >
                       <Link href={`/search?q=${category.query}`} className="block">
                         <CardHeader className="p-0">
@@ -146,41 +146,6 @@ export default function Home() {
                 </Button>
               </div>
             </section>
-          </section>
-
-          <section className="w-full mx-auto my-10 space-y-6 px-8">
-            <Text
-              weight={"bold"}
-              className="text-center leading-6 text-3xl font-semibold"
-            >
-              Current Initiatives
-            </Text>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4 max-w-4xl mx-auto">
-              {initiatives.map((initiative) => (
-                <Card key={initiative.title} className="flex flex-col h-full">
-                  <Link href={initiative.link} className="flex flex-col h-full">
-                    <CardHeader className="p-0">
-                      <Image
-                        src={initiative.imageUrl}
-                        alt={initiative.title}
-                        width={600}
-                        height={400}
-                        className="object-cover w-full rounded-t-lg"
-                      />
-                    </CardHeader>
-                    <CardContent className="p-4 space-y-2 flex flex-col">
-                      <CardTitle className="text-xl font-bold">{initiative.title}</CardTitle>
-                      <CardDescription>
-                        <Text size={"sm"} variant={"secondary"} className="text-wrap">
-                          {initiative.description}
-                        </Text>
-                      </CardDescription>
-                      <Button variant="link" className="p-0 self-start">Learn More &rarr;</Button>
-                    </CardContent>
-                  </Link>
-                </Card>
-              ))}
-            </div>
           </section>
 
           <section className="lg:w-2/5 md:w-3/5 w-full mx-auto my-16 space-y-8 px-8">

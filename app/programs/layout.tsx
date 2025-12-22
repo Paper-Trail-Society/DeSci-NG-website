@@ -12,7 +12,7 @@ export default function ProgramsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div>
       <div className="md:flex md:gap-8">
         <aside className="flex flex-col md:w-56 mb-6 md:mb-0 md:gap-17">
           <div></div>
