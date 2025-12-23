@@ -1,4 +1,3 @@
-import PublicNav from "@/components/shared/public-nav";
 import { Card, CardContent, CardDescription } from "@/components/ui/card";
 import { Text } from "@/components/ui/text";
 import React from "react";
@@ -32,8 +31,6 @@ const StepCard = ({
 const Page = () => {
   return (
     <div>
-      <PublicNav />
-
       <div className="space-y-4 items-center justify-items-center pt-10 pb-20 md:w-3/5 w-full mx-auto">
         <Text as="h2" weight={"bold"} size={"xl"} className="text-center">
           How to Upload a Paper

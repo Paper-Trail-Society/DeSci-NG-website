@@ -1,7 +1,6 @@
 "use client";
 
 import { RouteGuard } from "@/components/auth/route-guard";
-import PublicNav from "@/components/shared/public-nav";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Text } from "@/components/ui/text";
@@ -66,7 +65,6 @@ function ProfileContent() {
 
   return (
     <div className="min-h-screen bg-white">
-      <PublicNav />
       <div className="md:p-container-lg p-container-base">
         <section className="mx-auto flex h-full w-full max-w-4xl flex-col gap-8 rounded-2xl border border-gray-200 bg-white p-container-base shadow-sm">
           <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">

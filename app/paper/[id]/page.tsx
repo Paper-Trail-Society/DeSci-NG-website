@@ -1,5 +1,4 @@
 import PaperSearchInput from "@/components/shared/paper-search-input";
-import PublicNav from "@/components/shared/public-nav";
 import ViewPaperContent from "@/domains/paper/components/view-paper-content";
 import { Paper } from "@/domains/paper/types";
 import { paperKeys } from "@/lib/react-query/query-keys";
@@ -51,8 +50,6 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div>
-        <PublicNav />
-
         <div className="items-center justify-items-center  pt-10 pb-20 w-full">
           <section className="flex flex-col gap-14 items-center pt-10 pb-20 w-full">
             <div className="space-y-4 lg:w-3/5 md:w-4/5 w-full px-8">

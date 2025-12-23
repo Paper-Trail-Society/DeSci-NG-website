@@ -1,7 +1,6 @@
 "use client";
 
 import PaperSearchInput from "@/components/shared/paper-search-input";
-import PublicNav from "@/components/shared/public-nav";
 import Pagination from "@/components/ui/pagination";
 import { Text } from "@/components/ui/text";
 import PaperCard from "@/domains/paper/components/paper-card";
@@ -36,8 +35,6 @@ const SearchPageContent = () => {
 
   return (
     <div>
-      <PublicNav />
-
       <div className="items-center justify-items-center min-h-screen">
         <main className="flex flex-col gap-14 items-center pt-10 pb-20 w-full">
           <div className="space-y-4 lg:w-2/5 md:w-4/5 w-full px-8">
