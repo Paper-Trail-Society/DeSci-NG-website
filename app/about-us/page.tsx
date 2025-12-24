@@ -1,6 +1,8 @@
 import Breadcrumb from "@/components/shared/breadcrumb";
 import { Text } from "@/components/ui/text";
+import Image from "next/image";
 import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata = {
   title: "Desci NG | About Us",
@@ -28,6 +30,45 @@ const featuredItems = [
   },
 ];
 
+const coreTeam = [
+  {
+    name: "Mosadoluwa Fasasi",
+    role: "Executive Director",
+    website: "http://mosadoluwafasasi.com",
+    image: "/assets/core-team/mosadoluwa-fasasi.jpg",
+  },
+  {
+    name: "Teniola Fatunmbi",
+    role: "Engineering",
+    website: "https://teniolafatunmbi.com",
+    image: "/assets/core-team/teniola-fatunmbi.jpg",
+  },
+  {
+    name: "Adeleye Oyunniyi (Ph.D)",
+    role: "Advisory Board",
+    website: null,
+    image: "/assets/core-team/adeleye-oyunniyi.png",
+  },
+  {
+    name: "Michel Bauwens",
+    role: "Advisory Board",
+    website: null,
+    image: "/assets/core-team/michel-bauwens.jpg",
+  },
+  {
+    name: "Ireti Akinrinade",
+    role: "Advisory Board",
+    website: "https://datasociety.net/people/akinrinade-iretiolu",
+    image: "/assets/core-team/ireti-akinrinade.jpg",
+  },
+  {
+    name: "Uche Ezejiofor",
+    role: "Advisory Board",
+    website: "http://ucheezejiofor.com",
+    image: "/assets/core-team/uche-ezejiofor.png",
+  },
+];
+
 const Page = () => {
   return (
     <div>
@@ -42,7 +83,7 @@ const Page = () => {
 
           <div className="md:w-2/3 w-full text-left md:text-center flex flex-col gap-2 md:gap-4 px-4">
             <Text className="text-base md:text-lg">
-              We are Africa’s first decentralized research infrastructure,
+              We are Africa&apos;s first decentralized research infrastructure,
               making African research open, secure, and globally accessible,
               forever.
             </Text>
@@ -103,6 +144,58 @@ const Page = () => {
                       ></p>
                     </div>
                   </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Core Team Section */}
+          <div className="w-full mt-16">
+            <Text
+              weight={"bold"}
+              className={"text-center text-2xl md:text-3xl mb-6"}
+            >
+              The Core Team
+            </Text>
+            <div className="flex justify-center px-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+                {coreTeam.map((member, idx) => (
+                  <Card
+                    key={`member-${idx}`}
+                    className="group overflow-hidden border-0 shadow-none bg-white/10 dark:bg-black/20 backdrop-blur-sm transition duration-200"
+                  >
+                    <div className="w-full overflow-hidden">
+                      <Image
+                        width={1200}
+                        height={800}
+                        src={member.image}
+                        alt={member.name}
+                        className="w-full max-h-60 object-cover mb-0 rounded-none transition-transform duration-300 transform  opacity-95"
+                        loading="lazy"
+                      />
+                    </div>
+                    <CardContent className="p-0">
+                      <div className="p-6 flex flex-col items-center text-center">
+                        {member.website ? (
+                          <Link
+                            href={member.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-base font-semibold text-gray-900 hover:text-red-600 hover:underline"
+                          >
+                            {member.name}
+                          </Link>
+                        ) : (
+                          <Text className="text-base font-semibold text-gray-900">
+                            {member.name}
+                          </Text>
+                        )}
+                        <Text className="text-sm text-gray-600 mt-2">
+                          {member.role}
+                        </Text>
+                      </div>
+                    </CardContent>
+                  </Card>
                 ))}
               </div>
             </div>
