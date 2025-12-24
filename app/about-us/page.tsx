@@ -52,7 +52,7 @@ const coreTeam = [
   {
     name: "Michel Bauwens",
     role: "Advisory Board",
-    website: null,
+    website: "https://en.wikipedia.org/wiki/Michel_Bauwens",
     image: "/assets/core-team/michel-bauwens.jpg",
   },
   {
