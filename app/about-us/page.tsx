@@ -35,7 +35,7 @@ const coreTeam = [
     name: "Mosadoluwa Fasasi",
     role: "Executive Director",
     website: "http://mosadoluwafasasi.com",
-    image: "/assets/core-team/mosadoluwa-fasasi.png",
+    image: "/assets/core-team/mosadoluwa-fasasi.jpg",
   },
   {
     name: "Teniola Fatunmbi",
@@ -47,7 +47,7 @@ const coreTeam = [
     name: "Adeleye Oyunniyi (Ph.D)",
     role: "Advisory Board",
     website: null,
-    image: "/assets/core-team/adeleye-oyunniyi.png",
+    image: "/assets/core-team/adeleye-oyunniyi.jpg",
   },
   {
     name: "Michel Bauwens",
@@ -65,7 +65,7 @@ const coreTeam = [
     name: "Uche Ezejiofor",
     role: "Advisory Board",
     website: "http://ucheezejiofor.com",
-    image: "/assets/core-team/uche-ezejiofor.png",
+    image: "/assets/core-team/uche-ezejiofor.jpg",
   },
 ];
 
