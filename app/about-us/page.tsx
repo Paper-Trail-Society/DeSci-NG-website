@@ -35,7 +35,7 @@ const coreTeam = [
     name: "Mosadoluwa Fasasi",
     role: "Executive Director",
     website: "http://mosadoluwafasasi.com",
-    image: "/assets/core-team/mosadoluwa-fasasi.jpg",
+    image: "/assets/core-team/mosadoluwa-fasasi.png",
   },
   {
     name: "Teniola Fatunmbi",
@@ -155,7 +155,7 @@ const Page = () => {
               weight={"bold"}
               className={"text-center text-2xl md:text-3xl mb-6"}
             >
-              The Core Team
+              Meet the Team
             </Text>
             <div className="flex justify-center px-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
