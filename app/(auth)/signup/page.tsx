@@ -188,7 +188,9 @@ function SignupContent() {
         </Link>
 
         <section className="md:w-1/3 w-full mx-auto my-10 space-y-6 px-8">
-          <Text className="text-center leading-6 text-3xl">Join Desci NG</Text>
+          <Text className="text-center leading-6 text-3xl">
+            Welcome to Nubian
+          </Text>
 
           <Text className="text-center leading-2">
             Create your account to get started
