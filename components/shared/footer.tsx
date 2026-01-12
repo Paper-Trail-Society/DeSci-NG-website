@@ -8,9 +8,9 @@ const Footer = () => {
       <div className="w-[70%] mx-auto space-y-4 md:mx-auto">
         <Link href="/">
           <Image
-            src="/assets/desci-ng-logo.png"
+            src="/assets/nubian-logo.png"
             alt="logo"
-            width={102}
+            width={130}
             height={100}
           />
         </Link>

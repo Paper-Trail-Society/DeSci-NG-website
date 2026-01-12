@@ -127,9 +127,9 @@ function SignupContent() {
         <main className="flex flex-col items-center py-20 w-full">
           <Link href="/">
             <Image
-              src="/assets/desci-ng-logo.png"
+              src="/assets/nubian-logo.png"
               alt="logo"
-              width={100}
+              width={160}
               height={100}
             />
           </Link>
@@ -180,9 +180,9 @@ function SignupContent() {
       <main className="flex flex-col items-center py-20 w-full">
         <Link href="/">
           <Image
-            src="/assets/desci-ng-logo.png"
+            src="/assets/nubian-logo.png"
             alt="logo"
-            width={100}
+            width={160}
             height={100}
           />
         </Link>

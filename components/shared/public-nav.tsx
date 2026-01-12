@@ -66,9 +66,9 @@ const PublicNav = () => {
         <span>
           <Link href="/">
             <Image
-              src="/assets/desci-ng-logo.png"
+              src="/assets/nubian-logo.png"
               alt="logo"
-              width={102}
+              width={160}
               height={100}
             />
           </Link>
