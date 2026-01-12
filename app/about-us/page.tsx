@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata = {
-  title: "Desci NG | About Us",
+  title: "Nubian | About Us",
 };
 
 const featuredItems = [

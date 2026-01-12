@@ -7,6 +7,11 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 
+export const metadata = {
+  title: "Nubian | Explore",
+  description: "Explore papers across disciplines",
+}
+
 const Page = async ({
   searchParams,
 }: {
