@@ -85,7 +85,7 @@ const Footer = () => {
           <section className="flex flex-col justify-end md:mt-14">
             <Text size="sm" weight={"medium"}>
               {" "}
-              &copy; {new Date().getFullYear()} Desci NG/Paper Trail Society.
+              &copy; {new Date().getFullYear()} Nubian/Paper Trail Society.
             </Text>
           </section>
         </div>
