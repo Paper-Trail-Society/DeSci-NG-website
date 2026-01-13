@@ -24,7 +24,7 @@ export default function ProgramCard({
           src={image}
           alt={title}
           width={600}
-          height={400}
+          height={600}
           className="object-cover w-full transition-transform duration-200 hover:scale-105"
         />
       </div>
