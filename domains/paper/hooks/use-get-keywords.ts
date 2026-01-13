@@ -7,7 +7,7 @@ const useGetKeywords = ({ search }: { search?: string}) => {
     return useQuery({
         queryKey: ['keywords', search],
         queryFn: async () => {
-          const res = await $http.get<Keyword[]>('/keywords', { params: { query: search } });
+          const res = await $http.get<Keyword[]>('/keywords', { params: { q: search } });
           return res.data
         }
       })

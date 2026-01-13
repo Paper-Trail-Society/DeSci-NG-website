@@ -263,7 +263,7 @@ function EditPaper() {
     setOptions: (options: SelectValueBase[]) => void
   ) => {
     const res = await $http.get<Keyword[]>("/keywords", {
-      params: { query: searchVal },
+      params: { q: searchVal },
     });
 
     setOptions(
