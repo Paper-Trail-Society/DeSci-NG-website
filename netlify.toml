@@ -1,5 +1,5 @@
 [[redirects]]
-  from = "https://repo.desci.ng/*"
-  to = "https://desci.ng/:splat"
+  from = "https://desci.ng/*"
+  to = "https://nubianresearch.com/:splat"
   status = 301
   force = true
