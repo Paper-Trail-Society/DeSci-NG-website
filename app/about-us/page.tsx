@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata = {
-  title: "Desci NG | About Us",
+  title: "Nubian | About Us",
 };
 
 const featuredItems = [
@@ -78,7 +78,7 @@ const Page = () => {
             as="h2"
             className="w-full pl-4 md:pl-0 text-left lg:text-center text-xl md:text-3xl leading-7"
           >
-            About <b>Decentralized Science Nigeria</b>
+            About <b>Nubian</b>
           </Text>
 
           <div className="md:w-2/3 w-full text-left md:text-center flex flex-col gap-2 md:gap-4 px-4">

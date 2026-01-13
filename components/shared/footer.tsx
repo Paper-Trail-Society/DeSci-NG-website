@@ -8,9 +8,9 @@ const Footer = () => {
       <div className="w-[70%] mx-auto space-y-4 md:mx-auto">
         <Link href="/">
           <Image
-            src="/assets/desci-ng-logo.png"
+            src="/assets/nubian-logo.png"
             alt="logo"
-            width={102}
+            width={130}
             height={100}
           />
         </Link>
@@ -85,7 +85,7 @@ const Footer = () => {
           <section className="flex flex-col justify-end md:mt-14">
             <Text size="sm" weight={"medium"}>
               {" "}
-              &copy; {new Date().getFullYear()} Desci NG/Paper Trail Society.
+              &copy; {new Date().getFullYear()} Nubian/Paper Trail Society.
             </Text>
           </section>
         </div>

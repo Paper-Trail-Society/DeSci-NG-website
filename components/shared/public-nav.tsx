@@ -1,10 +1,13 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { useAuthContext } from "@/lib/contexts/auth-context";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "motion/react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
-import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { useAuthContext } from "@/lib/contexts/auth-context";
+import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 
 const navLinks = [
   { label: "Programs", href: "/programs" },
@@ -14,7 +17,6 @@ const navLinks = [
 const PublicNav = () => {
   const { isAuthenticated } = useAuthContext();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const toggleRef = useRef<HTMLButtonElement | null>(null);
 
@@ -45,30 +47,15 @@ const PublicNav = () => {
     };
   }, [menuOpen]);
 
-  // control mount state so we can animate close
-  useEffect(() => {
-    let t: number | undefined;
-    if (menuOpen) {
-      setShowMenu(true);
-    } else {
-      // wait for animation then unmount
-      t = window.setTimeout(() => setShowMenu(false), 220);
-    }
-
-    return () => {
-      if (t) window.clearTimeout(t);
-    };
-  }, [menuOpen]);
-
   return (
-    <nav className="max-w-6xl mx-auto py-4 md:px-0 px-6">
+    <nav className="max-w-6xl mx-auto py-4 md:px-0 px-6 z-60">
       <div className="w-full md:px-2 md:mx-auto flex justify-between items-center">
         <span>
           <Link href="/">
             <Image
-              src="/assets/desci-ng-logo.png"
+              src="/assets/nubian-logo.png"
               alt="logo"
-              width={102}
+              width={160}
               height={100}
             />
           </Link>
@@ -76,7 +63,7 @@ const PublicNav = () => {
         {/* Desktop nav */}
         <div className="hidden md:flex gap-4 items-center">
           {navLinks.map((link) => (
-            <Link key={link.href} href={link.href}>
+            <Link key={link.href} href={link.href} prefetch={true}>
               <Button
                 variant={"link"}
                 style={{
@@ -108,110 +95,110 @@ const PublicNav = () => {
               </Button>
             </Link>
           ) : (
-            <Link href="/login">
-              <Button variant={"destructive"} className="px-4">
+            <Link href="/login" prefetch={true}>
+              <Button variant={"destructive"} className="px-4 rounded-md">
                 LOGIN
               </Button>
             </Link>
           )}
         </div>
         {/* Mobile nav */}
-        <div className="md:hidden flex items-center">
-          <button
-            ref={toggleRef}
-            className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none"
-            aria-label="Toggle menu"
-            onClick={() => {
-              if (!menuOpen) {
-                setShowMenu(true);
-                setMenuOpen(true);
-              } else {
-                setMenuOpen(false);
-              }
-            }}
-          >
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+        <div className="md:hidden flex gap-2 items-center">
+          {isAuthenticated ? (
+            <Link href="/dashboard/profile">
+              <Button variant="destructive" className="w-full text-left">
+                Dashboard
+              </Button>
+            </Link>
+          ) : (
+            <Link href="/login">
+              <Button
+                variant="destructive"
+                className="w-full text-left justify-start rounded-md px-4"
+              >
+                LOGIN
+              </Button>
+            </Link>
+          )}
+          <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+            <SheetTrigger asChild>
+              <button
+                ref={toggleRef}
+                className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none"
+                aria-label="Toggle menu"
+              >
+                <span className="relative block h-6 w-6">
+                  <motion.span
+                    key={menuOpen ? "x" : "hamburger"}
+                    initial={{
+                      opacity: 0,
+                      scale: 0.8,
+                      rotate: menuOpen ? -90 : 90,
+                    }}
+                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                    exit={{
+                      opacity: 0,
+                      scale: 0.8,
+                      rotate: menuOpen ? 90 : -90,
+                    }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    className="absolute inset-0 flex items-center justify-center"
+                  >
+                    <motion.div
+                      initial={{
+                        opacity: 0,
+                        scale: 0.8,
+                        rotate: menuOpen ? -90 : 90,
+                      }}
+                      animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                      exit={{
+                        opacity: 0,
+                        scale: 0.8,
+                        rotate: menuOpen ? 90 : -90,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 20,
+                      }}
+                    >
+                      {menuOpen ? (
+                        <ChevronDown className="h-6 w-6" />
+                      ) : (
+                        <ChevronUp className="h-6 w-6" />
+                      )}
+                    </motion.div>
+                  </motion.span>
+                </span>
+              </button>
+            </SheetTrigger>
+            <SheetContent
+              title="mobile-nav-menu"
+              side="right"
+              className="p-0 mt-18 w-64 bg-white border-black/30 border-t-1"
             >
-              {menuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
-          </button>
+              <div className="flex flex-col gap-4 mt-2 p-4">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => {
+                      // Sheet will close automatically on navigation
+                    }}
+                  >
+                    <Button
+                      variant="link"
+                      className="w-full text-left text-lg text-gray-800 justify-start"
+                    >
+                      {link.label}
+                    </Button>
+                  </Link>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
-      {/* Mobile menu dropdown */}
-      {showMenu && (
-        <div
-          className={`w-full md:hidden pb-4 transition-all duration-200 ${
-            menuOpen
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-2 pointer-events-none"
-          }`}
-        >
-          <div
-            ref={menuRef}
-            className="w-full flex flex-col gap-2 mt-2 bg-secondary p-3 rounded transform-gpu"
-          >
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-              >
-                <Button
-                  variant="link"
-                  className="w-full text-left"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {link.label}
-                </Button>
-              </Link>
-            ))}
-
-            {isAuthenticated ? (
-              <Link
-                href="/dashboard/profile"
-                onClick={() => setMenuOpen(false)}
-              >
-                <Button
-                  variant="destructive"
-                  className="w-full text-left"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  Dashboard
-                </Button>
-              </Link>
-            ) : (
-              <Link href="/login" onClick={() => setMenuOpen(false)}>
-                <Button
-                  variant="destructive"
-                  className="w-full text-left"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  LOGIN
-                </Button>
-              </Link>
-            )}
-          </div>
-        </div>
-      )}
     </nav>
   );
 };

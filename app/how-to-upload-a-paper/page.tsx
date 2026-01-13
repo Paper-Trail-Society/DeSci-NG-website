@@ -3,7 +3,7 @@ import { Text } from "@/components/ui/text";
 import React from "react";
 
 export const metadata = {
-  title: "Desci NG | How to Upload a Paper",
+  title: "Nubian | How to Upload a Paper",
   description: "Learn how to upload a paper to desci.ng",
 }
 

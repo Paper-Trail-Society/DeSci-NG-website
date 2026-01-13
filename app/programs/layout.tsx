@@ -3,7 +3,7 @@ import Breadcrumb from "@/components/shared/breadcrumb";
 import React from "react";
 
 export const metadata = {
-  title: "Programs — DeSci NG",
+  title: "Nubian | Programs",
 };
 
 export default function ProgramsLayout({

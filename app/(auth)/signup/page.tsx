@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/createable-select";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
+import PasswordField from "@/components/ui/password-field";
 import {
   Select,
   SelectContent,
@@ -33,6 +34,8 @@ import { useDebouncedCallback } from "use-debounce";
 function SignupContent() {
   const [success, setSuccess] = useState(false);
   const [signupEmail, setSignupEmail] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   const [selectedKeywords, setSelectedKeywords] = useState<SelectValueBase[]>(
     []
   );
@@ -54,7 +57,7 @@ function SignupContent() {
 
     try {
       const response = await $http.get<{ keywords: Keyword[] }>(
-        `/keywords/search?q=${encodeURIComponent(query)}`
+        `/keywords?q=${encodeURIComponent(query)}`
       );
       const options = response.data.keywords.map((keyword) => ({
         value: keyword.name,
@@ -127,9 +130,9 @@ function SignupContent() {
         <main className="flex flex-col items-center py-20 w-full">
           <Link href="/">
             <Image
-              src="/assets/desci-ng-logo.png"
+              src="/assets/nubian-logo.png"
               alt="logo"
-              width={100}
+              width={160}
               height={100}
             />
           </Link>
@@ -180,19 +183,23 @@ function SignupContent() {
       <main className="flex flex-col items-center py-20 w-full">
         <Link href="/">
           <Image
-            src="/assets/desci-ng-logo.png"
+            src="/assets/nubian-logo.png"
             alt="logo"
-            width={100}
+            width={160}
             height={100}
           />
         </Link>
 
-        <section className="md:w-1/3 w-full mx-auto my-10 space-y-6 px-8">
-          <Text className="text-center leading-6 text-3xl">Join Desci NG</Text>
+        <section className="md:w-1/3 w-full mx-auto my-4 space-y-10 px-8">
+          <div className="space-y-3">
+            <Text className="text-center leading-6 text-2xl">
+              Welcome to Nubian!
+            </Text>
 
-          <Text className="text-center leading-2">
-            Create your account to get started
-          </Text>
+            <Text className="text-center leading-2 text-gray-600" size={"xs"}>
+              Create your account to get started
+            </Text>
+          </div>
 
           {form.formState.errors.root && (
             <div className="p-3 bg-red-50 border border-red-200 rounded-md">
@@ -207,7 +214,7 @@ function SignupContent() {
               <TextField
                 control={form.control}
                 name="name"
-                label="Full Name"
+                label="Full name"
                 placeholder="Enter your full name"
                 type="text"
                 className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
@@ -224,25 +231,27 @@ function SignupContent() {
                 required
               />
 
-              <TextField
+              <PasswordField
                 control={form.control}
-                name="password"
+                name={"password"}
                 label="Password"
-                placeholder="Create a password"
-                type="password"
+                placeholder={"Enter your password"}
                 autoComplete="new-password"
                 className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
+                showPassword={showPassword}
+                setShowPassword={setShowPassword}
                 required
               />
 
-              <TextField
+              <PasswordField
                 control={form.control}
-                name="confirmPassword"
-                label="Confirm Password"
-                placeholder="Confirm your password"
-                type="password"
+                name={"confirmPassword"}
+                label="Confirm password"
+                placeholder={"Confirm your password"}
                 autoComplete="new-password"
                 className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
+                showPassword={showPassword}
+                setShowPassword={setShowPassword}
                 required
               />
 
@@ -253,7 +262,7 @@ function SignupContent() {
                 render={({ field }) => (
                   <FormItem>
                     <Label className="md:text-lg text-sm text-text font-bold">
-                      Affiliated Institution
+                      Affiliated institution
                     </Label>
                     <FormControl>
                       <Select
@@ -327,7 +336,7 @@ function SignupContent() {
                 render={({ field }) => (
                   <FormItem className="pb-2">
                     <Label className="md:text-lg text-sm text-text font-bold">
-                      Areas of Interest
+                      Areas of interest
                     </Label>
                     <FormControl>
                       <MultiSelect
@@ -408,8 +417,8 @@ function SignupContent() {
           <div className="text-center space-y-2">
             <Text className="text-sm text-gray-600">
               Already have an account?{" "}
-              <Link href="/login" className="text-[#B52221] hover:underline">
-                Sign in
+              <Link href="/login" className="text-primary hover:underline">
+                Sign in instead
               </Link>
             </Text>
           </div>

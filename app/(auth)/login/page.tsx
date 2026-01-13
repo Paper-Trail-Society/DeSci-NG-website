@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import PasswordField from "@/components/ui/password-field";
 import { Text } from "@/components/ui/text";
 import TextField from "@/components/ui/text-field";
 import { useSignIn } from "@/domains/auth/hooks";
@@ -20,6 +21,7 @@ function LoginContent() {
   const [generalError, setGeneralError] = useState("");
   const router = useRouter();
   const { shouldRedirect, isLoading } = useRedirectIfAuthenticated();
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -87,21 +89,23 @@ function LoginContent() {
       <main className="flex flex-col items-center py-20 w-full">
         <Link href="/">
           <Image
-            src="/assets/desci-ng-logo.png"
+            src="/assets/nubian-logo.png"
             alt="logo"
-            width={100}
+            width={160}
             height={100}
           />
         </Link>
 
-        <section className="md:w-1/3 w-full mx-auto my-10 space-y-6 px-8">
-          <Text className="text-center leading-6 text-3xl">
-            Welcome to Desci NG
-          </Text>
+        <section className="md:w-1/3 w-full mx-auto my-4 space-y-10 px-8">
+          <div className="space-y-3">
+            <Text className="text-center leading-6 text-2xl">
+              Welcome back!
+            </Text>
 
-          <Text className="text-center leading-2">
-            Enter your login details below
-          </Text>
+            <Text className="text-center leading-2 text-gray-600" size={"xs"}>
+              Enter your login details below
+            </Text>
+          </div>
 
           {generalError && (
             <div className="p-3 bg-red-50 border border-red-200 rounded-md">
@@ -121,16 +125,16 @@ function LoginContent() {
                 required
               />
 
-              <TextField
-                control={form.control}
-                name="password"
-                label="Password"
-                placeholder="Enter your password"
-                type="password"
-                autoComplete="current-password"
+              <PasswordField
+                  control={form.control}
+                  name={"password"}
+                  label="Password"
+                  placeholder={"Enter your password"}
                 className="p-6 ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50"
-                required
-              />
+                  showPassword={showPassword}
+                  setShowPassword={setShowPassword}
+                  required
+                />
 
               <Button
                 variant="destructive"
@@ -150,7 +154,7 @@ function LoginContent() {
           {/* <SocialAuth mode="signin" /> */}
 
           <div className="flex justify-between text-sm text-gray-600">
-            <Link href="/signup" className="hover:underline">
+            <Link href="/signup" className="hover:underline text-primary">
               Create an account
             </Link>
             <Link href="/forgot-password" className="hover:underline">
