@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
-import { MenuIcon, XIcon } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useAuthContext } from "@/lib/contexts/auth-context";
@@ -163,9 +163,9 @@ const PublicNav = () => {
                       }}
                     >
                       {menuOpen ? (
-                        <XIcon className="h-6 w-6" />
+                        <ChevronDown className="h-6 w-6" />
                       ) : (
-                        <MenuIcon className="h-6 w-6" />
+                        <ChevronUp className="h-6 w-6" />
                       )}
                     </motion.div>
                   </motion.span>
