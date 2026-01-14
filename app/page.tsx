@@ -10,7 +10,7 @@ import CategoriesSection from "@/components/home/categories-section";
 import SuccessStoriesSection from "@/components/home/success-stories";
 
 export const metadata = {
-  title: "Nubian | Decentralized Science Nigeria",
+  title: "Nubian | fka DeSci Nigeria",
 };
 
 

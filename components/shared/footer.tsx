@@ -45,35 +45,35 @@ const Footer = () => {
           <section className="w-full md:w-auto">
             <ul className="space-y-2">
               <li>
-                <a href="https://x.com/DeSci_NG">
+                <a href="https://x.com/nubianresearch_">
                   <Text size="sm" weight={"medium"}>
-                    X (Formerly Twitter)
+                    X (fka Twitter)
                   </Text>
                 </a>
               </li>
               <li>
-                <Link href="https://www.linkedin.com/company/desci-ng">
+                <Link href="https://www.linkedin.com/company/nubianresearch">
                   <Text size="sm" weight={"medium"}>
                     LinkedIn
                   </Text>
                 </Link>
               </li>
               <li>
-                <Link href="https://www.instagram.com/desci__ng">
+                <Link href="https://www.instagram.com/nubianresearch">
                   <Text size="sm" weight={"medium"}>
                     Instagram
                   </Text>
                 </Link>
               </li>
               <li>
-                <a href="http://tiktok.com/@desci_ng">
+                <a href="http://tiktok.com/@nubianresearch">
                   <Text size="sm" weight={"medium"}>
                     TikTok
                   </Text>
                 </a>
               </li>
               <li>
-                <a href="https://www.youtube.com/@DeSci_NG">
+                <a href="https://www.youtube.com/@nubianresearch">
                   <Text size="sm" weight={"medium"}>
                     YouTube
                   </Text>

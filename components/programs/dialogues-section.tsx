@@ -4,21 +4,21 @@ import ProgramCard from "./program-card";
 const dialogues = [
   {
     title: "Episode 3",
-    image: "/assets/dialogues1.jpg",
+    image: "/assets/EP3.png",
     description: "This Saturday, we look to a people, their history, and their identity. Join us as we engage Uche Ezejiofor on her honours thesis and unpack the ideas behind the paper and what Biafra still reveals about power, identity, and the unfinished African project.",
-    link: "https://x.com/DeSci_NG/status/2000911841405624800",
+    link: "https://x.com/nubianresearch_/status/2000911847222894818",
   },
   {
     title: "Episode 2",
-    image: "/assets/dialogues2.jpeg",
+    image: "/assets/EP2.png",
     description: "Last week, we started in the medical sciences. This Saturday, we continue in the engineering sciences. Join us as we explore their joint research, the questions shaping their work, and how their system could transform logistics.",
-    link: "https://x.com/DeSci_NG/status/1995775266438680636",
+    link: "https://x.com/nubianresearch_/status/1995775266438680636",
   },
     {
     title: "Episode 1",
-    image: "/assets/dialogues1.jpeg",
+    image: "/assets/EP1.png",
     description: "Introducing: Dialogues. A new series where researchers share what they are working on, the questions shaping their studies, and how it concerns to you.",
-    link: "https://x.com/DeSci_NG/status/1991852009495081458",
+    link: "https://x.com/nubianresearch_/status/1994449051413102843",
   },
 ];
 
