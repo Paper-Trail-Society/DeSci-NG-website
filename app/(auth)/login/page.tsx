@@ -91,7 +91,7 @@ function LoginContent() {
           <Image
             src="/assets/nubian-logo.png"
             alt="logo"
-            width={160}
+            width={140}
             height={100}
           />
         </Link>

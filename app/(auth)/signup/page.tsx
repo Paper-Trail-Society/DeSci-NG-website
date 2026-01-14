@@ -132,7 +132,7 @@ function SignupContent() {
             <Image
               src="/assets/nubian-logo.png"
               alt="logo"
-              width={160}
+              width={140}
               height={100}
             />
           </Link>
@@ -185,7 +185,7 @@ function SignupContent() {
           <Image
             src="/assets/nubian-logo.png"
             alt="logo"
-            width={160}
+            width={140}
             height={100}
           />
         </Link>
