@@ -119,7 +119,7 @@ function UploadPaperContent() {
         setSelectedFile(null);
 
         toast.success("Paper uploaded successfully");
-        router.push(`/paper/${res.data.id}`)
+        router.push(`/paper/${res.data.slug}`)
       },
       onError: (err) => {
         if (isAxiosError(err)) {
