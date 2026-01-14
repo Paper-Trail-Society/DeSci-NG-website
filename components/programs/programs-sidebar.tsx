@@ -2,7 +2,7 @@
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 
 const TABS = [
   { label: "Dialogues", value: "dialogues", href: "/programs/dialogues" },
@@ -85,6 +85,12 @@ export default function ProgramsSidebar() {
         return null;
     }
   };
+
+  useEffect(() => {
+    const pages = TABS.map((tab) => tab.href);
+    pages.forEach((page) => router.prefetch(page));
+  }, [router]);
+
 
   return (
     <Tabs
