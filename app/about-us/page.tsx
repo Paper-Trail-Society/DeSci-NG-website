@@ -83,7 +83,7 @@ const Page = () => {
 
           <div className="md:w-2/3 w-full text-left md:text-center flex flex-col gap-2 md:gap-4 px-4">
             <Text className="text-base md:text-lg">
-              We are Africa&apos;s first decentralized research infrastructure,
+              Formerly "Decentralized Science Nigeria", Nubian is Africa&apos;s first decentralized research infrastructure,
               making African research open, secure, and globally accessible,
               forever.
             </Text>
@@ -112,7 +112,7 @@ const Page = () => {
               concerns that cannot wait.
             </Text>
             <Text className="text-base md:text-lg">
-              Our vision is an Africa where our discoveries endure and move the
+              Our vision is an Africa where discoveries endure and move the
               world forward.
             </Text>
           </div>
