@@ -1,6 +1,7 @@
 import { $http } from "@/lib/http";
 import { useMutation } from "@tanstack/react-query";
 import React from "react";
+import { Paper } from "../types";
 
 type UploadPaperPayload = {
   title: string;
@@ -36,7 +37,7 @@ const useUploadPaper = () => {
 
       console.log({file:payload.file})
       formData.append("file", payload.file);
-      return $http.post("/papers", formData, {
+      return $http.post<Paper>("/papers", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
