@@ -180,18 +180,12 @@ const PublicNav = () => {
               <div className="flex flex-col gap-4 mt-2 p-4">
                 {navLinks.map((link) => (
                   <Link
+                    className="w-full text-left text-lg text-gray-800"
                     key={link.href}
                     href={link.href}
-                    onClick={() => {
-                      // Sheet will close automatically on navigation
-                    }}
+                    onClick={() => setMenuOpen(false)}
                   >
-                    <Button
-                      variant="link"
-                      className="w-full text-left text-lg text-gray-800 justify-start"
-                    >
-                      {link.label}
-                    </Button>
+                    {link.label}
                   </Link>
                 ))}
               </div>
