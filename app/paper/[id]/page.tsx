@@ -8,8 +8,8 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 import { Metadata, ResolvingMetadata } from "next";
+import { redirect } from "next/navigation";
 
-// TODO: Make this a server component and prefetch the paper data on the server
 type Props = {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -40,9 +40,14 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   await queryClient.ensureQueryData({
     queryKey: paperKeys.detail(id),
     queryFn: async () => {
-      const paper = await fetch(
+      const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/papers/${id}`
-      ).then((res) => res.json() as Promise<Paper>);
+      )
+      if (res.ok === false) {
+        redirect("/404");
+      }
+      const paper = (await res.json()) as Paper;
+
       return paper;
     },
   });
