@@ -537,7 +537,7 @@ function EditPaper() {
                       href="mailto:info@desci.ng"
                       className="font-semibold text-primary hover:underline"
                     >
-                     info.descing@gmail.com
+                     info.nubianresearch@gmail.com
                     </a>{" "}
                     and our team will help replace the document.
                   </Text>
