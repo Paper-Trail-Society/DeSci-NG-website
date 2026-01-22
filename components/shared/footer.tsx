@@ -162,7 +162,7 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <a href="mailto:info.descing@gmail.com">
+              <a href="mailto:info.nubianresearch@gmail.com">
                 <Text
                   size="xs"
                   className="hover:text-primary transition-colors"
