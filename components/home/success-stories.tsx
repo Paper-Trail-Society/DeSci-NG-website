@@ -30,32 +30,45 @@ const SuccessStoriesSection = () => {
       aria-label="Success stories carousel"
       className="w-full mt-6 px-4 overflow-x-auto scrollbar-hide"
     >
-    <div className="snap-x w-fit flex gap-4 pb-4 mx-auto">
-      {successStories.map((story) => (
-        <motion.div
-        key={story.name}
-        initial={{ x: -80, opacity: 0 }}
-        whileInView={{ x: 0, opacity: 1 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="snap-center flex-none bg-card text-card-foreground rounded-xl border shadow w-80 min-h-[160px] p-0 hover:shadow-lg transition-shadow duration-200"
+      <div className="snap-x w-fit flex gap-4 pb-4 mx-auto">
+        {successStories.map((story) => (
+          <motion.div
+            key={story.name}
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+            whileHover={{ y: -4, boxShadow: "0 12px 30px rgba(0,0,0,0.06)" }}
+            className="snap-center flex-none bg-card text-card-foreground rounded-xl border shadow w-80 min-h-[160px] p-0 hover:shadow-lg transition-all duration-200"
+          >
+            <CardContent className="p-4 flex flex-col h-full">
+              <Text
+                size={"sm"}
+                className="italic leading-relaxed text-gray-800 flex-1"
+              >
+                “{story.quote}”
+              </Text>
+              <div className="mt-4">
+                <Text size={"sm"} weight={"medium"} className="text-gray-600">
+                  — {story.name}
+                </Text>
+              </div>
+            </CardContent>
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="mt-2 flex items-center justify-center md:hidden text-xs text-text-dim">
+        <motion.span
+          className="flex items-center gap-1"
+          animate={{ x: [0, 4, 0] }}
+          transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
         >
-          <CardContent className="p-4 flex flex-col h-full">
-            <Text
-            size={"sm"}
-            className="italic leading-relaxed text-gray-800 flex-1"
-            >
-            “{story.quote}”
-            </Text>
-            <div className="mt-4">
-            <Text size={"sm"} weight={"medium"} className="text-gray-600">
-              — {story.name}
-            </Text>
-            </div>
-          </CardContent>
-        </motion.div>
-      ))}
-    </div>
+          <span className="h-[1px] w-6 bg-gray-300" />
+          <span>Swipe to see more</span>
+          <span className="text-lg">→</span>
+        </motion.span>
+      </div>
     </div>
   );
 };
