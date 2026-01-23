@@ -14,6 +14,20 @@ const navLinks = [
   { label: "Upload paper", href: "/upload-paper" },
 ];
 
+const mobileNavContainerAnimation = {
+  hidden: { opacity: 0, x: 24 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { staggerChildren: 0.06, delayChildren: 0.02 },
+  },
+};
+
+const mobileNavItemAnimation = {
+  hidden: { opacity: 0, x: 16 },
+  visible: { opacity: 1, x: 0 },
+};
+
 const PublicNav = () => {
   const { isAuthenticated } = useAuthContext();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -177,18 +191,24 @@ const PublicNav = () => {
               side="right"
               className="p-0 mt-18 w-64 bg-white border-black/30 border-t-1"
             >
-              <div className="flex flex-col gap-4 mt-2 p-4">
+              <motion.div
+                className="flex flex-col gap-4 mt-2 p-4"
+                variants={mobileNavContainerAnimation}
+                initial="hidden"
+                animate={menuOpen ? "visible" : "hidden"}
+              >
                 {navLinks.map((link) => (
-                  <Link
-                    className="w-full text-left text-lg text-gray-800"
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
+                  <motion.div key={link.href} variants={mobileNavItemAnimation}>
+                    <Link
+                      className="w-full text-left text-lg text-gray-800"
+                      href={link.href}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </SheetContent>
           </Sheet>
         </div>

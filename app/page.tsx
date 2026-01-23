@@ -19,7 +19,7 @@ export default function Home() {
     <div>
       <div className="items-center justify-items-center min-h-screen">
         <main className="flex flex-col items-center w-full pt-10 md:pt-4">
-          <section className="md:w-3/5 w-full mx-auto my-7 md:my-6 space-y-6 px-8">
+          <section className="md:w-3/5 w-full mx-auto my-7 md:my-6 space-y-6 px-4">
             <Text
               weight={"bold"}
               className="text-center leading-6 text-3xl font-semibold"
