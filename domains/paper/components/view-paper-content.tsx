@@ -1,6 +1,6 @@
 "use client";
 import { Text } from "@/components/ui/text";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useGetPaper from "../hooks/use-get-paper";
 import { TooltipInfo } from "@/components/ui/tooltip-info";
 import Link from "next/link";
@@ -9,8 +9,12 @@ import { Button } from "@/components/ui/button";
 import { useAuthContext } from "@/lib/contexts/auth-context";
 
 const ViewPaperContent = ({ paperId }: { paperId: string }) => {
-  const { data: paper, isPending } = useGetPaper({ id: paperId });
+  const { data: paper, isPending, refetch } = useGetPaper({ id: paperId });
   const { user, isAuthenticated } = useAuthContext();
+
+  useEffect(() => {
+    refetch()
+  }, [refetch]);
 
   if (isPending && !paper) {
     return (

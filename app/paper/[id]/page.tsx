@@ -17,13 +17,13 @@ type Props = {
 
 export async function generateMetadata(
   { params, searchParams }: Props,
-  parent: ResolvingMetadata
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const paperId = (await params).id;
 
   // fetch post information
   const paper = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/papers/${paperId}`
+    `${process.env.NEXT_PUBLIC_API_URL}/papers/${paperId}`,
   ).then((res) => res.json() as Promise<Paper>);
 
   return {
@@ -36,6 +36,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const queryClient = new QueryClient();
 
+  // TODO: fetching non-published paper data for a user with cookies doesn't work in production env, figure out why.
   await queryClient.ensureQueryData({
     queryKey: paperKeys.detail(id),
     queryFn: async () => {
@@ -43,15 +44,15 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         `${process.env.NEXT_PUBLIC_API_URL}/papers/${id}`,
         {
           headers: {
-            "Cookie": cookies().toString(),
+            Cookie: (await cookies()).toString(),
           },
           cache: "no-store",
-          }
-      )
+        },
+      );
       let paper = null;
       if (res.ok) {
         paper = (await res.json()) as Paper;
-      } 
+      }
 
       return paper;
     },
