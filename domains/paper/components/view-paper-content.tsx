@@ -81,7 +81,7 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
             </Text>
 
             {/* TODO: Add an hyperlink to the rendered tags that links to the search page and adds a tag as a query */}
-            {paper && paper.keywords.length > 0 && (
+            {paper && paper.keywords && paper.keywords.length > 0 && (
               <Text size={"xs"}>
                 [{paper.keywords.map((keyword) => keyword.name).join(", ")}]
               </Text>
