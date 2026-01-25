@@ -25,7 +25,7 @@ export type Paper = {
     id: number;
     name: string;
     aliases: string[];
-  }[];
+  }[] | null;
 
   user: {
     id: number;
