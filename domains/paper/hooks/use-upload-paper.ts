@@ -35,7 +35,6 @@ const useUploadPaper = () => {
         formData.append("notes", payload.notes);
       }
 
-      console.log({file:payload.file})
       formData.append("file", payload.file);
       return $http.post<Paper>("/papers", formData, {
         headers: {

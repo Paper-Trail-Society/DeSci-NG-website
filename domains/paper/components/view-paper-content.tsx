@@ -41,8 +41,8 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
           </Text>
 
           {isAuthenticated && user.id === paper.userId && (
-            <Button variant={"outline"} size={"sm"}>
-              <Link href={`/paper/${paperId}/edit`}>Edit</Link>
+            <Button variant={"outline"} size={"sm"} className="px-6 bg-secondary/50 text-secondary-foreground/90 hover:bg-secondary/70 hover:border-primary transition-all ease-in-out">
+              <Link className="hover:cursor-default" href={`/paper/${paperId}/edit`}>Edit</Link>
             </Button>
           )}
         </div>

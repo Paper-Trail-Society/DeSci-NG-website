@@ -1,6 +1,7 @@
 import PaperSearchInput from "@/components/shared/paper-search-input";
 import ViewPaperContent from "@/domains/paper/components/view-paper-content";
 import { Paper } from "@/domains/paper/types";
+import { authClient } from "@/lib/auth-client";
 import { paperKeys } from "@/lib/react-query/query-keys";
 import {
   HydrationBoundary,
@@ -8,6 +9,7 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 import { Metadata, ResolvingMetadata } from "next";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 type Props = {
@@ -36,16 +38,25 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const queryClient = new QueryClient();
 
-  // fetch post information
   await queryClient.ensureQueryData({
     queryKey: paperKeys.detail(id),
     queryFn: async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/papers/${id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/papers/${id}`,
+        {
+          headers: {
+            // forward cookies for auth. Better auth uses cookies to manage sessions
+            cookie: (await headers()).get("cookie") || "",
+          },
+          cache: "no-store",
+          credentials: "include", // include cookies in the request
+          }
       )
+
       if (res.ok === false) {
         redirect("/404");
-      }
+      } 
+      
       const paper = (await res.json()) as Paper;
 
       return paper;

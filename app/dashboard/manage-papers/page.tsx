@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import DeletePaperDialog from "@/domains/paper/components/delete-paper-dialog";
 import Pagination from "@/components/ui/pagination";
 
+
 function ManagePapersContent() {
   const { user } = useAuthContext();
   const [searchValue, setSearchValue] = useState("");
@@ -161,71 +162,86 @@ function ManagePapersContent() {
                 </div>
               ) : (
                 papers?.data.map((paper) => (
-                  <Card
-                    key={paper.id}
-                    className="border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-md"
-                  >
+                    <Card
+                      key={paper.id}
+                      className="border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-md"
+                    >
                     <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
                       <div className="space-y-3">
+                      <div className="flex items-center gap-2">
                         <Link
-                          href={`/paper/${paper.slug}`}
-                          className="text-lg font-semibold leading-snug text-gray-900 transition-colors hover:text-[#B52221]"
+                        href={`/paper/${paper.slug}`}
+                        className="text-lg font-semibold leading-snug text-gray-900 transition-colors hover:text-[#B52221]"
                         >
-                          {paper.title}
+                        {paper.title}
                         </Link>
-                        <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">
-                          <span>
-                            {format(new Date(paper.createdAt), "MMM d, yyyy")}
+                        <span
+                        className={`
+                          ml-2 rounded-full px-2 py-0.5 text-xs font-medium
+                          ${
+                          paper.status === "published"
+                            ? "bg-green-100 text-green-700"
+                            : paper.status === "pending"
+                            ? "bg-yellow-100 text-yellow-700"
+                            : "bg-gray-100 text-gray-600"
+                          }
+                        `}>
+                        {paper.status.charAt(0).toUpperCase() + paper.status.slice(1)}
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">
+                        <span>
+                        {format(new Date(paper.createdAt), "MMM d, yyyy")}
+                        </span>
+                        <span className="text-gray-300">•</span>
+                        <span className="flex items-center gap-2">
+                        {paper.keywords.slice(0, 3).map((keyword) => (
+                          <span
+                          key={keyword.id}
+                          className="rounded-full bg-gray-100 px-2 py-1 text-[10px] font-medium text-gray-600"
+                          >
+                          {keyword.name}
                           </span>
-                          <span className="text-gray-300">•</span>
-                          <span className="flex items-center gap-2">
-                            {paper.keywords.slice(0, 3).map((keyword) => (
-                              <span
-                                key={keyword.id}
-                                className="rounded-full bg-gray-100 px-2 py-1 text-[10px] font-medium text-gray-600"
-                              >
-                                {keyword.name}
-                              </span>
-                            ))}
-                            {paper.keywords.length > 3 && (
-                              <span className="rounded-full bg-gray-100 px-2 py-1 text-[10px] font-medium text-gray-600">
-                                +{paper.keywords.length - 3}
-                              </span>
-                            )}
+                        ))}
+                        {paper.keywords.length > 3 && (
+                          <span className="rounded-full bg-gray-100 px-2 py-1 text-[10px] font-medium text-gray-600">
+                          +{paper.keywords.length - 3}
                           </span>
-                        </div>
+                        )}
+                        </span>
+                      </div>
                       </div>
 
                       <div className="flex items-center justify-end gap-3">
-                        <Button
-                          variant={"outline"}
-                          className="rounded-full border-gray-200 bg-white px-4 py-2 text-sm text-gray-700 transition hover:border-[#B52221]/40 hover:text-[#B52221] hover:shadow-md"
-                          asChild
+                      <Button
+                        variant={"outline"}
+                        className="rounded-full border-gray-200 bg-white px-4 py-2 text-sm text-gray-700 transition hover:border-[#B52221]/40 hover:text-[#B52221] hover:shadow-md"
+                        asChild
+                      >
+                        <Link
+                        href={`/paper/${paper.slug}/edit`}
+                        className="flex items-center gap-2"
                         >
-                          <Link
-                            href={`/paper/${paper.slug}/edit`}
-                            className="flex items-center gap-2"
-                          >
-                            <PenSquare className="h-4 w-4" />
-                            Edit
-                          </Link>
-                        </Button>
-                        <Button
-                          variant={"ghost"}
-                          className="rounded-full border border-transparent bg-[#FCEBEC] px-4 py-2 text-sm text-[#B52221] transition hover:bg-[#B52221] hover:text-white hover:shadow-md"
-                          onClick={() => {
-                            setPendingDeletePaper(paper);
-                            setIsDeleteDialogOpen(true);
-                          }}
-                        >
-                          <span className="flex items-center gap-2">
-                            <Trash2 className="h-4 w-4" />
-                            Delete
-                          </span>
-                        </Button>
+                        <PenSquare className="h-4 w-4" />
+                        Edit
+                        </Link>
+                      </Button>
+                      <Button
+                        variant={"ghost"}
+                        className="rounded-full border border-transparent bg-[#FCEBEC] px-4 py-2 text-sm text-[#B52221] transition hover:bg-[#B52221] hover:text-white hover:shadow-md"
+                        onClick={() => {
+                        setPendingDeletePaper(paper);
+                        setIsDeleteDialogOpen(true);
+                        }}
+                      >
+                        <span className="flex items-center gap-2">
+                        <Trash2 className="h-4 w-4" />
+                        Delete
+                        </span>
+                      </Button>
                       </div>
                     </div>
-                  </Card>
+                    </Card>
                 ))
               )}
               {totalPages > 1 && (

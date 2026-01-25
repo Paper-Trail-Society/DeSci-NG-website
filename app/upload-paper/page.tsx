@@ -75,17 +75,20 @@ function UploadPaperContent() {
   });
   const { mutate: uploadPaper, isPending: isUploadingPaper } = useUploadPaper();
 
-  const fieldIdToNameMap = fields?.reduce((acc, field) => {
-    acc[field.name] = field.id;
-    return acc;
-  }, {} as Record<string, number>);
+  const fieldIdToNameMap = fields?.reduce(
+    (acc, field) => {
+      acc[field.name] = field.id;
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
 
   const categoryIdToNameMap = selectedFieldCategories?.reduce(
     (acc, category) => {
       acc[category.name] = category.id;
       return acc;
     },
-    {} as Record<string, number>
+    {} as Record<string, number>,
   );
 
   const onSubmit = async (values: UploadPaperFormFields) => {
@@ -119,7 +122,7 @@ function UploadPaperContent() {
         setSelectedFile(null);
 
         toast.success("Paper uploaded successfully");
-        router.push(`/paper/${res.data.slug}`)
+        router.push(`/paper/${res.data.slug}`);
       },
       onError: (err) => {
         if (isAxiosError(err)) {
@@ -133,7 +136,7 @@ function UploadPaperContent() {
 
   const handleKeywordSearch = async (
     searchVal: string,
-    setOptions: (options: SelectValueBase[]) => void
+    setOptions: (options: SelectValueBase[]) => void,
   ) => {
     const res = await $http.get<Keyword[]>("/keywords", {
       params: { q: searchVal },
@@ -143,7 +146,7 @@ function UploadPaperContent() {
       res.data.map((keyword) => ({
         label: keyword.name,
         value: keyword.id.toString(),
-      }))
+      })),
     );
   };
 
@@ -151,7 +154,7 @@ function UploadPaperContent() {
     (searchVal: string, setOptions: (options: SelectValueBase[]) => void) => {
       handleKeywordSearch(searchVal, setOptions);
     },
-    500
+    500,
   );
 
   return (
@@ -226,8 +229,17 @@ function UploadPaperContent() {
                     </Label>
                     <Select
                       onValueChange={(value: string) => {
-                        fieldIdToNameMap &&
+                        if (fieldIdToNameMap) {
                           form.setValue("fieldId", fieldIdToNameMap[value]);
+                          form.setValue(
+                            "categoryId",
+                            undefined as unknown as number,
+                            {
+                              shouldDirty: true,
+                              shouldValidate: true,
+                            },
+                          );
+                        }
                       }}
                     >
                       <SelectTrigger className="text-text text-xs ring-1 ring-neutral-300">
@@ -260,10 +272,10 @@ function UploadPaperContent() {
                     <Select
                       onValueChange={(value: string) => {
                         categoryIdToNameMap &&
-                          form.setValue(
-                            "categoryId",
-                            categoryIdToNameMap[value]
-                          );
+                          form.setValue("categoryId", categoryIdToNameMap[value], {
+                          shouldDirty: true,
+                          shouldValidate: true,
+                        });
                       }}
                     >
                       <SelectTrigger className="text-text text-xs">
@@ -331,7 +343,7 @@ function UploadPaperContent() {
                         value.map((val) => ({
                           value: val.value,
                           label: val.label,
-                        }))
+                        })),
                       );
                     }}
                     placeholder="Type to search or add keyword"
@@ -384,7 +396,7 @@ function UploadPaperContent() {
                         const file = e.target.files?.[0];
                         if (file && file.size > 10 * 1024 * 1024) {
                           toast.error(
-                            "File size should be less than or equal to 10MB"
+                            "File size should be less than or equal to 10MB",
                           );
                           e.target.value = "";
                         } else {
