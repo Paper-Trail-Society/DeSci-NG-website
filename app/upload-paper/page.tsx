@@ -138,6 +138,10 @@ function UploadPaperContent() {
     searchVal: string,
     setOptions: (options: SelectValueBase[]) => void,
   ) => {
+    if (!searchVal || searchVal.trim().length === 0) {
+      setOptions([]);
+      return;
+    }
     const res = await $http.get<Keyword[]>("/keywords", {
       params: { q: searchVal },
     });

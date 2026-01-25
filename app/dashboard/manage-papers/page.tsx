@@ -195,7 +195,7 @@ function ManagePapersContent() {
                         </span>
                         <span className="text-gray-300">•</span>
                         <span className="flex items-center gap-2">
-                        {paper.keywords.slice(0, 3).map((keyword) => (
+                        {paper.keywords && paper.keywords.slice(0, 3).map((keyword) => (
                           <span
                           key={keyword.id}
                           className="rounded-full bg-gray-100 px-2 py-1 text-[10px] font-medium text-gray-600"
@@ -203,7 +203,7 @@ function ManagePapersContent() {
                           {keyword.name}
                           </span>
                         ))}
-                        {paper.keywords.length > 3 && (
+                        {paper.keywords && paper.keywords.length > 3 && (
                           <span className="rounded-full bg-gray-100 px-2 py-1 text-[10px] font-medium text-gray-600">
                           +{paper.keywords.length - 3}
                           </span>

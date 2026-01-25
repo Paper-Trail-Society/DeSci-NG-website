@@ -1,7 +1,6 @@
 import PaperSearchInput from "@/components/shared/paper-search-input";
 import ViewPaperContent from "@/domains/paper/components/view-paper-content";
 import { Paper } from "@/domains/paper/types";
-import { authClient } from "@/lib/auth-client";
 import { paperKeys } from "@/lib/react-query/query-keys";
 import {
   HydrationBoundary,
@@ -9,8 +8,7 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 import { Metadata, ResolvingMetadata } from "next";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -19,13 +17,13 @@ type Props = {
 
 export async function generateMetadata(
   { params, searchParams }: Props,
-  parent: ResolvingMetadata
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const paperId = (await params).id;
 
   // fetch post information
   const paper = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/papers/${paperId}`
+    `${process.env.NEXT_PUBLIC_API_URL}/papers/${paperId}`,
   ).then((res) => res.json() as Promise<Paper>);
 
   return {
@@ -38,6 +36,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const queryClient = new QueryClient();
 
+  // TODO: fetching non-published paper data for a user with cookies doesn't work in production env, figure out why.
   await queryClient.ensureQueryData({
     queryKey: paperKeys.detail(id),
     queryFn: async () => {
@@ -45,19 +44,15 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         `${process.env.NEXT_PUBLIC_API_URL}/papers/${id}`,
         {
           headers: {
-            // forward cookies for auth. Better auth uses cookies to manage sessions
-            cookie: (await headers()).get("cookie") || "",
+            Cookie: (await cookies()).toString(),
           },
           cache: "no-store",
-          credentials: "include", // include cookies in the request
-          }
-      )
-
-      if (res.ok === false) {
-        redirect("/404");
-      } 
-      
-      const paper = (await res.json()) as Paper;
+        },
+      );
+      let paper = null;
+      if (res.ok) {
+        paper = (await res.json()) as Paper;
+      }
 
       return paper;
     },
