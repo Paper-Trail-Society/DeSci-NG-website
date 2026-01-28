@@ -5,7 +5,7 @@ import React from "react";
 const Loading = () => {
   return (
     <div className="items-center justify-items-center min-h-screen">
-      <main className="flex flex-col gap-14 items-center pt-10 pb-20 w-full">
+      <main className="flex flex-col gap-14 items-center py-10 w-full">
         <div className="space-y-4 w-2/5">
           <PaperSearchInput className="w-full" />
         </div>

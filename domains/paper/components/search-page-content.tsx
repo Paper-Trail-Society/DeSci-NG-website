@@ -54,7 +54,7 @@ const SearchPageContent = () => {
   return (
     <div>
       <div className="items-center justify-items-center min-h-screen">
-        <main className="flex flex-col gap-8 items-center pt-10 pb-20 px-4 w-full">
+        <main className="flex flex-col gap-8 items-center py-10 px-4 w-full">
           <div className="w-full">
             <Button
               variant="ghost"
