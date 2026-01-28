@@ -171,6 +171,16 @@ const Footer = () => {
                 </Text>
               </a>
             </li>
+            <li>
+              <Link href="/donate">
+                <Text
+                  size="xs"
+                  className="hover:text-primary transition-colors"
+                >
+                  Donate
+                </Text>
+              </Link>
+            </li>
           </ul>
         </div>
 

@@ -8,10 +8,12 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuthContext } from "@/lib/contexts/auth-context";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { label: "Programs", href: "/programs" },
   { label: "Upload paper", href: "/upload-paper" },
+  { label: "Donate", href: "/donate" },
 ];
 
 const mobileNavContainerAnimation = {
@@ -33,6 +35,7 @@ const PublicNav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const toggleRef = useRef<HTMLButtonElement | null>(null);
+  const currentPath = usePathname();
 
   // Close menu when clicking outside or pressing Escape
   useEffect(() => {
@@ -60,7 +63,6 @@ const PublicNav = () => {
       document.removeEventListener("keydown", onKey);
     };
   }, [menuOpen]);
-
   return (
     <nav className="max-w-6xl mx-auto py-4 md:px-0 px-6 z-60">
       <div className="w-full md:px-2 md:mx-auto flex justify-between items-center">
@@ -76,24 +78,34 @@ const PublicNav = () => {
         </span>
         {/* Desktop nav */}
         <div className="hidden md:flex gap-4 items-center">
-          {navLinks.map((link) => (
-            <Link key={link.href} href={link.href} prefetch={true}>
+          {navLinks.map((link) => {
+            const navLinksHref = navLinks.map((link) => link.href);
+            const currentPathIsInNavLinks = navLinksHref.some((href) =>
+              currentPath.includes(href),
+            );
+            const endGradient = currentPath.includes(link.href) ? "currentColor": currentPathIsInNavLinks
+              ? "var(--secondary)"
+              : "currentColor";
+            return <Link key={link.href} href={link.href} prefetch={true}>
               <Button
                 variant={"link"}
                 style={{
                   backgroundImage:
-                    "linear-gradient(to right, transparent, currentColor)",
-                  backgroundSize: "0% 1px",
+                    `linear-gradient(to right, transparent, ${endGradient})`,
+                  backgroundSize: currentPath.includes(link.href) ? "100% 1px" : "0% 1px",
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "left bottom",
                   transitionProperty: "background-size",
                   transitionDuration: "150ms",
+                  
                 }}
                 onMouseEnter={(event) => {
+                  if (currentPath.includes(link.href)) return
                   const button = event.currentTarget as HTMLButtonElement;
                   button.style.backgroundSize = "100% 1px";
                 }}
                 onMouseLeave={(event) => {
+                  if (currentPath.includes(link.href)) return
                   const button = event.currentTarget as HTMLButtonElement;
                   button.style.backgroundSize = "0% 1px";
                 }}
@@ -101,7 +113,7 @@ const PublicNav = () => {
                 {link.label}
               </Button>
             </Link>
-          ))}
+          })}
           {isAuthenticated ? (
             <Link href="/dashboard/profile">
               <Button variant={"destructive"} className="px-4">
@@ -189,7 +201,7 @@ const PublicNav = () => {
             <SheetContent
               title="mobile-nav-menu"
               side="right"
-              className="p-0 mt-18 w-64 bg-white border-black/30 border-t-1"
+              className="p-0 mt-18 w-64 bg-white border-black/30 border-t"
             >
               <motion.div
                 className="flex flex-col gap-4 mt-2 p-4"
