@@ -1,4 +1,4 @@
- import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import Link from "next/link";
@@ -26,6 +26,8 @@ const impactAreas = [
 ];
 
 const DonatePage = () => {
+  const PAYSTACK_DONATION_LINK = process.env.NEXT_PAYSTACK_DONATION_LINK || "#";
+  const GIVETH_DONATION_LINK = process.env.NEXT_GIVETH_DONATION_LINK || "#";
   return (
     <div className="items-center justify-items-center pb-20 w-full">
       <section className="flex flex-col gap-10 md:gap-14 pt-10 pb-16 w-full">
@@ -54,18 +56,20 @@ const DonatePage = () => {
             </Text>
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mt-4">
-              {/* Paystack-styled primary CTA */}
               <Button
                 asChild
-                className="bg-[#00C3A4] hover:bg-[#00A68C] text-white font-semibold px-8 py-3 rounded-md shadow-md border-0"
+                size="lg"
+                className="bg-primary text-white hover:bg-primary/90 font-semibold rounded-lg shadow transition-colors px-8 py-3"
               >
-                <Link href="#paystack">Donate with Paystack</Link>
+                <Link href={PAYSTACK_DONATION_LINK}>Donate with Paystack</Link>
               </Button>
-
-              <Text size="sm" className="text-text-dim">
-                Paystack checkout coming soon — this button will take you to a
-                secure payment page.
-              </Text>
+              <Button
+                asChild
+                size="lg"
+                className="bg-white text-primary border border-primary hover:bg-primary/10 font-semibold rounded-lg shadow transition-colors px-8 py-3"
+              >
+                <Link href={GIVETH_DONATION_LINK}>Donate with Giveth.io</Link>
+              </Button>
             </div>
           </div>
 
@@ -78,7 +82,9 @@ const DonatePage = () => {
                 Where your support goes
               </Text>
               <ul className="list-disc list-inside text-sm md:text-base text-text-dim space-y-2">
-                <li>Microgrants for undergraduate and early-career research.</li>
+                <li>
+                  Microgrants for undergraduate and early-career research.
+                </li>
                 <li>
                   Infrastructure that keeps African papers searchable and
                   tamper-resistant.
