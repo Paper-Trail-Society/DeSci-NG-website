@@ -12,9 +12,9 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
   const { data: paper, isPending, refetch } = useGetPaper({ id: paperId });
   const { user, isAuthenticated } = useAuthContext();
 
-  useEffect(() => {
-    refetch()
-  }, [refetch]);
+  // useEffect(() => {
+  //   refetch()
+  // }, [refetch]);
 
   if (isPending && !paper) {
     return (
