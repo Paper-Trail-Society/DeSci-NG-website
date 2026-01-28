@@ -31,7 +31,7 @@ const StepCard = ({
 const Page = () => {
   return (
     <div>
-      <div className="space-y-4 items-center justify-items-center pt-10 pb-20 md:w-3/5 w-full mx-auto">
+      <div className="space-y-4 items-center justify-items-center py-10 md:w-3/5 w-full mx-auto">
         <Text as="h2" weight={"bold"} size={"xl"} className="text-center">
           How to Upload a Paper
         </Text>

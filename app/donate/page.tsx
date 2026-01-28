@@ -29,8 +29,8 @@ const DonatePage = () => {
   const PAYSTACK_DONATION_LINK = process.env.NEXT_PAYSTACK_DONATION_LINK || "#";
   const GIVETH_DONATION_LINK = process.env.NEXT_GIVETH_DONATION_LINK || "#";
   return (
-    <div className="items-center justify-items-center pb-20 w-full">
-      <section className="flex flex-col gap-10 md:gap-14 pt-10 pb-16 w-full">
+    <div className="items-center justify-items-center pb-10 w-full">
+      <section className="flex flex-col gap-10 md:gap-14 pt-10 w-full">
         <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start md:items-center">
           <div className="flex-1 space-y-4 md:space-y-6">
             <Text

@@ -98,8 +98,8 @@ const Page = async ({ params }: { params: { id: string } }) => {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div>
-        <div className="items-center justify-items-center  pt-10 pb-20 w-full">
-          <section className="flex flex-col gap-14 items-center pt-10 pb-20 w-full">
+        <div className="items-center justify-items-center py-10 w-full">
+          <section className="flex flex-col gap-14 items-center pt-10 w-full">
             <div className="space-y-4 lg:w-3/5 md:w-4/5 w-full px-8">
               <PaperSearchInput className="w-full" />
             </div>
