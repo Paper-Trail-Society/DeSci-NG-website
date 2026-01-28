@@ -76,7 +76,7 @@ const SearchPageContent = () => {
                   </Text>
                 </Text>
               )}
-              {!isLoadingPapers && response && (
+              {searchQuery && !isLoadingPapers && response && (
                 <Text as="p" className="w-full text-sm text-muted-foreground">
                   {response.total} paper{response.total === 1 ? "" : "s"} found
                 </Text>
