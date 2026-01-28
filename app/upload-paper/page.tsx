@@ -125,10 +125,11 @@ function UploadPaperContent() {
         router.push(`/paper/${res.data.slug}`);
       },
       onError: (err) => {
+        console.error(err);
         if (isAxiosError(err)) {
           toast.error(`Paper upload failed. ${String(err.response?.data)}`);
         } else {
-          toast.error(`Paper upload failed. ${err.message}`);
+          toast.error(`Paper upload failed. ${String(err)}`);
         }
       },
     });
