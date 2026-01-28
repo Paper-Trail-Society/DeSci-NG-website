@@ -42,7 +42,7 @@ const DonatePage = () => {
             </Text>
 
             <Text className="text-base md:text-lg">
-              Although Africa represents about 17% of the world’s population, it contributes less than 3% of global research output. 
+              Although Africa represents about 17% of the world&apos;s population, it contributes less than 3% of global research output. 
               Nubian (formerly DeSci Nigeria) is building a decentralized research
               infrastructure to make under-represented research accessible to all.
             </Text>
