@@ -38,21 +38,19 @@ const DonatePage = () => {
               className="text-xl md:text-3xl leading-7 md:leading-9"
               weight="bold"
             >
-              Help keep African research open, visible, and funded.
+              Help keep African research open and accessible, forever.
             </Text>
 
             <Text className="text-base md:text-lg">
-              Nubian (formerly DeSci Nigeria) is building decentralized
-              infrastructure so African research can be published openly,
-              preserved securely, and discovered globally — not locked away in
-              shelves, paywalls, or private drives.
+              Although Africa represents about 17 percent of the world’s population, it contributes less than 3 percent of global research output. 
+              Nubian (formerly DeSci Nigeria) is building a decentralized research
+              infrastructure to make underrepresented research accessible to all.
             </Text>
 
             <Text className="text-sm md:text-base text-text-dim">
-              Your donation directly powers student-led studies, long-term
-              archiving of African scholarship, and the community that keeps
-              this ecosystem alive. Every contribution — small or large — helps
-              another researcher&apos;s work reach the people who need it.
+              Your donation directly supports underrepresented researchers, long-term
+              preservation of African scholarship, and the community initiatives that keep
+              this collective alive. 
             </Text>
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mt-4">
