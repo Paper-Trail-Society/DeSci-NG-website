@@ -44,11 +44,11 @@ const DonatePage = () => {
             <Text className="text-base md:text-lg">
               Although Africa represents about 17% of the world’s population, it contributes less than 3% of global research output. 
               Nubian (formerly DeSci Nigeria) is building a decentralized research
-              infrastructure to make underrepresented research accessible to all.
+              infrastructure to make under-represented research accessible to all.
             </Text>
 
             <Text className="text-sm md:text-base text-text-dim">
-              Your donation directly supports underrepresented researchers, long-term
+              Your donation directly supports under-represented researchers, long-term
               preservation of African scholarship, and the community initiatives that keep
               this collective alive. 
             </Text>
