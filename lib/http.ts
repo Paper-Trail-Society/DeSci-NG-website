@@ -5,6 +5,7 @@ import { API_URL } from "./constants";
 
 export const $http = axios.create({
   baseURL: API_URL,
+  withCredentials: true,
 });
 
 // Request interceptor to add Bearer token
