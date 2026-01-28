@@ -63,7 +63,7 @@ const Page = () => {
           </StepCard>
           <StepCard number="4">
             <Text size={"sm"}>
-              All papers go through a credibility test by the DeSci NG team.
+              All papers go through a credibility test by the Nubian Research team.
               You’ll be notified by email when your paper is approved and
               uploaded. If changes are needed, you'll get feedback and can
               re-upload easily.
@@ -71,9 +71,8 @@ const Page = () => {
           </StepCard>
           <StepCard number="5">
             <Text size={"sm"}>
-              Once approved, your paper is stored securely and publicly on DeSci
-              NG. Share the link, download the PDF, and see stats like views and
-              downloads anytime in your dashboard.
+              Once approved, your paper is stored securely and publicly on Nubian
+              Research. Share the link to the paper to everyone.
             </Text>
           </StepCard>
         </section>

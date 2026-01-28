@@ -15,8 +15,8 @@ export const composeMetadata = async ({ title, description }: GenerateMetaDataPr
     return {
       title,
       description,
-      applicationName: 'Desci NG',
-      authors: [{ name: 'Desci.ng Team' }],
+      applicationName: 'Nubian Reasearch',
+      authors: [{ name: 'Nubian Research Team' }],
     };
   };
   
