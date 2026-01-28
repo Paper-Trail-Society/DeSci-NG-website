@@ -66,7 +66,6 @@ const Page = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const queryClient = new QueryClient();
 
-  // TODO: fetching non-published paper data for a user with cookies doesn't work in production env, figure out why.
   await queryClient.ensureQueryData({
     queryKey: paperKeys.detail(id),
     queryFn: async () => {
