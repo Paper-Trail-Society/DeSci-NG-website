@@ -6,9 +6,11 @@ import { motion } from "motion/react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Dropdown } from "@/components/ui/dropdown-menu";
 import { useAuthContext } from "@/lib/contexts/auth-context";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils/css";
 
 const navLinks = [
   { label: "Programs", href: "/programs" },
@@ -30,9 +32,16 @@ const mobileNavItemAnimation = {
   visible: { opacity: 1, x: 0 },
 };
 
+const programSubRoutes = [
+  { label: "Dialogues", href: "/programs/dialogues" },
+  { label: "Research Jam", href: "/programs/research-jam" },
+  { label: "Project showcase", href: "/programs/project-showcase" },
+];
+
 const PublicNav = () => {
   const { isAuthenticated } = useAuthContext();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [programsOpen, setProgramsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const toggleRef = useRef<HTMLButtonElement | null>(null);
   const currentPath = usePathname();
@@ -83,36 +92,95 @@ const PublicNav = () => {
             const currentPathIsInNavLinks = navLinksHref.some((href) =>
               currentPath.includes(href),
             );
-            const endGradient = currentPath.includes(link.href) ? "currentColor": currentPathIsInNavLinks
-              ? "var(--secondary)"
-              : "currentColor";
-            return <Link key={link.href} href={link.href} prefetch={true}>
-              <Button
-                variant={"link"}
-                style={{
-                  backgroundImage:
-                    `linear-gradient(to right, transparent, ${endGradient})`,
-                  backgroundSize: currentPath.includes(link.href) ? "100% 1px" : "0% 1px",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "left bottom",
-                  transitionProperty: "background-size",
-                  transitionDuration: "150ms",
-                  
-                }}
-                onMouseEnter={(event) => {
-                  if (currentPath.includes(link.href)) return
-                  const button = event.currentTarget as HTMLButtonElement;
-                  button.style.backgroundSize = "100% 1px";
-                }}
-                onMouseLeave={(event) => {
-                  if (currentPath.includes(link.href)) return
-                  const button = event.currentTarget as HTMLButtonElement;
-                  button.style.backgroundSize = "0% 1px";
-                }}
-              >
-                {link.label}
-              </Button>
-            </Link>
+            const endGradient = currentPath.includes(link.href)
+              ? "currentColor"
+              : currentPathIsInNavLinks
+                ? "var(--secondary)"
+                : "currentColor";
+
+            if (link.href === "/programs") {
+              const isActivePrograms = currentPath.startsWith("/programs");
+
+              return (
+                <Dropdown
+                  key={link.href}
+                  open={programsOpen}
+                  onOpenChange={setProgramsOpen}
+                >
+                  <div
+                    onMouseEnter={() => setProgramsOpen(true)}
+                    onMouseLeave={() => setProgramsOpen(false)}
+                  >
+                    <Dropdown.Trigger asChild noClassName={true}>
+                      <Button
+                        variant="link"
+                        style={{
+                          backgroundImage: `linear-gradient(to right, transparent, ${
+                            isActivePrograms ? "currentColor" : endGradient
+                          })`,
+                          backgroundSize: isActivePrograms
+                            ? "100% 1px"
+                            : "0% 1px",
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "left bottom",
+                          transitionProperty: "background-size",
+                          transitionDuration: "150ms",
+                        }}
+                        className="flex items-center gap-1 text-sm"
+                      >
+                        <Link href="/programs">{link.label}</Link>
+                        <ChevronDown className="h-3 w-3" />
+                      </Button>
+                    </Dropdown.Trigger>
+                    <Dropdown.Content className="mt-1 min-w-40 bg-white border border-secondary-7 rounded-md shadow-sm">
+                      {programSubRoutes.map((sub) => (
+                        <Dropdown.Item
+                          key={sub.href}
+                          asChild
+                          className={
+                            cn('hover:bg-secondary/60!', currentPath.startsWith(sub.href)
+                              ? "bg-secondary text-text font-medium"
+                              : "text-text")
+                          }
+                        >
+                          <Link href={sub.href}>{sub.label}</Link>
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Content>
+                  </div>
+                </Dropdown>
+              );
+            }
+
+            return (
+              <Link key={link.href} href={link.href} prefetch={true}>
+                <Button
+                  variant={"link"}
+                  style={{
+                    backgroundImage: `linear-gradient(to right, transparent, ${endGradient})`,
+                    backgroundSize: currentPath.includes(link.href)
+                      ? "100% 1px"
+                      : "0% 1px",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "left bottom",
+                    transitionProperty: "background-size",
+                    transitionDuration: "150ms",
+                  }}
+                  onMouseEnter={(event) => {
+                    if (currentPath.includes(link.href)) return;
+                    const button = event.currentTarget as HTMLButtonElement;
+                    button.style.backgroundSize = "100% 1px";
+                  }}
+                  onMouseLeave={(event) => {
+                    if (currentPath.includes(link.href)) return;
+                    const button = event.currentTarget as HTMLButtonElement;
+                    button.style.backgroundSize = "0% 1px";
+                  }}
+                >
+                  {link.label}
+                </Button>
+              </Link>
+            );
           })}
           {isAuthenticated ? (
             <Link href="/dashboard/profile">
@@ -209,17 +277,55 @@ const PublicNav = () => {
                 initial="hidden"
                 animate={menuOpen ? "visible" : "hidden"}
               >
-                {navLinks.map((link) => (
-                  <motion.div key={link.href} variants={mobileNavItemAnimation}>
-                    <Link
-                      className="w-full text-left text-lg text-gray-800"
-                      href={link.href}
-                      onClick={() => setMenuOpen(false)}
+                {navLinks.map((link) => {
+                  if (link.href === "/programs") {
+                    return (
+                      <motion.div
+                        key={link.href}
+                        variants={mobileNavItemAnimation}
+                        className="flex flex-col gap-2"
+                      >
+                        <span className="text-sm font-medium text-text">
+                          {link.label}
+                        </span>
+                        <div className="flex flex-col gap-1 pl-3">
+                          <Link
+                            className="w-full text-left text-base text-text"
+                            href="/programs"
+                            onClick={() => setMenuOpen(false)}
+                          >
+                            All programs
+                          </Link>
+                          {programSubRoutes.map((sub) => (
+                            <Link
+                              key={sub.href}
+                              className="w-full text-left text-base text-text-dim"
+                              href={sub.href}
+                              onClick={() => setMenuOpen(false)}
+                            >
+                              {sub.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </motion.div>
+                    );
+                  }
+
+                  return (
+                    <motion.div
+                      key={link.href}
+                      variants={mobileNavItemAnimation}
                     >
-                      {link.label}
-                    </Link>
-                  </motion.div>
-                ))}
+                      <Link
+                        className="w-full text-left text-lg text-text"
+                        href={link.href}
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        {link.label}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
               </motion.div>
             </SheetContent>
           </Sheet>
