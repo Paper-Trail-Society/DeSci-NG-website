@@ -17,6 +17,7 @@ import { useAuthContext } from "@/lib/contexts/auth-context";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/css";
+import { AccordionHeader } from "@radix-ui/react-accordion";
 
 const navLinks = [
   { label: "Programs", href: "/programs" },
@@ -267,42 +268,48 @@ const MobileNav = ({ isAuthenticated, currentPath }: NavProps) => {
                   const isProgramsActive = currentPath.startsWith("/programs");
 
                   return (
-                    <AccordionItem key={link.href} value="programs">
-                      <AccordionTrigger
-                        className={cn(
-                          "w-full text-left text-base flex items-center justify-between text-text py-2",
-                          isProgramsActive && "text-primary font-medium",
-                        )}
-                      >
-                        <span className="flex w-full items-center justify-between">
-                          <span>{link.label}</span>
-                          <ChevronDown className="h-4 w-4 text-secondary-8 transition-transform" />
-                        </span>
-                      </AccordionTrigger>
-                      <AccordionContent className="pt-2">
-                        <div className="flex flex-col gap-1 pl-2">
-                          {programSubRoutes.map((sub) => {
-                            const isActiveSub =
-                              currentPath.startsWith(sub.href);
-                            return (
-                              <Link
-                                key={sub.href}
-                                className={cn(
-                                  "w-full text-left text-sm rounded-md px-2 py-1",
-                                  isActiveSub
-                                    ? "bg-secondary-5 text-text font-medium"
-                                    : "text-text-dim",
-                                )}
-                                href={sub.href}
-                                onClick={() => setMenuOpen(false)}
-                              >
-                                {sub.label}
-                              </Link>
-                            );
-                          })}
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
+                    <Accordion type="multiple">
+                      <AccordionItem key={link.href} value="programs">
+                        <AccordionHeader>
+                          <AccordionTrigger
+                            className={cn(
+                              "w-full text-left text-base flex items-center justify-between text-text py-2",
+                              isProgramsActive && "text-primary font-medium",
+                            )}
+                          >
+                            <>
+                              <span>{link.label}</span>
+                              <ChevronDown className="h-4 w-4 text-secondary-8 transition-transform" />
+                            </>
+                          </AccordionTrigger>
+                        </AccordionHeader>
+
+                        <AccordionContent>
+                          <div className="flex flex-col gap-1 pl-2">
+                            {programSubRoutes.map((sub) => {
+                              const isActiveSub = currentPath.startsWith(
+                                sub.href,
+                              );
+                              return (
+                                <Link
+                                  key={sub.href}
+                                  className={cn(
+                                    "w-full text-left text-sm rounded-md px-2 py-1",
+                                    isActiveSub
+                                      ? "bg-secondary-5 text-text font-medium"
+                                      : "text-text-dim",
+                                  )}
+                                  href={sub.href}
+                                  onClick={() => setMenuOpen(false)}
+                                >
+                                  {sub.label}
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
                   );
                 }
 
@@ -318,9 +325,7 @@ const MobileNav = ({ isAuthenticated, currentPath }: NavProps) => {
                         <Link
                           className={cn(
                             "w-full text-left text-base",
-                            isActive
-                              ? "text-primary font-medium"
-                              : "text-text",
+                            isActive ? "text-primary font-medium" : "text-text",
                           )}
                           href={link.href}
                           onClick={() => setMenuOpen(false)}
