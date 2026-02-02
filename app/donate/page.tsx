@@ -2,9 +2,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import Link from "next/link";
+import { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Nubian | Donate",
+  description: "Support Nubian's mission to make African research open, secure, and globally accessible by donating to our cause.",
 };
 
 const impactAreas = [

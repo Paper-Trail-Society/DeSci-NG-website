@@ -1,11 +1,12 @@
-import Breadcrumb from "@/components/shared/breadcrumb";
 import { Text } from "@/components/ui/text";
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
+import { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Nubian | About Us",
+  description: "Learn more about Nubian, Africa's first decentralized research infrastructure, our mission, vision, and the team behind the initiative.",
 };
 
 const featuredItems = [
