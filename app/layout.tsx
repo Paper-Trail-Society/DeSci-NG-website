@@ -16,7 +16,7 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: "Nubian",
-  description: "| fka DeSci Nigeria",
+  description: "Nubian is Africa's first decentralized research infrastructure, making African research open, secure, and globally accessible, forever."
 };
 
 export default function RootLayout({
