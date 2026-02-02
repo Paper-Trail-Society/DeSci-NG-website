@@ -1,9 +1,11 @@
 import ProgramsSidebar from "@/components/programs/programs-sidebar";
 import Breadcrumb from "@/components/shared/breadcrumb";
+import { Metadata } from "next";
 import React from "react";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Nubian | Programs",
+  description: "Explore programs offered by Nubian to support African research and researchers.",
 };
 
 export default function ProgramsLayout({

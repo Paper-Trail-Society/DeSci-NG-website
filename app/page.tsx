@@ -1,14 +1,14 @@
-import PaperSearchInput from "@/components/shared/paper-search-input";
+import { Metadata } from "next";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
-import Link from "next/link";
-import { motion } from "motion/react";
 import CategoriesSection from "@/components/home/categories-section";
 import SuccessStoriesSection from "@/components/home/success-stories";
 import HeroSection from "@/components/home/hero-section";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Nubian | fka DeSci Nigeria",
+  description: "Nubian is Africa's first decentralized research infrastructure, making African research open, secure, and globally accessible, forever." 
 };
 
 

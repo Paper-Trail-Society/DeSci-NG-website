@@ -6,6 +6,14 @@
 @config "../tailwind.config.ts";
 
 @layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
   :root {
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
@@ -17,6 +25,15 @@
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
+  }
+
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 1px rgba(181, 34, 33, 0.8); /* fallback for ring */
+    --tw-ring-color: #B52221CC; /* #B52221 with 80% opacity */
+    --tw-ring-offset-shadow: 0 0 #0000;
+    --tw-ring-shadow: 0 0 0 1px var(--tw-ring-color);
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), 0 0 0 0 transparent;
   }
 }
 
@@ -127,15 +144,6 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
-@layer base {
-  * {
-    border-color: var(--border);
-  }
-  body {
-    background-color: var(--background);
-    color: var(--foreground);
-  }
-}
 
 /* Utility to hide native scrollbars while keeping scroll functionality */
 .scrollbar-hide {

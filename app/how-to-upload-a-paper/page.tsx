@@ -1,10 +1,11 @@
 import { Card, CardContent, CardDescription } from "@/components/ui/card";
 import { Text } from "@/components/ui/text";
+import { Metadata } from "next";
 import React from "react";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Nubian | How to Upload a Paper",
-  description: "Learn how to upload a paper to desci.ng",
+  description: "Learn how to upload a paper on Nubian Research in simple steps.",
 }
 
 const StepCard = ({

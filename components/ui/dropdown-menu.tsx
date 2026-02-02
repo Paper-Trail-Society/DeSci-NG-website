@@ -19,13 +19,12 @@ const DropdownMenuTrigger = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Trigger> & {
     inset?: boolean;
-    noClassName?: boolean;
   }
->(({ className, inset, children, noClassName, ...props }, ref) => (
+>(({ className, inset, children, ...props }, ref) => (
   <DropdownMenuPrimitive.Trigger
     ref={ref}
     className={cn(
-      noClassName == true ? '' : 'focus-visible:ring-ring focus:outline-none focus-visible:rounded focus-visible:outline-none focus-visible:ring-1',
+       'focus-visible:ring-primary/80 focus:outline-none focus-visible:outline-none focus-visible:ring-1 [&[data-state=open]>img]:rotate-180 [&[data-state=open]>svg]:rotate-180',
       className,
     )}
     {...props}
@@ -84,7 +83,7 @@ const DropdownMenuContent = React.forwardRef<
         sideOffset={sideOffset}
         className={cn(
           //not sure where these classes are coming from
-          'popover-backdrop-filter popover-background popover-border popover-shadow popover-foreground data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 z-50 min-w-[8rem] overflow-auto overflow-x-hidden rounded-md p-1',
+          'popover-backdrop-filter popover-background popover-border popover-shadow popover-foreground data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 z-50 min-w-32 overflow-auto overflow-x-hidden rounded-md p-1 focus-visible:ring-1 focus-visible:ring-secondary-1',
           className,
         )}
         {...props}
@@ -103,7 +102,7 @@ const DropdownMenuItem = React.forwardRef<
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
-      'focus:text-accent-foreground relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-[0.8125rem] outline-none transition-colors focus:bg-[#66686A]/20 data-disabled:pointer-events-none data-disabled:opacity-50 [&>span]:truncate',
+      'focus-visible:ring-0 focus:text-accent-foreground relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-[0.8125rem] outline-none transition-colors focus:bg-secondary/60 data-disabled:pointer-events-none data-disabled:opacity-50 [&>span]:truncate',
       inset && 'pl-8',
       className,
     )}
