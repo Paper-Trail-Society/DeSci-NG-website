@@ -18,6 +18,7 @@ import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/css";
 import { AccordionHeader } from "@radix-ui/react-accordion";
+import { Text } from "../ui/text";
 
 const navLinks = [
   { label: "Programs", href: "/programs" },
@@ -52,13 +53,15 @@ type NavProps = {
 
 const Logo = () => (
   <span>
-    <Link href="/">
-      <Image
-        src="/assets/nubian-logo.png"
-        alt="logo"
-        width={140}
-        height={100}
-      />
+    <Link href="/" className="inline-block">
+      <span className="block w-fit">
+        <Image
+          src="/assets/nubian-logo.png"
+          alt="logo"
+          width={140}
+          height={100}
+        />
+      </span>
     </Link>
   </span>
 );
@@ -92,24 +95,28 @@ const DesktopNav = ({ isAuthenticated, currentPath }: NavProps) => {
                 onMouseEnter={() => setProgramsOpen(true)}
                 onMouseLeave={() => setProgramsOpen(false)}
               >
-                <Dropdown.Trigger asChild noClassName={true}>
-                  <Button
-                    variant="link"
-                    style={{
-                      backgroundImage: `linear-gradient(to right, transparent, ${
-                        isActivePrograms ? "currentColor" : endGradient
-                      })`,
-                      backgroundSize: isActivePrograms ? "100% 1px" : "0% 1px",
-                      backgroundRepeat: "no-repeat",
-                      backgroundPosition: "left bottom",
-                      transitionProperty: "background-size",
-                      transitionDuration: "150ms",
-                    }}
-                    className="flex items-center gap-1 text-sm"
+                <Dropdown.Trigger
+                  style={{
+                    backgroundImage: `linear-gradient(to right, transparent, ${
+                      isActivePrograms ? "currentColor" : endGradient
+                    })`,
+                    backgroundSize: isActivePrograms ? "100% 1px" : "0% 1px",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "left bottom",
+                    transitionProperty: "background-size",
+                    transitionDuration: "150ms",
+                  }}
+                  className="flex items-center gap-1 px-3 py-2 font-medium text-text-link rounded-none"
+                >
+                  <Text
+                    as="span"
+                    size={"sm"}
+                    weight={"medium"}
+                    className="text-text-link"
                   >
-                    <Link href="/programs">{link.label}</Link>
-                    <ChevronDown className="h-3 w-3" />
-                  </Button>
+                    {link.label}
+                  </Text>
+                  <ChevronDown className="h-3 w-3" />
                 </Dropdown.Trigger>
                 <Dropdown.Content className="mt-1 min-w-40 bg-white border border-secondary-7 rounded-md shadow-sm">
                   {programSubRoutes.map((sub) => (
@@ -117,7 +124,7 @@ const DesktopNav = ({ isAuthenticated, currentPath }: NavProps) => {
                       key={sub.href}
                       asChild
                       className={cn(
-                        "hover:bg-secondary/60!",
+                        "hover:bg-secondary/60",
                         currentPath.startsWith(sub.href)
                           ? "bg-secondary text-text font-medium"
                           : "text-text",
@@ -134,8 +141,11 @@ const DesktopNav = ({ isAuthenticated, currentPath }: NavProps) => {
 
         return (
           <Link key={link.href} href={link.href} prefetch={true}>
-            <Button
-              variant={"link"}
+            <Text
+              as={"span"}
+              size={"sm"}
+              weight={"medium"}
+              className="text-text-link px-3 py-2"
               style={{
                 backgroundImage: `linear-gradient(to right, transparent, ${endGradient})`,
                 backgroundSize: currentPath.includes(link.href)
@@ -148,31 +158,34 @@ const DesktopNav = ({ isAuthenticated, currentPath }: NavProps) => {
               }}
               onMouseEnter={(event) => {
                 if (currentPath.includes(link.href)) return;
-                const button = event.currentTarget as HTMLButtonElement;
-                button.style.backgroundSize = "100% 1px";
+                const span = event.currentTarget as HTMLSpanElement;
+                span.style.backgroundSize = "100% 1px";
               }}
               onMouseLeave={(event) => {
                 if (currentPath.includes(link.href)) return;
-                const button = event.currentTarget as HTMLButtonElement;
-                button.style.backgroundSize = "0% 1px";
+                const span = event.currentTarget as HTMLSpanElement;
+                span.style.backgroundSize = "0% 1px";
               }}
             >
               {link.label}
-            </Button>
+            </Text>
           </Link>
         );
       })}
       {isAuthenticated ? (
-        <Link href="/dashboard/profile">
-          <Button variant={"destructive"} className="px-4">
-            Dashboard
-          </Button>
+        <Link
+          href="/dashboard/profile"
+          className="inline-block bg-primary text-white hover:bg-primary/90 px-4 py-2"
+        >
+          Dashboard
         </Link>
       ) : (
-        <Link href="/login" prefetch={true}>
-          <Button variant={"destructive"} className="px-4 rounded-md">
-            LOGIN
-          </Button>
+        <Link
+          href="/login"
+          prefetch={true}
+          className="inline-block bg-primary text-white hover:bg-primary/90 px-4 py-2 rounded text-sm font-medium"
+        >
+          LOGIN
         </Link>
       )}
     </div>
