@@ -10,7 +10,7 @@ import { useAuthContext } from "@/lib/contexts/auth-context";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const ViewPaperContent = ({ paperId }: { paperId: string }) => {
-  const { data: paper, isPending, refetch } = useGetPaper({ id: paperId });
+  const { data: paper, isPending } = useGetPaper({ id: paperId });
   const { user, isAuthenticated } = useAuthContext();
 
   if (isPending && !paper) {
