@@ -34,6 +34,7 @@ export default function Home() {
             <div className="max-w-6xl mx-auto">
               <Text
                 weight={"bold"}
+                as="h2"
                 className="text-center leading-6 text-3xl font-semibold"
               >
                 What contributors are saying

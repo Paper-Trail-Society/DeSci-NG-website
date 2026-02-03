@@ -19,6 +19,7 @@ const HeroSection = () => {
             >
               <Text
                 weight={"bold"}
+                as='h1'
                 className="text-center leading-6 text-3xl font-semibold"
               >
                 EXPLORE ACADEMIC PAPERS ACROSS DISCIPLINES
