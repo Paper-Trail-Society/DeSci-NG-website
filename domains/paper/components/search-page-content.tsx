@@ -69,7 +69,7 @@ const SearchPageContent = () => {
           <div className="space-y-4 lg:w-2/5 md:w-4/5 w-full">
             <section>
               {searchQuery && (
-                <Text as="p" className="w-full text-left md:text-center">
+                <Text as="p" className="w-full text-left">
                   <Text className="text-xl md:text-2xl">
                     Showing results for:{" "}
                     <b>{decodeURIComponent(searchQuery)}</b>{" "}
