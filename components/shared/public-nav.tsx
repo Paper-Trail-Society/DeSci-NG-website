@@ -175,7 +175,7 @@ const DesktopNav = ({ isAuthenticated, currentPath }: NavProps) => {
       {isAuthenticated ? (
         <Link
           href="/dashboard/profile"
-          className="inline-block bg-primary text-white hover:bg-primary/90 px-4 py-2"
+          className="inline-block bg-primary text-white hover:bg-primary/90 px-4 py-2 rounded text-sm font-medium"
         >
           Dashboard
         </Link>
