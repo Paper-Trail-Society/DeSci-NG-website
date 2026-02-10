@@ -17,6 +17,9 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "Nubian",
   description: "| fka DeSci Nigeria",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
