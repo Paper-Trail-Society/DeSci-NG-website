@@ -140,19 +140,19 @@ const Footer = () => {
 
         {/* Navigation */}
         <div>
-          <ul className="space-y-2">
+          <ul>
             <li>
-              <Link href="/about-us">
+              <Link className="inline-block" href="/about-us">
                 <Text
                   size="xs"
                   className="hover:text-primary transition-colors"
                 >
-                  About Us
+                  About
                 </Text>
               </Link>
             </li>
             <li>
-              <Link href="/how-to-upload-a-paper">
+              <Link className="inline-block" href="/how-to-upload-a-paper">
                 <Text
                   size="xs"
                   className="hover:text-primary transition-colors"
@@ -162,14 +162,24 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <a href="mailto:info.nubianresearch@gmail.com">
+              <a className="inline-block" href="mailto:info.nubianresearch@gmail.com">
                 <Text
                   size="xs"
                   className="hover:text-primary transition-colors"
                 >
-                  Contact us
+                  Contact
                 </Text>
               </a>
+            </li>
+            <li>
+              <Link className="inline-block" href="/donate">
+                <Text
+                  size="xs"
+                  className="hover:text-primary transition-colors"
+                >
+                  Donate
+                </Text>
+              </Link>
             </li>
           </ul>
         </div>

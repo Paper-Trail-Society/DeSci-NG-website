@@ -170,7 +170,7 @@ function EditPaper() {
     const fieldId = paper.field.id;
     const categoryId = paper.categoryId;
     initialKeywordIdsRef.current = Array.from(
-      new Set(paper.keywords.map((keyword) => keyword.id))
+      new Set((paper.keywords ?? []).map((keyword) => keyword.id))
     );
     createdKeywordMapRef.current.clear();
 
@@ -183,7 +183,7 @@ function EditPaper() {
     });
 
     setSelectedKeywords(
-      paper.keywords.map((keyword) => ({
+      (paper.keywords ?? []).map((keyword) => ({
         label: keyword.name,
         value: keyword.id.toString(),
       }))

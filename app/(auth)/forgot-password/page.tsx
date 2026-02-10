@@ -100,25 +100,28 @@ export default function ForgotPassword() {
 
   return (
     <div className="items-center justify-items-center min-h-screen">
-      <main className="flex flex-col items-center py-20 w-full">
-        <Link href="/">
-          <Image
-            src="/assets/nubian-logo.png"
-            alt="logo"
-            width={140}
-            height={100}
-          />
-        </Link>
+      <main className="flex flex-col items-center py-20 w-full space-y-4">
+        <section className="md:w-1/3 w-full mx-auto space-y-4 px-8">
+          <section className="flex justify-center">
+            <Link href="/" className="inline-block">
+              <Image
+                src="/assets/nubian-logo.png"
+                alt="logo"
+                width={140}
+                height={100}
+              />
+            </Link>
+          </section>
+          <div className="space-y-1">
+            <Text as="h1" className="text-center leading-6 text-xl">
+              Reset your password
+            </Text>
 
-        <section className="md:w-1/3 w-full mx-auto my-10 space-y-6 px-8">
-          <Text className="text-center leading-6 text-3xl">
-            Reset Your Password
-          </Text>
-
-          <Text className="text-center">
-            Enter your email address and we'll send you a link to reset your
-            password
-          </Text>
+            <Text size={"sm"} className="text-center text-text">
+              Enter your email address and we'll send you a link to reset your
+              password
+            </Text>
+          </div>
 
           {form.formState.errors.root && (
             <div className="p-3 bg-red-50 border border-red-200 rounded-md">
@@ -129,7 +132,7 @@ export default function ForgotPassword() {
           )}
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
               <TextField
                 control={form.control}
                 name="email"
@@ -142,7 +145,7 @@ export default function ForgotPassword() {
 
               <Button
                 variant="destructive"
-                className="mt-10 py-4 rounded-lg w-full"
+                className="py-4 rounded-lg w-full"
                 type="submit"
                 disabled={resetPasswordMutation.isPending}
               >

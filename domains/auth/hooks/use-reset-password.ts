@@ -10,7 +10,7 @@ interface UseResetPasswordOptions {
 export function useResetPassword(options?: UseResetPasswordOptions) {
   return useMutation({
     mutationFn: async (data: ResetPasswordFormData) => {
-      const result = await authClient.forgetPassword({
+      const result = await authClient.requestPasswordReset({
         email: data.email,
         redirectTo: `${window.location.origin}/reset-password`,
       });

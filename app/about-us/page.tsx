@@ -1,11 +1,12 @@
-import Breadcrumb from "@/components/shared/breadcrumb";
 import { Text } from "@/components/ui/text";
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
+import { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Nubian | About Us",
+  description: "Learn more about Nubian, Africa's first decentralized research infrastructure, our mission, vision, and the team behind the initiative.",
 };
 
 const featuredItems = [
@@ -72,8 +73,8 @@ const coreTeam = [
 const Page = () => {
   return (
     <div>
-      <div className="items-center justify-items-center pb-20 w-full">
-        <section className="flex flex-col gap-8 md:gap-14 items-center pt-10 pb-20 w-full">
+      <div className="items-center justify-items-center pb-10 w-full">
+        <section className="flex flex-col gap-8 md:gap-14 items-center pt-10 w-full">
           <Text
             as="h2"
             className="w-full pl-4 md:pl-0 text-left lg:text-center text-xl md:text-3xl leading-7"

@@ -35,7 +35,7 @@ const textVariants = cva('block ', {
 export interface TextProps
   extends React.HTMLAttributes<HTMLParagraphElement | HTMLSpanElement | HTMLDivElement>,
     VariantProps<typeof textVariants> {
-  as?: 'p' | 'span' | 'div' | 'h2';
+  as?: 'p' | 'span' | 'div' | 'h1' |'h2';
 }
 
 export const Text = ({ className, variant, weight, as: Tag = 'span', size, ...props }: TextProps) => {

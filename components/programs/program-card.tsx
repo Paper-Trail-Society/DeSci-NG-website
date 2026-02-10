@@ -34,17 +34,19 @@ export default function ProgramCard({
           <CardTitle className="text-lg">{title}</CardTitle>
         </CardHeader>
 
-        <Text size={'sm'} className="text-gray-700 mb-4 flex-1">{description}</Text>
+        <Text size={"sm"} className="text-gray-700 mb-4 flex-1">
+          {description}
+        </Text>
 
         <div className="mt-auto">
-          <Button
-            variant={"link"}
-            className="px-0"
+          <Link
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:underline text-sm text-text-link underline-offset-4 font-medium"
           >
-            <Link href={link} target="_blank" rel="noopener noreferrer" className="hover:underline">
-              Recorded here
-            </Link>
-          </Button>
+            Recorded here
+          </Link>
         </div>
       </CardContent>
     </Card>

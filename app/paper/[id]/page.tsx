@@ -8,45 +8,88 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 import { Metadata, ResolvingMetadata } from "next";
-import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 type Props = {
-  params: Promise<{ id: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
 };
 
 export async function generateMetadata(
   { params, searchParams }: Props,
-  parent: ResolvingMetadata
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const paperId = (await params).id;
+  const paperId = params.id;
 
-  // fetch post information
-  const paper = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/papers/${paperId}`
-  ).then((res) => res.json() as Promise<Paper>);
+  const cookieStore = cookies();
+  const cookieHeader = (await cookieStore)
+    .getAll()
+    .map(({ name, value }) => `${name}=${value}`)
+    .join("; ");
 
-  return {
-    title: paper.title,
-    description: paper.abstract,
-  };
+  const headers: Record<string, string> = {};
+  if (cookieHeader) {
+    headers["cookie"] = cookieHeader;
+  }
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/papers/${paperId}`,
+      {
+        headers,
+        cache: "no-store",
+      },
+    );
+
+    if (!response.ok) {
+      return {
+        title: "Paper | Nubian research",
+        description: "View research papers published on nubianresearch.com",
+      };
+    }
+
+    const paper = (await response.json()) as Paper;
+
+    return {
+      title: paper.title,
+      description: paper.abstract,
+    };
+  } catch {
+    return {
+      title: "Paper | Nubian research",
+      description: "View research papers published on nubianresearch.com",
+    };
+  }
 }
 
-const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = await params;
+const Page = async ({ params }: { params: { id: string } }) => {
+  const { id } = params;
   const queryClient = new QueryClient();
 
-  // fetch post information
   await queryClient.ensureQueryData({
     queryKey: paperKeys.detail(id),
     queryFn: async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/papers/${id}`
-      )
-      if (res.ok === false) {
-        redirect("/404");
+      const cookieStore = cookies();
+      const cookieHeader = (await cookieStore).getAll()
+        .map(({ name, value }) => `${name}=${value}`)
+        .join("; ");
+
+      const headers: Record<string, string> = {};
+      if (cookieHeader) {
+        headers["cookie"] = cookieHeader;
       }
-      const paper = (await res.json()) as Paper;
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/papers/${id}`,
+        {
+          headers,
+          cache: "no-store",
+        },
+      );
+      let paper = null;
+      if (res.ok) {
+        paper = (await res.json()) as Paper;
+      }
 
       return paper;
     },
@@ -55,8 +98,8 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div>
-        <div className="items-center justify-items-center  pt-10 pb-20 w-full">
-          <section className="flex flex-col gap-14 items-center pt-10 pb-20 w-full">
+        <div className="items-center justify-items-center py-10 w-full">
+          <section className="flex flex-col gap-14 items-center pt-10 w-full">
             <div className="space-y-4 lg:w-3/5 md:w-4/5 w-full px-8">
               <PaperSearchInput className="w-full" />
             </div>

@@ -5,14 +5,14 @@ import { Paper } from "../types";
 import Link from "next/link";
 import { ABSTRACT_PREVIEW_LENGTH } from "../constants";
 import { Button } from "@/components/ui/button";
-import { BookOpenIcon, ChevronDown, ChevronUp, ExternalLink, Icon } from "lucide-react";
+import { ChevronUp } from "lucide-react";
 
 const PaperCard = (props: Paper) => {
   const { title, abstract, user, id, slug, ipfsCid } = props;
   const [isAbstractExpanded, setIsAbstractExpanded] = useState(false);
 
   return (
-    <Card className="border-none">
+    <Card className="border-none rounded-md shadow-md w-full">
       <CardHeader>
         <Text size={"xs"} className="hover:underline">
           <Link href={`/api/ipfs/${ipfsCid}`} target="_blank">
@@ -23,12 +23,12 @@ const PaperCard = (props: Paper) => {
           <Link href={`/paper/${slug}`}>{title}</Link>
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <Text size={"sm"}>
+      <CardContent className="space-y-1">
+        <Text className="text-xs md:text-sm">
           <b>Author(s)</b>: {user.name}
         </Text>
-        <Text size={"sm"}>
-          <b>Abstract</b>:{" "}
+        <Text className="text-xs md:text-sm">
+          <b>Abstract</b>{" "}
           <Text
             size={"sm"}
             className="leading-6 duration-300 transition-all ease-in-out"

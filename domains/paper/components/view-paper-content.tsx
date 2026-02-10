@@ -1,12 +1,13 @@
 "use client";
 import { Text } from "@/components/ui/text";
-import React, { useState } from "react";
+import React from "react";
 import useGetPaper from "../hooks/use-get-paper";
 import { TooltipInfo } from "@/components/ui/tooltip-info";
 import Link from "next/link";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { useAuthContext } from "@/lib/contexts/auth-context";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const ViewPaperContent = ({ paperId }: { paperId: string }) => {
   const { data: paper, isPending } = useGetPaper({ id: paperId });
@@ -14,8 +15,8 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
 
   if (isPending && !paper) {
     return (
-      <div className="flex flex-col gap-10 lg:w-3/5 md:w-4/5 w-full px-8 mx-auto">
-        <Text as="p" size={"md"} className="text-center w-full mx-auto">
+      <div className="flex flex-col gap-6 lg:w-3/5 md:w-4/5 w-full px-6 mx-auto">
+        <Text as="p" size={"md"} className="text-center text-muted-foreground">
           Loading paper...
         </Text>
       </div>
@@ -24,8 +25,8 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
 
   if (!paper) {
     return (
-      <div className="flex flex-col gap-10 lg:w-3/5 md:w-4/5 w-full px-8 mx-auto">
-        <Text as="p" size={"md"} className="text-center w-full mx-auto">
+      <div className="flex flex-col gap-6 lg:w-3/5 md:w-4/5 w-full px-6 mx-auto">
+        <Text as="p" size={"md"} className="text-center text-muted-foreground">
           Paper not found
         </Text>
       </div>
@@ -33,71 +34,111 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
   }
 
   return (
-    <div className="flex flex-col gap-10 lg:w-3/5 md:w-4/5 w-full px-8 mx-auto">
-      <div className="flex flex-col gap-4 text-left md:text-center">
-        <div className="flex justify-between items-center">
-          <Text size={"2xl"} weight={"semibold"}>
+    <div className="flex flex-col gap-10 lg:w-3/5 md:w-4/5 w-full px-6 mx-auto">
+      <header className="flex flex-col gap-3">
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
+          <Text
+            as="h2"
+            size={"2xl"}
+            weight={"semibold"}
+            className="text-left"
+          >
             {paper.title}
           </Text>
 
           {isAuthenticated && user.id === paper.userId && (
-            <Button variant={"outline"} size={"sm"}>
-              <Link href={`/paper/${paperId}/edit`}>Edit</Link>
-            </Button>
+            <Link href={`/paper/${paperId}/edit`} className="self-start">
+              <Button
+                variant="outline"
+                size="sm"
+                className="px-4"
+              >
+                Edit
+              </Button>
+            </Link>
           )}
         </div>
 
-        <Text size={"md"}>{paper.user.name}</Text>
+        <div className="flex items-center gap-2">
+          <Avatar size="sm">
+            <AvatarFallback className="text-xs h-6 w-6 rounded-full font-medium uppercase text-foreground/80">
+              {paper.user.name?.charAt(0) ?? "U"}
+            </AvatarFallback>
+          </Avatar>
+          <Text size={"sm"} className="text-muted-foreground">
+            {paper.user.name}
+          </Text>
+        </div>
 
-        <Text size={"sm"} className="leading-6 duration-300 transition-all ease-in-out">
+        <Text
+          size={"sm"}
+          className="leading-relaxed text-sm text-foreground/90"
+        >
           {paper.abstract}
         </Text>
-      </div>
+      </header>
 
-      <section className="md:w-2/3 w-full mx-auto flex flex-col gap-3">
-        <div>
-          <div className="flex flex-wrap justify-between gap-4 text-xs">
-            <p className="flex gap-2">
-              <TooltipInfo text="Coming soon">
-                <Text size={"xs"}>[AI Cross-Ref]</Text>
-              </TooltipInfo>
+      <section className="flex flex-col gap-3 text-xs text-muted-foreground">
+        <div className="flex flex-wrap items-center gap-3">
+          <TooltipInfo text="Coming soon">
+            <span className="rounded-full border px-2 py-0.5">
+              AI Cross-Ref
+            </span>
+          </TooltipInfo>
 
-              <Link
-                href={paper?.ipfsCid ? `/api/ipfs/${paper?.ipfsCid}` : "#"}
-                target="_blank"
-                className="hover:underline font-semibold"
-              >
-                [View PDF]
-              </Link>
-            </p>
-
-            <Text size={"xs"}>[Cite as: desci.ng.1308.2025]</Text>
-          </div>
+          {paper.ipfsCid && (
+            <Link
+              href={`/api/ipfs/${paper.ipfsCid}`}
+              target="_blank"
+              className="underline underline-offset-4"
+            >
+              View PDF
+            </Link>
+          )}
         </div>
-        <div>
-          <p className="flex flex-wrap justify-between gap-4 text-xs">
-            <Text size={"xs"}>
-              [Uploaded on {format(paper.createdAt ?? new Date(), "PPpp")}]
-            </Text>
 
-            {/* TODO: Add an hyperlink to the rendered tags that links to the search page and adds a tag as a query */}
-            {paper && paper.keywords.length > 0 && (
-              <Text size={"xs"}>
-                [{paper.keywords.map((keyword) => keyword.name).join(", ")}]
-              </Text>
-            )}
-          </p>
+        <div className="flex flex-wrap items-center gap-3">
+          <span>Cite as: desci.ng.1308.2025</span>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <span>
+            Uploaded on {format(paper.createdAt ?? new Date(), "PPpp")}
+          </span>
+
+          {paper && paper.keywords && paper.keywords.length > 0 && (
+            <div className="flex flex-wrap gap-1">
+              {paper.keywords.map((keyword) => (
+                <span
+                  key={keyword.id ?? keyword.name}
+                  className="rounded-full border px-2 py-0.5 text-[11px]"
+                >
+                  {keyword.name}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      <section>
+      <section className="flex flex-col gap-2">
         <Text as="p" size={"md"} weight={"semibold"}>
           Notes
         </Text>
 
-        <Text as="p" size={"sm"} className="leading-6">
-          {paper.notes}
-        </Text>
+        {paper.notes ? (
+          <Text as="p" size={"sm"} className="leading-relaxed text-sm">
+            {paper.notes}
+          </Text>
+        ) : (
+          <Text
+            as="p"
+            size={"sm"}
+            className="leading-relaxed text-sm text-muted-foreground"
+          >
+            No notes added yet.
+          </Text>
+        )}
       </section>
     </div>
   );

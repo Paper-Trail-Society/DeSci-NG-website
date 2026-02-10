@@ -44,7 +44,7 @@ const categories = [
 
 const CategoriesSection = () => {
   return (
-    <div className="flex flex-wrap md:flex-nowrap gap-6 items-center justify-center w-full">
+    <div className="flex flex-wrap md:flex-nowrap gap-6 items-center justify-center px-4 w-full">
       {categories.map((category, idx) => (
         <motion.div
           key={category.name}
@@ -52,7 +52,7 @@ const CategoriesSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.5, delay: idx * 0.15 }}
-          className="flex flex-col gap-2 lg:w-1/4 md:w-1/3 w-4/5 h-full shadow-md transition-shadow hover:shadow-xl rounded-lg bg-transparent"
+          className="flex flex-col gap-2 lg:w-1/4 md:w-1/3 w-full h-full shadow-md transition-shadow hover:shadow-xl rounded-lg bg-transparent"
         >
             <Link href={`/search?q=${category.query}`} className="block">
               <CardHeader className="p-0">

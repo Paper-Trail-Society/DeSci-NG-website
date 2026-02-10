@@ -2,6 +2,7 @@ export type Paper = {
   id: number;
   title: string;
   slug: string;
+  status: "pending" | "published" | "rejected";
   abstract: string;
   notes: string | null;
   ipfsCid: string;
@@ -24,7 +25,7 @@ export type Paper = {
     id: number;
     name: string;
     aliases: string[];
-  }[];
+  }[] | null;
 
   user: {
     id: number;
