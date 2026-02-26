@@ -11,7 +11,7 @@ import { Metadata, ResolvingMetadata } from "next";
 import { cookies } from "next/headers";
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
@@ -19,7 +19,7 @@ export async function generateMetadata(
   { params, searchParams }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const paperId = params.id;
+  const paperId = (await params).id;
 
   const cookieStore = cookies();
   const cookieHeader = (await cookieStore)
@@ -62,8 +62,8 @@ export async function generateMetadata(
   }
 }
 
-const Page = async ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
   const queryClient = new QueryClient();
 
   await queryClient.ensureQueryData({
@@ -87,6 +87,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
         },
       );
       let paper = null;
+
       if (res.ok) {
         paper = (await res.json()) as Paper;
       }
