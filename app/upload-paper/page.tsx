@@ -53,7 +53,6 @@ function UploadPaperContent() {
   const [selectedKeywords, setSelectedKeywords] = useState<
     CreateableSelectValue[]
   >([]);
-  const [newKeywords, setNewKeywords] = useState<CreateableSelectValue[]>([]);
 
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
 
@@ -97,19 +96,22 @@ function UploadPaperContent() {
       return;
     }
 
-    const selectedKeywordsArr: string[] = [];
-    const newKeywordsArr = newKeywords.map((keyword) => keyword.value.trim());
+    const selectedKeywordsIds: string[] = [];
+    const newKeywords: string[] = [];
 
     selectedKeywords.forEach((keyword) => {
-      if (!newKeywordsArr.includes(keyword.value.trim())) {
-        selectedKeywordsArr.push(keyword.value.trim());
+      const keywordValueIsNaN= isNaN(parseInt(keyword.value, 10));
+      if (keywordValueIsNaN) {
+        newKeywords.push(keyword.value)
+      } else {
+        selectedKeywordsIds.push(keyword.value)
       }
     });
 
     const payload = {
       ...values,
-      keywords: selectedKeywordsArr,
-      newKeywords: newKeywords.map((keyword) => keyword.value),
+      keywords: selectedKeywordsIds,
+      newKeywords: newKeywords,
       file: selectedFile,
     };
 
@@ -118,7 +120,6 @@ function UploadPaperContent() {
         form.reset();
         fileUploadComponentRef.current?.files == null;
         setSelectedKeywords([]);
-        setNewKeywords([]);
         setSelectedFile(null);
 
         toast.success("Paper uploaded successfully");
@@ -277,13 +278,17 @@ function UploadPaperContent() {
                     <Select
                       onValueChange={(value: string) => {
                         categoryIdToNameMap &&
-                          form.setValue("categoryId", categoryIdToNameMap[value], {
-                          shouldDirty: true,
-                          shouldValidate: true,
-                        });
+                          form.setValue(
+                            "categoryId",
+                            categoryIdToNameMap[value],
+                            {
+                              shouldDirty: true,
+                              shouldValidate: true,
+                            },
+                          );
                       }}
                     >
-                      <SelectTrigger className="text-text text-xs">
+                      <SelectTrigger className="text-text text-xs ring-1 ring-neutral-300">
                         <SelectValue
                           placeholder={
                             selectedFieldCategories
@@ -334,16 +339,6 @@ function UploadPaperContent() {
                     loadOptions={loadKeywordOptions}
                     value={selectedKeywords}
                     handleChange={(value, meta) => {
-                      if (meta?.action === "create-option") {
-                        // add the value to the newKeywords state
-                        setNewKeywords((prev) => [
-                          ...prev,
-                          ...value.map((val) => ({
-                            value: val.value,
-                            label: val.label,
-                          })),
-                        ]);
-                      }
                       setSelectedKeywords(
                         value.map((val) => ({
                           value: val.value,
