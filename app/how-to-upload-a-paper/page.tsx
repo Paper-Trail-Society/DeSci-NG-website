@@ -82,7 +82,7 @@ const Page = () => {
             <div className="relative w-full" style={{paddingTop: '56.25%'}}>
               <iframe
                 className="absolute top-0 left-0 w-full h-full"
-                src={`https://www.youtube.com/embed/tBn0yliF4Lg?si=ARhvwmCFOcsI_1rT`}
+                src={`https://www.youtube.com/embed/tBn0yliF4Lg`}
                 title="Upload process video"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
