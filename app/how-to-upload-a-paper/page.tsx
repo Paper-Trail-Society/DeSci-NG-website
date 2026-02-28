@@ -72,10 +72,24 @@ const Page = () => {
           </StepCard>
           <StepCard number="5">
             <Text size={"sm"}>
-              Once approved, your paper is stored securely and publicly on Nubian
-              Research. Share the link to the paper to everyone.
-            </Text>
+              Once approved, your paper is made publicly available through a dedicated link. You can use this link to make your work accessible to others. 
+              </Text>
           </StepCard>
+
+          {/* YouTube embed*/}
+          <div className="w-full mt-4">
+            <Text weight={"bold"} className="mb-2"></Text>
+            <div className="relative w-full" style={{paddingTop: '56.25%'}}>
+              <iframe
+                className="absolute top-0 left-0 w-full h-full"
+                src={`https://www.youtube.com/embed/tBn0yliF4Lg`}
+                title="Upload process video"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+          </div>
         </section>
       </div>
     </div>
