@@ -2,10 +2,12 @@
 
 import { authClient } from "@/lib/auth-client";
 import { createContext, ReactNode, useContext } from "react";
-import { useUser } from "@/domains/auth/hooks/use-user";
+import { useGetMe } from "@/domains/auth/hooks/use-user";
 import { useQueryClient } from "@tanstack/react-query";
 
-type User = NonNullable<ReturnType<typeof authClient.useSession>['data']>['user'];
+type User = NonNullable<
+  ReturnType<typeof authClient.useSession>["data"]
+>["user"];
 
 interface AuthContextType {
   user: User;
@@ -17,7 +19,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { data: user, isPending } = useUser();
+  const { data: user, isPending } = useGetMe();
   const queryClient = useQueryClient();
 
   const logout = async () => {

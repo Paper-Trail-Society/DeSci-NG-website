@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { useAuthContext } from "@/lib/contexts/auth-context";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import PaperComments from "./paper-comments";
 
 const ViewPaperContent = ({ paperId }: { paperId: string }) => {
   const { data: paper, isPending } = useGetPaper({ id: paperId });
@@ -140,6 +141,8 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
           </Text>
         )}
       </section>
+
+      {paper && <PaperComments paperId={paper.id}/>}
     </div>
   );
 };
