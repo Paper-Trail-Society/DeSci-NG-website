@@ -223,27 +223,41 @@ const PaperComments = ({ paperId }: CommentSectionProps) => {
       </div>
 
       {/* Auth Dialog */}
-      <Dialog open={isAuthDialogOpen} onOpenChange={setIsAuthDialogOpen}>
-        <DialogOverlay />
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Sign in Required</DialogTitle>
-            <DialogDescription>
-              You must be signed in to post a comment. Please sign in or create an account to continue.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="mt-4 flex gap-2 sm:justify-end">
-            <Button variant="outline" onClick={() => setIsAuthDialogOpen(false)}>
-              Cancel
-            </Button>
-            <Link href="/login">
-              <Button>Sign In</Button>
-            </Link>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <AuthRequiredDialog 
+        open={isAuthDialogOpen} 
+        onOpenChange={setIsAuthDialogOpen} 
+      />
     </section>
   );
 }
+
+interface AuthRequiredDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+const AuthRequiredDialog = ({ open, onOpenChange }: AuthRequiredDialogProps) => {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Sign in Required</DialogTitle>
+          <DialogDescription>
+            You must be signed in to post a comment. Please sign in or create an account to continue.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="mt-4 flex gap-2 sm:justify-end">
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
+          
+          <Button>
+            <Link href="/login">Sign In</Link>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 export default PaperComments;
