@@ -54,6 +54,9 @@ const config: Config = {
           DEFAULT: 'var(--secondary)',
         },
       },
+      fontSize: {
+        'sm': '13px',
+      },
       backgroundColor: {
         background: '#fff',
         'background-lighter': '#f1f5f9',
