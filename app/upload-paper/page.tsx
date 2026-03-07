@@ -37,6 +37,7 @@ import useGetFields from "@/domains/fields/hooks/use-get-fields";
 import useUploadPaper from "@/domains/paper/hooks/use-upload-paper";
 import { toast } from "sonner";
 import { isAxiosError } from "axios";
+import { Loader2 } from "lucide-react";
 
 const ALLOWED_FILE_TYPES = ["application/pdf"];
 
@@ -452,8 +453,12 @@ function UploadPaperContent() {
                     disabled={isUploadingPaper}
                     variant={"destructive"}
                     className="text-xs md:text-sm"
-                  >
-                    UPLOAD PAPER
+                  > 
+                    {isUploadingPaper ? (
+                      <Loader2 size={16} className="animate-spin" />
+                    ) : (
+                      "UPLOAD PAPER"
+                    )}
                   </Button>
                 </div>
               </form>
