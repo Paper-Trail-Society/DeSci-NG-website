@@ -41,6 +41,45 @@ export default function Home() {
               </Text>
 
               <SuccessStoriesSection />
+              
+              <section className="w-full mt-12">
+                <Text
+                  weight={"bold"}
+                  as="h2"
+                  className="text-center leading-6 text-3xl font-semibold"
+                >
+                  Partners
+                </Text>
+
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-8 items-center justify-items-center">
+                  <div className="flex items-center justify-center">
+                    <img
+                      src="/assets/sba.png"
+                      alt="Desci NG"
+                      className="h-12 md:h-16 w-auto object-contain"
+                      style={{ maxWidth: 220 }}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-center">
+                    <img
+                      src="/assets/scl.png"
+                      alt="Applied Science"
+                      className="h-12 md:h-16 w-auto object-contain"
+                      style={{ maxWidth: 220, filter: 'brightness(0) saturate(100%)' }}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-center">
+                    <img
+                      src="/assets/nunet.svg"
+                      alt="Blockchain Tech"
+                      className="h-16 md:h-22 w-auto object-contain"
+                      style={{ maxWidth: 280 }}
+                    />
+                  </div>
+                </div>
+              </section>
             </div>
           </section>
         </main>
