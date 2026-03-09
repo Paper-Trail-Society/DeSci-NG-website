@@ -74,8 +74,8 @@ export default function Home() {
                     <img
                       src="/assets/nunet.svg"
                       alt="Blockchain Tech"
-                      className="h-12 md:h-16 w-auto object-contain"
-                      style={{ maxWidth: 220 }}
+                      className="h-16 md:h-22 w-auto object-contain"
+                      style={{ maxWidth: 280 }}
                     />
                   </div>
                 </div>
