@@ -6,7 +6,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Nubian | About Us",
-  description: "Learn more about Nubian, Africa's first decentralized research infrastructure, our mission, vision, and the team behind the initiative.",
+  description: "Learn more about Nubian, our mission, vision, and the team behind the initiative.",
 };
 
 const featuredItems = [
@@ -84,16 +84,15 @@ const Page = () => {
 
           <div className="md:w-2/3 w-full text-left md:text-center flex flex-col gap-2 md:gap-4 px-4">
             <Text className="text-base md:text-lg">
-              Formerly known as "Decentralized Science Nigeria", Nubian is Africa&apos;s first decentralized research infrastructure,
-              making African research open, secure, and globally accessible,
-              forever.
+              Formerly known as "Decentralized Science Nigeria", Nubian is the premier decentralized research infrastructure
+              for underserved researchers.
             </Text>
             <Text className="text-base md:text-lg">
-              For far too long, African scholarship remains siloed in
-              institutions across the continent, limiting shared knowledge and
+              For far too long, scholarship across the Global South remains siloed in
+              institutions, limiting shared knowledge and
               the speed of innovation. We are reimagining this challenge by
-              providing a collective where anyone can publish, share, and build
-              on contextual African and related studies.
+              providing a collective where scholars can publish, share, and build
+              on contextual knowledge.
             </Text>
             <Text className="text-base md:text-lg">
               Today, our collective spans across West Africa and India, with the
@@ -108,13 +107,8 @@ const Page = () => {
               purpose-built against loss, tampering, and being kept out of reach
               for the very people who need it most. This creates a multiplier
               effect for scholars within and outside the continent to consult
-              contextual African studies, innovate to build custom solutions for
-              Africa, and join forces with the rest of the world to address
+              contextual studies, innovate to build custom solutions, and join forces with the rest of the world to address
               concerns that cannot wait.
-            </Text>
-            <Text className="text-base md:text-lg">
-              Our vision is an Africa where discoveries endure and move the
-              world forward.
             </Text>
           </div>
 
