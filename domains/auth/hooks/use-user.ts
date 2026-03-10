@@ -22,7 +22,7 @@ async function fetchUser() {
   }
 }
 
-export function useUser() {
+export function useGetMe() {
   return useQuery({
     queryKey: ["user"],
     queryFn: fetchUser,
