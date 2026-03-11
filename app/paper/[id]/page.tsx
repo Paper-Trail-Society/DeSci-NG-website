@@ -15,51 +15,60 @@ type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
+async function fetchPaperById(paperId: string): Promise<Paper | null> {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/papers/${paperId}`, {
+      cache: "no-store",
+    });
+    if (!res.ok) return null;
+    return (await res.json()) as Paper;
+  } catch (err) {
+    console.error("fetchPaperById error:", err);
+    return null;
+  }
+}
+
 export async function generateMetadata(
-  { params, searchParams }: Props,
-  parent: ResolvingMetadata,
+  { params }: Props,
 ): Promise<Metadata> {
   const paperId = (await params).id;
+  const paper = await fetchPaperById(paperId);
+  const canonical = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/paper/${paperId}`;
 
-  const cookieStore = cookies();
-  const cookieHeader = (await cookieStore)
-    .getAll()
-    .map(({ name, value }) => `${name}=${value}`)
-    .join("; ");
-
-  const headers: Record<string, string> = {};
-  if (cookieHeader) {
-    headers["cookie"] = cookieHeader;
-  }
-
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/papers/${paperId}`,
-      {
-        headers,
-        cache: "no-store",
-      },
-    );
-
-    if (!response.ok) {
-      return {
-        title: "Paper | Nubian research",
-        description: "View research papers published on nubianresearch.com",
-      };
-    }
-
-    const paper = (await response.json()) as Paper;
-
-    return {
-      title: paper.title,
-      description: paper.abstract,
-    };
-  } catch {
-    return {
-      title: "Paper | Nubian research",
-      description: "View research papers published on nubianresearch.com",
-    };
-  }
+  return {
+    title: paper?.title ?? 'Paper',
+    description: paper?.abstract ?? '',
+    openGraph: {
+      title: paper?.title,
+      description: paper?.abstract,
+      url: canonical,
+      // support several possible image fields without relying on a strict Paper type
+      images: (() => {
+        const img =
+          (paper as any)?.coverImageUrl ??
+          (paper as any)?.cover_image ??
+          (paper as any)?.image ??
+          (paper as any)?.cover ??
+          undefined;
+        return img ? [{ url: img }] : [];
+      })(),
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: paper?.title,
+      description: paper?.abstract,
+      images: (() => {
+        const img =
+          (paper as any)?.coverImageUrl ??
+          (paper as any)?.cover_image ??
+          (paper as any)?.image ??
+          (paper as any)?.cover ??
+          undefined;
+        return img ? [img] : [];
+      })(),
+    },
+  };
 }
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
@@ -95,6 +104,10 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
       return paper;
     },
   });
+
+  const paper = queryClient.getQueryData(paperKeys.detail(id)) as Paper | undefined;
+  const paperTitle = paper?.title ?? `Paper • ${id}`;
+  const canonical = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/paper/${id}`;
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
