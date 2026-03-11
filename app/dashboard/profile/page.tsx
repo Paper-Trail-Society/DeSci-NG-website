@@ -125,17 +125,19 @@ function ProfileContent() {
                 <Text size={"sm"} className="flex items-center gap-2 text-gray-500">
                   <Mail className="h-4 w-4" /> Email
                 </Text>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col">
                   <Text>{profileData.email}</Text>
-                  {profileData.emailVerified ? (
-                    <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
-                      Verified
-                    </span>
-                  ) : (
-                    <span className="rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
-                      Unverified
-                    </span>
-                  )}
+                  <div className="mt-2">
+                    {profileData.emailVerified ? (
+                      <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
+                        Verified
+                      </span>
+                    ) : (
+                      <span className="rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
+                        Unverified
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
 
