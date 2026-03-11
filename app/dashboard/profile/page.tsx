@@ -66,7 +66,7 @@ function ProfileContent() {
   return (
     <div className="min-h-screen bg-white">
       <div className="md:p-container-lg p-container-base">
-        <section className="mx-auto flex h-full w-full max-w-4xl flex-col gap-8 rounded-2xl border border-gray-200 bg-white p-container-base shadow-sm">
+        <section className="mx-auto -mx-4 sm:mx-0 flex h-full w-full max-w-4xl flex-col gap-8 rounded-2xl border border-gray-200 bg-white p-container-base shadow-sm">
           <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="space-y-1">
               <Text size={"lg"} weight={"semibold"}>
