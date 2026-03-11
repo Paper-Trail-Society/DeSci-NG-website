@@ -35,8 +35,11 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
     );
   }
 
-  // compute slug (prefer slug field, fallback to id)
-  const sharePathId = paper?.slug ?? paper?.slugified ?? paper?.slug_name ?? paper?.id;
+  // compute slug (prefer slug field, fallback to id) — use `any` to avoid TS errors during build
+  const sharePathId = (() => {
+    const p = paper as any;
+    return p?.slug ?? p?.slugified ?? p?.slug_name ?? p?.id;
+  })();
   const canonical = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/paper/${sharePathId}`;
 
   return (
