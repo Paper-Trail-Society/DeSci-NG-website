@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useAuthContext } from "@/lib/contexts/auth-context";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import PaperComments from "./paper-comments";
+import ShareButtons from "@/components/shared/share-buttons";
 
 const ViewPaperContent = ({ paperId }: { paperId: string }) => {
   const { data: paper, isPending } = useGetPaper({ id: paperId });
@@ -34,6 +35,10 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
     );
   }
 
+  // compute slug (prefer slug field, fallback to id)
+  const sharePathId = paper?.slug ?? paper?.slugified ?? paper?.slug_name ?? paper?.id;
+  const canonical = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/paper/${sharePathId}`;
+
   return (
     <div className="flex flex-col gap-10 lg:w-3/5 md:w-4/5 w-full px-6 mx-auto">
       <header className="flex flex-col gap-3">
@@ -47,16 +52,27 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
             {paper.title}
           </Text>
 
+          {/* keep space for alignment on wide screens */}
+        </div>
+
+        {/* Row with share buttons (left) and edit button (right) */}
+        <div className="mt-2 flex items-center justify-between">
+          <div>
+            <ShareButtons
+              url={canonical}
+              title={paper.title ?? ''}
+              text={`Check out this paper: ${paper.title ?? ''}`}
+            />
+          </div>
+
           {isAuthenticated && user.id === paper.userId && (
-            <Link href={`/paper/${paperId}/edit`} className="self-start">
-              <Button
-                variant="outline"
-                size="sm"
-                className="px-4"
-              >
-                Edit
-              </Button>
-            </Link>
+            <div>
+              <Link href={`/paper/${paperId}/edit`}>
+                <Button variant="outline" size="sm" className="px-3 py-1">
+                  Edit
+                </Button>
+              </Link>
+            </div>
           )}
         </div>
 
