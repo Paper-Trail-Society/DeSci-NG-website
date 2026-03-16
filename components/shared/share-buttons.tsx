@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Share2, Twitter, Mail, Linkedin } from 'lucide-react';
+import { Share2Icon, TwitterIcon, LinkedinIcon } from 'lucide-react';
 
 type Props = {
   url: string;
@@ -69,15 +69,15 @@ export default function ShareButtons({ url, title = '', text = '' }: Props) {
   return (
     <div className="flex items-center gap-2">
       <button aria-label="Share" title="Share" onClick={shareNative} className={btnClass}>
-        <Share2 size={12} />
+        <Share2Icon size={12} />
       </button>
 
       <button aria-label="Share on X" title="Share on X" onClick={() => openWindow(tweet)} className={btnClass}>
-        <Twitter size={12} />
+        <TwitterIcon size={12} />
       </button>
 
       <button aria-label="Share on LinkedIn" title="Share on LinkedIn" onClick={handleLinkedIn} className={btnClass}>
-        <Linkedin size={12} />
+        <LinkedinIcon size={12} />
       </button>
     </div>
   );

@@ -35,12 +35,9 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
     );
   }
 
-  // compute slug (prefer slug field, fallback to id) — use `any` to avoid TS errors during build
-  const sharePathId = (() => {
-    const p = paper as any;
-    return p?.slug ?? p?.slugified ?? p?.slug_name ?? p?.id;
-  })();
-  const canonical = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/paper/${sharePathId}`;
+  const canonical = paper
+    ? `${process.env.NEXT_PUBLIC_BASE_URL!}/paper/${paper.slug}`
+    : null;
 
   return (
     <div className="flex flex-col gap-10 lg:w-3/5 md:w-4/5 w-full px-6 mx-auto">
@@ -60,13 +57,15 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
 
         {/* Row with share buttons (left) and edit button (right) */}
         <div className="mt-2 flex items-center justify-between">
-          <div>
-            <ShareButtons
-              url={canonical}
-              title={paper.title ?? ''}
-              text={`Check out this paper: ${paper.title ?? ''}`}
-            />
-          </div>
+          {canonical && (
+            <div>
+              <ShareButtons
+                url={canonical}
+                title={paper.title ?? ''}
+                text={`Check out this paper: ${paper.title ?? ''}`}
+              />
+            </div>
+          )}
 
           {isAuthenticated && user.id === paper.userId && (
             <div>
