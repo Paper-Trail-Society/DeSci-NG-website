@@ -80,7 +80,7 @@ const CommentItem = ({ comment, onReply, isReply = false, paperId }: CommentItem
         
         {/* Body */}
         <div 
-          className="prose prose-sm prose-neutral mt-1 max-w-none text-sm leading-relaxed text-neutral-700 prose-p:my-0.5 prose-a:text-primary break-words"
+          className="prose prose-sm prose-neutral mt-1 max-w-none text-sm leading-relaxed text-neutral-700 prose-p:my-0.5 prose-a:text-primary wrap-break-word"
           dangerouslySetInnerHTML={{ __html: comment.bodyHtml }}
         />
 

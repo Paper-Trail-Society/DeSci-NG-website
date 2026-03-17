@@ -142,7 +142,7 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
         )}
       </section>
 
-      {paper && <PaperComments paperId={paper.id}/>}
+      {paper && <PaperComments paperId={paper.id} paperSlug={paper.slug}/>}
     </div>
   );
 };
