@@ -84,8 +84,7 @@ const Page = () => {
 
           <div className="md:w-2/3 w-full text-left md:text-center flex flex-col gap-2 md:gap-4 px-4">
             <Text className="text-base md:text-lg">
-              Formerly known as "Decentralized Science Nigeria", Nubian is the premier decentralized research infrastructure
-              for underserved researchers.
+              Formerly known as "Decentralized Science Nigeria", Nubian is an open‑access research infrastructure that welcomes scholarly contributions from every discipline.
             </Text>
             <Text className="text-base md:text-lg">
               For far too long, scholarship across the Global South remains siloed in
