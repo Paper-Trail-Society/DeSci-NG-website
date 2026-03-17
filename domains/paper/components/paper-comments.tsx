@@ -17,12 +17,14 @@ import CommentInputField from './comment-input-field';
 import CommentItem from './comment-item';
 import { useAddPaperComment } from '../hooks/use-add-paper-comment';
 import usePaperComments, { CommentSortDir, PaperComment } from '../hooks/use-paper-comments';
+import AuthRequiredDialog from '@/domains/auth/components/auth-required-dialog';
 
 type CommentSectionProps = {
   paperId: number;
+  paperSlug: string
 };
 
-const PaperComments = ({ paperId }: CommentSectionProps) => {
+const PaperComments = ({ paperId, paperSlug }: CommentSectionProps) => {
   const { data: user } = useGetMe();
   const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
   const [currentSort, setCurrentSort] = useState<CommentSortDir>('desc');
@@ -134,8 +136,9 @@ const PaperComments = ({ paperId }: CommentSectionProps) => {
 
         {comments.length > 0 && (
           <div className="flex items-center rounded-full bg-neutral-100/80 p-0.5 shadow-inner backdrop-blur-sm">
-            <button
+            <Button
               onClick={() => setCurrentSort('desc')}
+              variant={"ghost"}
               className={cn(
                 'rounded-full px-3 py-1 text-xs font-semibold transition-all duration-200',
                 currentSort === 'desc'
@@ -144,9 +147,10 @@ const PaperComments = ({ paperId }: CommentSectionProps) => {
               )}
             >
               Newest
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setCurrentSort('asc')}
+              variant={"ghost"}
               className={cn(
                 'rounded-full px-3 py-1 text-xs font-semibold transition-all duration-200',
                 currentSort === 'asc'
@@ -155,7 +159,7 @@ const PaperComments = ({ paperId }: CommentSectionProps) => {
               )}
             >
               Oldest
-            </button>
+            </Button>
           </div>
         )}
       </div>
@@ -226,38 +230,11 @@ const PaperComments = ({ paperId }: CommentSectionProps) => {
       <AuthRequiredDialog 
         open={isAuthDialogOpen} 
         onOpenChange={setIsAuthDialogOpen} 
+        description='You must be signed in to post a comment. Please sign in or create an account to continue.'
+        returnTo={`/paper/${paperSlug}`}
       />
     </section>
   );
 }
-
-interface AuthRequiredDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
-
-const AuthRequiredDialog = ({ open, onOpenChange }: AuthRequiredDialogProps) => {
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Sign in Required</DialogTitle>
-          <DialogDescription>
-            You must be signed in to post a comment. Please sign in or create an account to continue.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter className="mt-4 flex gap-2 sm:justify-end">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
-          </Button>
-          
-          <Button>
-            <Link href="/login">Sign In</Link>
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
-};
 
 export default PaperComments;
