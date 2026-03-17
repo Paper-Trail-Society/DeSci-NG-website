@@ -42,31 +42,12 @@ export async function generateMetadata(
       title: paper?.title,
       description: paper?.abstract,
       url: canonical,
-      // support several possible image fields without relying on a strict Paper type
-      images: (() => {
-        const img =
-          (paper as any)?.coverImageUrl ??
-          (paper as any)?.cover_image ??
-          (paper as any)?.image ??
-          (paper as any)?.cover ??
-          undefined;
-        return img ? [{ url: img }] : [];
-      })(),
       type: 'article',
     },
     twitter: {
       card: 'summary_large_image',
       title: paper?.title,
       description: paper?.abstract,
-      images: (() => {
-        const img =
-          (paper as any)?.coverImageUrl ??
-          (paper as any)?.cover_image ??
-          (paper as any)?.image ??
-          (paper as any)?.cover ??
-          undefined;
-        return img ? [img] : [];
-      })(),
     },
   };
 }
@@ -106,8 +87,6 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   });
 
   const paper = queryClient.getQueryData(paperKeys.detail(id)) as Paper | undefined;
-  const paperTitle = paper?.title ?? `Paper • ${id}`;
-  const canonical = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/paper/${id}`;
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
