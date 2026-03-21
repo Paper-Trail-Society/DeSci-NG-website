@@ -168,7 +168,7 @@ const PaperComments = ({ paperId, paperSlug }: CommentSectionProps) => {
       <div className="mb-6">
         <CommentInputField
           isSubmitting={isAddCommentPending}
-          placeholder="Write a comment..."
+          placeholder="Write a comment (in plain text or markdown)..."
           onSubmitComment={handleSubmitComment}
         />
       </div>
