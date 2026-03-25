@@ -24,7 +24,7 @@ const featuredItems = [
     link: "https://x.com/desciworld/status/1919378505139093839",
   },
   {
-    publication: "Harri Obi (Co-lead, Superteam NG)",
+    publication: "Dr. Harri (Lead, Superteam NG)",
     quote:
       "Solana DeSci: DeSci is growing exponentially right now. Who should we be following? Tag your favorite Solana DeSci project. <br><br> Harri Obi: DeSci NG are doing an amazing job.",
     link: "https://x.com/Harri_obi/status/1954172815101345943",

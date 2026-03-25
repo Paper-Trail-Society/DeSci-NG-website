@@ -16,7 +16,8 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: "Nubian",
-  description: "Nubian is Africa's first decentralized research infrastructure, making African research open, secure, and globally accessible, forever.",
+  description:
+    "Nubian is building an open-access research infrastructure that welcomes scholarly contributions from every discipline.",
   icons: {
     icon: "/favicon.svg",
   },

@@ -5,7 +5,8 @@ import React from "react";
 
 export const metadata: Metadata = {
   title: "Nubian | Programs",
-  description: "Explore programs offered by Nubian to support African research and researchers.",
+  description:
+    "Explore programs offered by Nubian to support open scholarship, research collaboration, and scholarly contributions across disciplines.",
 };
 
 export default function ProgramsLayout({

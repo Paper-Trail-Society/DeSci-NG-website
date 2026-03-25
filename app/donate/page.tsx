@@ -6,19 +6,19 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Nubian | Donate",
-  description: "Support Nubian's mission to make African research open, secure, and globally accessible by donating to our cause.",
+  description: "Support Nubian's mission to make under-represented research open, secure, and globally accessible.",
 };
 
 const impactAreas = [
   {
     title: "Student research grants",
     description:
-      "Support microgrants that help students across African universities design, run, and publish context-rich research projects.",
+      "Microgrants that help students across the Global South design, run, and publish context-rich research projects.",
   },
   {
     title: "Open infrastructure",
     description:
-      "Fund the storage, indexing, and long-term preservation of African scholarship so that it stays accessible, verifiable, and reusable.",
+      "Fund the storage, indexing, and long-term preservation of scholarship from under-represented communities so that it stays accessible, verifiable, and reusable.",
   },
   {
     title: "Community & programs",
@@ -40,19 +40,18 @@ const DonatePage = () => {
               className="text-xl md:text-3xl leading-7 md:leading-9"
               weight="bold"
             >
-              Help keep African research open and accessible, forever.
+              Help keep under-represented research open and accessible.
             </Text>
 
             <Text className="text-base md:text-lg">
-              Although Africa represents about 17% of the world&apos;s population, it contributes less than 3% of global research output. 
-              Nubian (formerly DeSci Nigeria) is building a decentralized research
-              infrastructure to make under-represented research accessible to all.
+              The Global South holds over 85% of the world&apos;s population, yet contributes less than 10% of global research output. Africa, for instance, is home to 17% of the world&apos;s population but accounts for only 3% of global research output. Nubian is building a decentralized open-access collective to close these gaps by making under-represented research accessible for all.
             </Text>
 
             <Text className="text-sm md:text-base text-text-dim">
-              Your donation directly supports under-represented researchers, long-term
-              preservation of African scholarship, and the community initiatives that keep
-              this collective alive. 
+              Your donation directly supports under-represented researchers, the
+              long-term preservation of scholarship from under-represented
+              regions, and the community initiatives that keep this collective
+              alive.
             </Text>
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mt-4">
@@ -86,8 +85,8 @@ const DonatePage = () => {
                   Microgrants for undergraduate and early-career research.
                 </li>
                 <li>
-                  Infrastructure that keeps African papers searchable and
-                  tamper-resistant.
+                  Infrastructure that keeps scholarship from under-represented
+                  regions accessible and tamper-resistant.
                 </li>
                 <li>
                   Convenings, dialogues, and collaborations across institutions
