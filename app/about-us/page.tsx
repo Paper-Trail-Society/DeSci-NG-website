@@ -26,7 +26,7 @@ const featuredItems = [
   {
     publication: "Dr. Harri (Lead, Superteam NG)",
     quote:
-      "Solana DeSci: DeSci is growing exponentially right now. Who should we be following? Tag your favorite Solana DeSci project. <br><br> Harri Obi: DeSci NG are doing an amazing job.",
+      "Solana DeSci: DeSci is growing exponentially right now. Who should we be following? Tag your favorite Solana DeSci project. <br><br> Dr. Harri: DeSci NG are doing an amazing job.",
     link: "https://x.com/Harri_obi/status/1954172815101345943",
   },
 ];
@@ -84,7 +84,15 @@ const Page = () => {
 
           <div className="md:w-2/3 w-full text-left md:text-center flex flex-col gap-2 md:gap-4 px-4">
             <Text className="text-base md:text-lg">
-              Formerly known as "Decentralized Science Nigeria", Nubian is an open‑access research infrastructure that welcomes scholarly contributions from every discipline.
+              Formerly known as{" "}
+              <Link
+                href="/press/desci-nigeria-evolves-into-nubian-research"
+                className="transition-colors hover:text-primary hover:underline underline-offset-4"
+              >
+                Decentralized Science Nigeria
+              </Link>
+              , Nubian is an open-access research infrastructure that welcomes
+              scholarly contributions from every discipline.
             </Text>
             <Text className="text-base md:text-lg">
               For far too long, scholarship across the Global South remains siloed in

@@ -181,6 +181,16 @@ const Footer = () => {
                 </Text>
               </Link>
             </li>
+            <li>
+              <Link className="inline-block" href="/press">
+                <Text
+                  size="xs"
+                  className="hover:text-primary transition-colors"
+                >
+                  Press
+                </Text>
+              </Link>
+            </li>
           </ul>
         </div>
 
