@@ -8,7 +8,8 @@ import HeroSection from "@/components/home/hero-section";
 
 export const metadata: Metadata = {
   title: "Nubian | fka DeSci Nigeria",
-  description: "Nubian is Africa's first decentralized research infrastructure, making African research open, secure, and globally accessible, forever." 
+  description:
+    "Nubian is building an open-access research infrastructure that welcomes scholarly contributions from every discipline.",
 };
 
 
