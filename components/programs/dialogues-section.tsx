@@ -3,9 +3,17 @@ import ProgramCard from "./program-card";
 
 const dialogues = [
   {
+    title: "Episode 4",
+    image: "/assets/EP4.png",
+    description:
+      "On April 2nd, we engage Dr. Harri (Lead, Superteam Nigeria), on his doctoral study on stablecoin adoption in Nigeria. We take the numbers and look beyond the numbers to ask: why stablecoins, and what does it reveal about trust in Nigeria today?",
+    link: "https://x.com/nubianresearch_/status/2037127884611989695",
+  },
+  {
     title: "Episode 3",
     image: "/assets/EP3.png",
-    description: "This Saturday, we look to a people, their history, and their identity. Join us as we engage Uche Ezejiofor on her honours thesis and unpack the ideas behind the paper and what Biafra still reveals about power, identity, and the unfinished African project.",
+    description:
+      "This Saturday, we look to a people, their history, and their identity. Join us as we engage Uche Ezejiofor on her honours thesis and unpack the ideas behind the paper and what Biafra still reveals about power, identity, and the unfinished African project.",
     link: "https://x.com/nubianresearch_/status/2000911847222894818",
   },
   {
