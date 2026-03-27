@@ -1,23 +1,35 @@
 'use client';
 
-import { AxiosError } from 'axios';
-import { MessageCircle } from 'lucide-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import React from 'react';
-import { toast } from 'sonner';
+import { AxiosError } from "axios";
+import { MessageCircle, Trash2 } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import React from "react";
+import { toast } from "sonner";
 
-import { Loader2 } from 'lucide-react';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, DialogOverlay } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { cn } from '@/lib/utils/css';
-import { Text } from '@/components/ui/text';
-import { useGetMe } from '@/domains/auth/hooks/use-user';
-import CommentInputField from './comment-input-field';
-import CommentItem from './comment-item';
-import { useAddPaperComment } from '../hooks/use-add-paper-comment';
-import usePaperComments, { CommentSortDir, PaperComment } from '../hooks/use-paper-comments';
-import AuthRequiredDialog from '@/domains/auth/components/auth-required-dialog';
+import { Loader2 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { cn } from "@/lib/utils/css";
+import { Text } from "@/components/ui/text";
+import { useGetMe } from "@/domains/auth/hooks/use-user";
+import CommentInputField from "./comment-input-field";
+import CommentItem, { ParentCommentItem } from "./comment-item";
+import { useAddPaperComment } from "../hooks/use-add-paper-comment";
+import usePaperComments, {
+  CommentSortDir,
+  PaperComment,
+} from "../hooks/use-paper-comments";
+import AuthRequiredDialog from "@/domains/auth/components/auth-required-dialog";
+import useUpdatePaperComment from "../hooks/use-update-paper-comment";
+import useDeletePaperComment from "../hooks/use-delete-paper-comment";
 
 type CommentSectionProps = {
   paperId: number;
@@ -30,6 +42,10 @@ const PaperComments = ({ paperId, paperSlug }: CommentSectionProps) => {
   const [currentSort, setCurrentSort] = useState<CommentSortDir>('desc');
   const commentContainerRef = useRef<HTMLDivElement>(null);
   const observerTarget = useRef<HTMLDivElement>(null);
+  const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
+  const [commentPendingDelete, setCommentPendingDelete] =
+    useState<PaperComment | null>(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const {
     data,
@@ -41,6 +57,14 @@ const PaperComments = ({ paperId, paperSlug }: CommentSectionProps) => {
   } = usePaperComments(paperId, currentSort);
 
   const { mutate: addComment, isPending: isAddCommentPending } = useAddPaperComment();
+  const {
+    mutate: updateComment,
+    isPending: isUpdateCommentPending,
+  } = useUpdatePaperComment();
+  const {
+    mutate: deleteComment,
+    isPending: isDeleteCommentPending,
+  } = useDeletePaperComment();
 
   const comments = useMemo(() => {
     if (!data?.pages) return [];
@@ -125,6 +149,75 @@ const PaperComments = ({ paperId, paperSlug }: CommentSectionProps) => {
     });
   };
 
+  const handleStartEditComment = (comment: PaperComment) => {
+    setEditingCommentId(comment.id);
+  };
+
+  const handleCancelEditComment = () => {
+    setEditingCommentId(null);
+  };
+
+  const handleSubmitEditComment = (comment: PaperComment, body: string) => {
+    updateComment(
+      {
+        paperId,
+        commentId: comment.id,
+        body,
+        parentCommentId: comment.parentCommentId,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Comment updated", { id: "update-comment" });
+          setEditingCommentId(null);
+        },
+        onError: (err: any) => {
+          if (err instanceof AxiosError) {
+            toast.error(
+              err.response?.data.error ||
+                `Unable to update comment. ${err.message}`,
+            );
+          } else {
+            toast.error("Unable to update comment");
+          }
+        },
+      },
+    );
+  };
+
+  const handleRequestDeleteComment = (comment: PaperComment) => {
+    setCommentPendingDelete(comment);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleConfirmDeleteComment = () => {
+    if (!commentPendingDelete) return;
+
+    deleteComment(
+      {
+        paperId,
+        commentId: commentPendingDelete.id,
+        parentCommentId: commentPendingDelete.parentCommentId,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Comment deleted", { id: "delete-comment" });
+          setIsDeleteDialogOpen(false);
+          setCommentPendingDelete(null);
+        },
+        onError: (err: any) => {
+          if (err instanceof AxiosError) {
+            toast.error(
+              err.response?.data.error ||
+                `Unable to delete comment. ${err.message}`,
+            );
+          } else {
+            toast.error("Unable to delete comment");
+          }
+        },
+      },
+    );
+  };
+
   return (
     <section className="relative mt-8 w-full">
       {/* Header + Sort */}
@@ -204,11 +297,17 @@ const PaperComments = ({ paperId, paperSlug }: CommentSectionProps) => {
 
         <div className="divide-y divide-neutral-100">
           {comments.map((comment: PaperComment) => (
-            <CommentItem
+            <ParentCommentItem
               key={comment.id}
               comment={comment}
               onReply={handleReplyComment}
               paperId={paperId}
+              onEdit={handleStartEditComment}
+              onDelete={handleRequestDeleteComment}
+              onCancelEdit={handleCancelEditComment}
+              onSubmitEdit={handleSubmitEditComment}
+              isEditSubmitting={isUpdateCommentPending}
+              editingCommentId={editingCommentId}
             />
           ))}
         </div>
@@ -233,6 +332,46 @@ const PaperComments = ({ paperId, paperSlug }: CommentSectionProps) => {
         description='You must be signed in to post a comment. Please sign in or create an account to continue.'
         returnTo={`/paper/${paperSlug}`}
       />
+
+      {/* Delete Comment Dialog */}
+      <Dialog
+        open={isDeleteDialogOpen}
+        onOpenChange={(open) => {
+          setIsDeleteDialogOpen(open);
+          if (!open) {
+            setCommentPendingDelete(null);
+          }
+        }}
+      >
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Delete comment?</DialogTitle>
+            <DialogDescription>
+              This action cannot be undone. The selected comment and its
+              replies (if any) will be permanently removed.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="sm:justify-end sm:flex-row-reverse gap-3">
+            <Button
+              variant="destructive"
+              className="rounded-full px-6 text-sm flex items-center gap-2"
+              onClick={handleConfirmDeleteComment}
+              disabled={isDeleteCommentPending}
+            >
+              <Trash2 className="h-4 w-4" />
+              {isDeleteCommentPending ? "Deleting..." : "Delete"}
+            </Button>
+            <Button
+              variant="outline"
+              className="rounded-full border-gray-200 text-sm text-gray-700"
+              onClick={() => setIsDeleteDialogOpen(false)}
+              disabled={isDeleteCommentPending}
+            >
+              Cancel
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }

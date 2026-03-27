@@ -1,5 +1,6 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { $http } from '@/lib/http';
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { $http } from "@/lib/http";
+import { paperCommentKeys } from "@/lib/react-query/query-keys";
 
 export type CommentSortDir = 'desc' | 'asc';
 
@@ -30,9 +31,13 @@ export interface FetchCommentsResponse {
   };
 }
 
-const usePaperComments = (paperId: number, sortDir: CommentSortDir = 'desc', limit = 5) => {
+const usePaperComments = (
+  paperId: number,
+  sortDir: CommentSortDir = "desc",
+  limit = 5,
+) => {
   return useInfiniteQuery<FetchCommentsResponse>({
-    queryKey: ['paper-comments', paperId, sortDir],
+    queryKey: paperCommentKeys.list(paperId, sortDir),
     queryFn: async ({ pageParam }) => {
       const { data } = await $http.get(`/papers/${paperId}/comments`, {
         params: {

@@ -4,16 +4,32 @@ import React, { useMemo } from 'react';
 import { ChevronDown, Loader2 } from 'lucide-react';
 import useCommentReplies from '../hooks/use-comment-replies';
 import { PaperComment } from '../hooks/use-paper-comments';
-import CommentItem from './comment-item';
+import { ReplyCommentItem } from './comment-item';
 import { Text } from '@/components/ui/text';
 
 interface CommentRepliesProps {
   paperId: number;
   parentCommentId: number;
   onReply: (content: string, parentId: number) => Promise<void>;
+  onEdit?: (comment: PaperComment) => void;
+  onDelete?: (comment: PaperComment) => void;
+  editingCommentId?: number | null;
+  onCancelEdit?: () => void;
+  onSubmitEdit?: (comment: PaperComment, body: string) => void;
+  isEditSubmitting?: boolean;
 }
 
-const CommentReplies = ({ paperId, parentCommentId, onReply }: CommentRepliesProps) => {
+const CommentReplies = ({
+  paperId,
+  parentCommentId,
+  onReply,
+  onEdit,
+  onDelete,
+  editingCommentId,
+  onCancelEdit,
+  onSubmitEdit,
+  isEditSubmitting,
+}: CommentRepliesProps) => {
   const {
     data,
     isLoading,
@@ -37,10 +53,15 @@ const CommentReplies = ({ paperId, parentCommentId, onReply }: CommentRepliesPro
       )}
 
       {replies.map((reply: PaperComment) => (
-        <CommentItem
+        <ReplyCommentItem
           key={reply.id}
           comment={reply}
-          isReply
+          onEdit={onEdit}
+          onDelete={onDelete}
+          onCancelEdit={onCancelEdit}
+          onSubmitEdit={onSubmitEdit}
+          isEditSubmitting={isEditSubmitting}
+          editingCommentId={editingCommentId}
         />
       ))}
 

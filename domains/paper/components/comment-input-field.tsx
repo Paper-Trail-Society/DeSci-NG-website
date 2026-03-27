@@ -9,10 +9,17 @@ interface CommentInputFieldProps {
   placeholder: string;
   onSubmitComment: (content: string) => void;
   compact?: boolean;
+  initialContent?: string;
 }
 
-const CommentInputField = ({ isSubmitting, placeholder, onSubmitComment, compact = false }: CommentInputFieldProps) => {
-  const [content, setContent] = useState('');
+const CommentInputField = ({
+  isSubmitting,
+  placeholder,
+  onSubmitComment,
+  compact = false,
+  initialContent,
+}: CommentInputFieldProps) => {
+  const [content, setContent] = useState(initialContent ?? "");
 
   const handleSubmit = (e?: React.FormEvent) => {
     e?.preventDefault();

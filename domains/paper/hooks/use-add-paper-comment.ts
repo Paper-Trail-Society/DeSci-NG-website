@@ -1,6 +1,7 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { $http } from '@/lib/http';
-import { PaperComment, CommentSortDir } from './use-paper-comments';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { $http } from "@/lib/http";
+import { PaperComment, CommentSortDir } from "./use-paper-comments";
+import { paperCommentKeys } from "@/lib/react-query/query-keys";
 
 interface AddCommentPayload {
   paperId: number;
@@ -35,10 +36,11 @@ export const useAddPaperComment = () => {
       return data;
     },
     onMutate: async (newCommentInput) => {
-      const { paperId, sortDir = 'desc', user, body, parentCommentId } = newCommentInput;
+      const { paperId, sortDir = "desc", user, body, parentCommentId } =
+        newCommentInput;
       const queryKey = parentCommentId
-        ? ['comment-replies', paperId, parentCommentId, 'asc']
-        : ['paper-comments', paperId, sortDir];
+        ? paperCommentKeys.replies(paperId, parentCommentId, "asc")
+        : paperCommentKeys.list(paperId, sortDir);
 
       // Cancel any outgoing refetches
       await queryClient.cancelQueries({ queryKey });
@@ -101,8 +103,12 @@ export const useAddPaperComment = () => {
       }
       // Also invalidate the replies cache if this was a reply
       if (context?.parentCommentId && context?.paperId) {
-        queryClient.invalidateQueries({ 
-          queryKey: ['comment-replies', context.paperId, context.parentCommentId] 
+        queryClient.invalidateQueries({
+          queryKey: paperCommentKeys.replies(
+            context.paperId,
+            context.parentCommentId,
+            "asc",
+          ),
         });
       }
     },
