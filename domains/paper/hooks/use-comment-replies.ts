@@ -1,6 +1,7 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { $http } from '@/lib/http';
-import { FetchCommentsResponse, CommentSortDir } from './use-paper-comments';
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { $http } from "@/lib/http";
+import { FetchCommentsResponse, CommentSortDir } from "./use-paper-comments";
+import { paperCommentKeys } from "@/lib/react-query/query-keys";
 
 const useCommentReplies = (
   paperId: number,
@@ -10,7 +11,7 @@ const useCommentReplies = (
   limit = 5
 ) => {
   return useInfiniteQuery<FetchCommentsResponse>({
-    queryKey: ['comment-replies', paperId, parentCommentId, sortDir],
+    queryKey: paperCommentKeys.replies(paperId, parentCommentId, sortDir),
     queryFn: async ({ pageParam }) => {
       const { data } = await $http.get(`/papers/${paperId}/comments`, {
         params: {
