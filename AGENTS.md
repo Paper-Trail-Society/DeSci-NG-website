@@ -1,0 +1,3 @@
+- Always check the design system for components before creating new ones. For example, use the `Button` component in the design system instead of creating a button with the `button` HTML tag.
+- When importing icons from `lucide-react`, use the `<icon-name>Icon` variant. For example, import `PenSquareIcon` instead of `PenSquare`.
+- Breakdown bigger components into smaller components. Avoid lumping unreadable JSX together into one big component and always smaller components with their parent.
