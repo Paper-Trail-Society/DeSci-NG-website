@@ -5,6 +5,10 @@ export type PressEntry = {
   label: string;
   date?: string;
   body: string[];
+  video?: {
+    videoId: string;
+    title: string;
+  };
   cta?: {
     before: string;
     readMoreLabel: string;
@@ -45,6 +49,10 @@ export const pressEntries: PressEntry[] = [
       "This is an early, practical step toward one of Nubian's core goals: making it easier for our community of researchers to run real workloads, collaborate globally, and keep their work accessible and durable over time.",
       "As this collaboration develops, we are interested in learning from researchers who would benefit from additional compute and from contributors willing to make spare capacity available to others. The aim is to keep building practical pathways for research collaboration, not only in theory, but in the everyday conditions researchers actually work in.",
     ],
+    video: {
+      videoId: "_bWzxDDr9X0",
+      title: "NuNet partnership video",
+    },
     cta: {
       before: "You can read more about this partnership ",
       readMoreLabel: "here",
