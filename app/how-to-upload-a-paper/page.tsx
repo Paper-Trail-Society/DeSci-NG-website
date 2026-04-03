@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription } from "@/components/ui/card";
 import { Text } from "@/components/ui/text";
+import YouTubeEmbed from "@/components/shared/youtube-embed";
 import { Metadata } from "next";
 import React from "react";
 
@@ -79,16 +80,10 @@ const Page = () => {
           {/* YouTube embed*/}
           <div className="w-full mt-4">
             <Text weight={"bold"} className="mb-2"></Text>
-            <div className="relative w-full" style={{paddingTop: '56.25%'}}>
-              <iframe
-                className="absolute top-0 left-0 w-full h-full"
-                src={`https://www.youtube.com/embed/tBn0yliF4Lg`}
-                title="Upload process video"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            </div>
+            <YouTubeEmbed
+              videoId="tBn0yliF4Lg"
+              title="Upload process video"
+            />
           </div>
         </section>
       </div>

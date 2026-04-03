@@ -1,3 +1,4 @@
+import YouTubeEmbed from "@/components/shared/youtube-embed";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
@@ -104,6 +105,12 @@ const PressEntryPage = ({ params }: Props) => {
               </Link>
               {entry.cta.after}
             </Text>
+          ) : null}
+          {entry.video?.videoId ? (
+            <YouTubeEmbed
+              videoId={entry.video.videoId}
+              title={entry.video.title}
+            />
           ) : null}
         </div>
       </article>
