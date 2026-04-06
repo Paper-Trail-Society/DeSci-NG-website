@@ -9,10 +9,64 @@ import { Button } from "@/components/ui/button";
 import { useAuthContext } from "@/lib/contexts/auth-context";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import PaperComments from "./paper-comments";
+import { PaperAuthor } from "../types";
+
+const PaperHeader = ({
+  paperId,
+  title,
+  author,
+}: {
+  paperId: number;
+  title: string;
+  author: PaperAuthor;
+}) => {
+  const { user, isAuthenticated } = useAuthContext();
+
+  return (
+    <header className="flex flex-col gap-3">
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
+        <Text as="h2" size={"2xl"} weight={"semibold"} className="text-left">
+          {title}
+        </Text>
+
+        {isAuthenticated && user.id === author.id && (
+          <Link href={`/paper/${paperId}/edit`} className="self-start">
+            <Button variant="outline" size="sm" className="px-4">
+              Edit
+            </Button>
+          </Link>
+        )}
+      </div>
+
+      <div className="flex items-center gap-2">
+        <Avatar size="sm">
+          <AvatarFallback className="text-xs h-6 w-6 rounded-full font-medium uppercase text-foreground/80">
+            {author.name.charAt(0)}
+          </AvatarFallback>
+        </Avatar>
+        <Text size={"sm"} className="text-muted-foreground">
+          <Link
+            href={`/profile/${author.id}`}
+            className="underline underline-offset-4"
+          >
+            {author.name}
+          </Link>
+        </Text>
+      </div>
+    </header>
+  );
+};
+
+const PaperAbstract = ({ abstract }: { abstract: string }) => {
+  return (
+    <Text size={"sm"} className="leading-relaxed text-sm text-foreground/90">
+      {abstract}
+    </Text>
+  );
+};
 
 const ViewPaperContent = ({ paperId }: { paperId: string }) => {
   const { data: paper, isPending } = useGetPaper({ id: paperId });
-  const { user, isAuthenticated } = useAuthContext();
 
   if (isPending && !paper) {
     return (
@@ -36,48 +90,15 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
 
   return (
     <div className="flex flex-col gap-10 lg:w-3/5 md:w-4/5 w-full px-6 mx-auto">
-      <header className="flex flex-col gap-3">
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
-          <Text
-            as="h2"
-            size={"2xl"}
-            weight={"semibold"}
-            className="text-left"
-          >
-            {paper.title}
-          </Text>
+      <div className="flex flex-col gap-3">
+        <PaperHeader
+          paperId={paper.id}
+          title={paper.title}
+          author={paper.user}
+        />
 
-          {isAuthenticated && user.id === paper.userId && (
-            <Link href={`/paper/${paperId}/edit`} className="self-start">
-              <Button
-                variant="outline"
-                size="sm"
-                className="px-4"
-              >
-                Edit
-              </Button>
-            </Link>
-          )}
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Avatar size="sm">
-            <AvatarFallback className="text-xs h-6 w-6 rounded-full font-medium uppercase text-foreground/80">
-              {paper.user.name?.charAt(0) ?? "U"}
-            </AvatarFallback>
-          </Avatar>
-          <Text size={"sm"} className="text-muted-foreground">
-            {paper.user.name}
-          </Text>
-        </div>
-
-        <Text
-          size={"sm"}
-          className="leading-relaxed text-sm text-foreground/90"
-        >
-          {paper.abstract}
-        </Text>
-      </header>
+        <PaperAbstract abstract={paper.abstract} />
+      </div>
 
       <section className="flex flex-col gap-3 text-xs text-muted-foreground">
         <div className="flex flex-wrap items-center gap-3">
@@ -141,7 +162,7 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
         )}
       </section>
 
-      {paper && <PaperComments paperId={paper.id} paperSlug={paper.slug}/>}
+      {paper && <PaperComments paperId={paper.id} paperSlug={paper.slug} />}
     </div>
   );
 };
