@@ -90,7 +90,6 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
           {paper.ipfsCid && (
             <Link
               href={`/api/ipfs/${paper.ipfsCid}`}
-              target="_blank"
               className="underline underline-offset-4"
             >
               View PDF
