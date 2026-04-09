@@ -8,7 +8,7 @@ export type PublicProfile = {
     id: number;
     name: string;
   } | null;
-  areasOfInterest: string | null;
+  areasOfInterest: string[] | null;
   createdAt: Date;
 };
 
