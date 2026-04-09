@@ -23,11 +23,11 @@ export const authClient = createAuthClient({
       user: {
         institutionId: {
           type: "number",
-          required: false,
+          required: true, // the field always exists but can be null, so we set it as required
         },
         areasOfInterest: {
-          type: "string", // We'll store as JSON string for now
-          required: false,
+          type: "string[]",
+          required: true, // the field always exists but can be an empty array, so we set it as required
         },
       },
     }),
