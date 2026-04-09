@@ -63,7 +63,7 @@ const ProfilePage = async ({ params, searchParams }: ProfilePageProps) => {
               Profile unavailable
             </Text>
             <Text size={"sm"} className="mt-2 text-profile-subtitle">
-              This public profile could not be found.
+              This user doesn&apos;t exist.
             </Text>
           </Card>
         </section>

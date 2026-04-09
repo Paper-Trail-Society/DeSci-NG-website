@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { Text } from "@/components/ui/text";
+import { AreaOfInterestBadge } from "@/domains/user/components/area-of-interest-badge";
 import { getInstitutionLabel } from "@/domains/profile/server/get-public-profile-page-data";
 import { PublicProfile } from "@/domains/profile/types";
 
@@ -15,27 +16,6 @@ const getUserInitials = (name: string): string => {
     .slice(0, 2)
     .map((segment) => segment.charAt(0).toUpperCase())
     .join("");
-};
-
-const getAreas = (areas: PublicProfile["areasOfInterest"]): string[] => {
-  if (Array.isArray(areas)) {
-    return areas;
-  }
-
-  if (typeof areas === "string") {
-    try {
-      const parsed = JSON.parse(areas);
-      if (Array.isArray(parsed)) {
-        return parsed.filter(
-          (value): value is string => typeof value === "string",
-        );
-      }
-    } catch {
-      return [];
-    }
-  }
-
-  return [];
 };
 
 const ProfileHeadingSection = ({ profile }: ProfileHeadingSectionProps) => {
@@ -76,10 +56,10 @@ const ProfileHeadingSection = ({ profile }: ProfileHeadingSectionProps) => {
               >
                 Verification
               </Text>
-              <Text size={"sm"} className="profile-value">
+              <Text size={"sm"}>
                 {profile.emailVerified
                   ? "Verified account"
-                  : "Verification status unavailable"}
+                  : "Unverified account"}
               </Text>
             </div>
 
@@ -90,9 +70,7 @@ const ProfileHeadingSection = ({ profile }: ProfileHeadingSectionProps) => {
               >
                 Institution
               </Text>
-              <Text size={"sm"} className="profile-value">
-                {getInstitutionLabel(profile)}
-              </Text>
+              <Text size={"sm"}>{getInstitutionLabel(profile)}</Text>
             </div>
           </div>
 
@@ -100,10 +78,16 @@ const ProfileHeadingSection = ({ profile }: ProfileHeadingSectionProps) => {
             <Text size={"xs"} className="profile-label uppercase tracking-wide">
               Areas of interest
             </Text>
-            <div className="flex flex-wrap gap-2.5">
-              <span className="profile-pill rounded-full px-3 py-1 text-xs">
-                {profile.areasOfInterest}
-              </span>
+            <div className="flex flex-wrap gap-2">
+              {profile.areasOfInterest && profile.areasOfInterest.length > 0 ? (
+                profile.areasOfInterest.map((area: string, index: number) => (
+                  <AreaOfInterestBadge key={index} area={area} />
+                ))
+              ) : (
+                <Text className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-500">
+                  No area of interest selected
+                </Text>
+              )}
             </div>
           </div>
         </div>
