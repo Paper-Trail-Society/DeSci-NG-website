@@ -56,7 +56,7 @@ const ProfilePage = async ({ params, searchParams }: ProfilePageProps) => {
 
   if (!profile) {
     return (
-      <div className="min-h-screen profile-page py-10">
+      <div className="min-h-screen py-10">
         <section className="mx-auto flex w-full max-w-4xl flex-col gap-4">
           <Card className="border-profile-cardBorder bg-profile-card p-6 shadow-profile-card">
             <Text as="h1" size={"xl"} weight={"semibold"} className="text-profile-title">
@@ -72,7 +72,7 @@ const ProfilePage = async ({ params, searchParams }: ProfilePageProps) => {
   }
 
   return (
-    <div className="min-h-screen profile-page py-10">
+    <div className="min-h-screen py-10">
       <section className="mx-auto flex w-full max-w-4xl flex-col gap-8">
         <ProfileHeadingSection profile={profile} />
         <ProfilePublishedPapersSection

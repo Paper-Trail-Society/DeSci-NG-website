@@ -20,7 +20,7 @@ const getUserInitials = (name: string): string => {
 
 const ProfileHeadingSection = ({ profile }: ProfileHeadingSectionProps) => {
   return (
-    <div className="profile-page md:top-6">
+    <div className="md:top-6">
       <Card className="profile-card p-6">
         <div className="flex flex-col gap-6">
           <div className="flex items-center gap-4">
