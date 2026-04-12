@@ -164,7 +164,7 @@ function ProfileContent() {
                 Areas of interest
               </Text>
               <div className="flex flex-wrap gap-2">
-                {user.areasOfInterest.length > 0 ? (
+                {user.areasOfInterest && user.areasOfInterest.length > 0 ? (
                   user.areasOfInterest.map((area: string, index: number) => (
                     <AreaOfInterestBadge key={index} area={area} />
                   ))
