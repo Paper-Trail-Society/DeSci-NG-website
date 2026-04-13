@@ -21,14 +21,7 @@ export type Paper = {
     id: number;
     name: string;
   };
-  keywords:
-    | {
-        id: number;
-        name: string;
-        aliases: string[];
-      }[]
-    | null;
-
+  keywords: Keyword[] | null;
   user: PaperAuthor;
 };
 
