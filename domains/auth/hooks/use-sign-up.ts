@@ -15,9 +15,7 @@ export function useSignUp(options?: UseSignUpOptions) {
         password: data.password,
         name: data.name,
         institutionId: data.institutionId,
-        areasOfInterest: data.areasOfInterest
-          ? JSON.stringify(data.areasOfInterest)
-          : undefined,
+        areasOfInterest: data.areasOfInterest,
         callbackURL: `${window.location.origin}/login`,
       });
 

@@ -15,23 +15,20 @@ export type Paper = {
   category: {
     id: number;
     name: string;
-    fieldId: number
+    fieldId: number;
   };
   field: {
     id: number;
-    name: string
-  }
-  keywords: {
-    id: number;
     name: string;
-    aliases: string[];
-  }[] | null;
-
-  user: {
-    id: number;
-    name: string;
-    email: string;
   };
+  keywords: Keyword[] | null;
+  user: PaperAuthor;
+};
+
+export type PaperAuthor = {
+  id: string;
+  name: string;
+  email: string;
 };
 
 export type PaginatedPapersResponse = {

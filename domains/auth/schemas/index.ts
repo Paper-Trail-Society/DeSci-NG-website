@@ -11,16 +11,13 @@ export const loginSchema = z.object({
 export const signupSchema = z
   .object({
     name: z.string().min(2, "Name must be at least 2 characters long").trim(),
-    email: z
-      .string()
-      .min(1, "Email is required")
-      .email("Please enter a valid email address"),
+    email: z.email({ message: "Please enter a valid email address" }),
     password: z
       .string()
       .min(8, "Password must be at least 8 characters long")
       .regex(
         /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-        "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+        "Password must contain at least one uppercase letter, one lowercase letter, and one number",
       ),
     confirmPassword: z.string().min(1, "Please confirm your password"),
     institutionId: z.number().optional(),
@@ -32,11 +29,10 @@ export const signupSchema = z
   });
 
 export const resetPasswordSchema = z.object({
-  email: z
-    .string()
-    .min(1, "Email is required")
-    .email("Please enter a valid email address"),
+  email: z.email({ message: "Please enter a valid email address" }),
 });
+
+const PASSWORD_REGEX = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/;
 
 export const newPasswordSchema = z
   .object({
@@ -44,8 +40,8 @@ export const newPasswordSchema = z
       .string()
       .min(8, "Password must be at least 8 characters long")
       .regex(
-        /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-        "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+        PASSWORD_REGEX,
+        "Password must contain at least one uppercase letter, one lowercase letter, and one number",
       ),
     confirmPassword: z.string().min(1, "Please confirm your password"),
   })
@@ -55,10 +51,7 @@ export const newPasswordSchema = z
   });
 
 export const resendVerificationSchema = z.object({
-  email: z
-    .string()
-    .min(1, "Email is required")
-    .email("Please enter a valid email address"),
+  email: z.email({ message: "Please enter a valid email address" }),
 });
 
 // Type exports

@@ -26,7 +26,7 @@ export const authClient = createAuthClient({
           required: false,
         },
         areasOfInterest: {
-          type: "string", // We'll store as JSON string for now
+          type: "string[]",
           required: false,
         },
       },

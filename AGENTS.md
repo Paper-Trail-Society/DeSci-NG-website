@@ -1,3 +1,6 @@
+- Always stick to the existing color scheme.
 - Always check the design system for components before creating new ones. For example, use the `Button` component in the design system instead of creating a button with the `button` HTML tag.
 - When importing icons from `lucide-react`, use the `<icon-name>Icon` variant. For example, import `PenSquareIcon` instead of `PenSquare`.
 - Breakdown bigger components into smaller components. Avoid lumping unreadable JSX together into one big component and always smaller components with their parent.
+- Create query keys for every `useQuery` hook in the `/lib/react-query/query-keys.ts` file.
+- Never assume the shape of any data object, always check for a reference to the entity's type and ask for clarification on the available fields for an entity where necessary.

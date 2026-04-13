@@ -7,7 +7,9 @@ import { useQueryClient } from "@tanstack/react-query";
 
 type User = NonNullable<
   ReturnType<typeof authClient.useSession>["data"]
->["user"];
+>["user"] & {
+  institution?: { id: number; name: string } | null;
+};
 
 interface AuthContextType {
   user: User;

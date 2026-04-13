@@ -24,9 +24,21 @@ const config: Config = {
       colors: {
         text: {
           DEFAULT: 'var(--text)',
+          strong: 'var(--text-strong)',
+          muted: 'var(--text-muted)',
+          subtle: 'var(--text-subtle)',
           link: 'var(--text-link)',
           dim: 'var(--text-dim)',
           danger: '#DC2626',
+        },
+        brand: {
+          subtle: 'var(--text-brand-subtle)',
+        },
+        surface: {
+          'brand-subtle': 'var(--surface-brand-subtle)',
+        },
+        stroke: {
+          'brand-subtle': 'var(--border-brand-subtle)',
         },
         primary: {
           '1': '#0F172A',
