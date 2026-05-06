@@ -36,7 +36,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Text } from "@/components/ui/text";
-import TextField from "@/components/ui/text-field";
 import { Textarea } from "@/components/ui/textarea";
 import useGetFieldCategories from "@/domains/fields/hooks/use-get-field-categories";
 import useGetFields from "@/domains/fields/hooks/use-get-fields";
@@ -67,7 +66,7 @@ type UploadProgressStep = {
 
 type SectionCardProps = {
   title: string;
-  description: string;
+  description?: string;
   children: React.ReactNode;
 };
 
@@ -89,9 +88,11 @@ function SectionCard({
       <CardHeader className="space-y-3 pb-4">
         <div className="space-y-1">
           <CardTitle className="text-base text-text">{title}</CardTitle>
-          <CardDescription className="text-sm leading-6 text-text-muted">
-            {description}
-          </CardDescription>
+          {description ? (
+            <CardDescription className="text-sm leading-6 text-text-muted">
+              {description}
+            </CardDescription>
+          ) : null}
         </div>
       </CardHeader>
 
@@ -420,21 +421,28 @@ function UploadPaperContent() {
                   description="Your title and abstract are the first things readers will see. Make them clear and specific."
                 >
                   <div className="grid gap-4">
-                    <div className="space-y-2">
-                      <TextField
-                        control={form.control}
-                        name="title"
-                        label="Research Title"
-                        placeholder="Enter the full title of your paper"
-                        className="h-11 rounded-md border-0 bg-[#fffdfd] py-2 ring-1 ring-[#edd5d5]"
-                        required
-                      />
-                      <div className="flex justify-end">
-                        <Text size="xs" className="text-text-dim">
-                          {watchedTitle.length}/250
-                        </Text>
-                      </div>
-                    </div>
+                    <FormField
+                      control={form.control}
+                      name="title"
+                      render={({ field }) => (
+                        <div className="flex flex-col gap-2">
+                          <Label className="text-sm font-bold text-text md:text-lg">
+                            Research Title
+                          </Label>
+                          <input
+                            {...field}
+                            required
+                            placeholder="Use the full title"
+                            className="flex h-11 w-full rounded-md border-0 bg-[#fffdfd] px-[13px] py-2 text-xs text-text shadow-sm ring-1 ring-[#edd5d5] placeholder:text-text-dim transition-colors focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                          />
+                          <div className="flex justify-end">
+                            <Text size="xs" className="text-text-dim">
+                              {watchedTitle.length}/250
+                            </Text>
+                          </div>
+                        </div>
+                      )}
+                    />
 
                     <FormField
                       control={form.control}
@@ -447,15 +455,12 @@ function UploadPaperContent() {
                           <Textarea
                             variant="default"
                             size="sm"
-                            placeholder="Summarize the problem, approach, and key findings."
+                            placeholder="Copy+paste, or type your abstract here"
                             className="min-h-[180px] rounded-md border-0 bg-[#fffdfd] px-4 py-3 text-sm leading-6 ring-1 ring-[#edd5d5] placeholder:text-text-dim"
                             required
                             {...field}
                           />
-                          <div className="flex items-center justify-between gap-3">
-                            <Text size="xs" className="text-text-muted">
-                              A concise abstract helps readers decide whether to open the full paper.
-                            </Text>
+                          <div className="flex items-center justify-end gap-3">
                             <Text size="xs" className="text-text-dim">
                               {watchedAbstract.length}/2000
                             </Text>
@@ -492,12 +497,12 @@ function UploadPaperContent() {
                         <SelectTrigger className="h-11 border-0 bg-[#fffdfd] text-sm ring-1 ring-[#edd5d5]">
                           <SelectValue placeholder="Select field" />
                         </SelectTrigger>
-                        <SelectContent className="bg-white text-text">
+                        <SelectContent className="max-h-[50vh] bg-white text-text md:max-h-96">
                           {fields?.map((field) => (
                             <SelectItem
                               key={field.id}
                               value={field.name}
-                              className="text-sm hover:bg-[#F3E7E780]"
+                              className="py-2 text-sm hover:bg-[#F3E7E780] md:py-1.5"
                             >
                               {field.name}
                             </SelectItem>
@@ -535,7 +540,7 @@ function UploadPaperContent() {
                             }
                           />
                         </SelectTrigger>
-                        <SelectContent className="bg-white text-text">
+                        <SelectContent className="max-h-[50vh] bg-white text-text md:max-h-96">
                           {isLoadingSelectedFieldCategories ? (
                             <Text size="xs" className="px-4 py-2 text-center">
                               Loading...
@@ -545,7 +550,7 @@ function UploadPaperContent() {
                               <SelectItem
                                 key={category.id}
                                 value={category.name}
-                                className="text-sm hover:bg-[#F3E7E780]"
+                                className="py-2 text-sm hover:bg-[#F3E7E780] md:py-1.5"
                               >
                                 {category.name}
                               </SelectItem>
@@ -569,9 +574,9 @@ function UploadPaperContent() {
                   description="Keywords help your research appear in search results and related paper recommendations."
                 >
                   <div className="space-y-2">
-                    <Label className="text-sm font-bold text-text md:text-lg">
+                    {/* <Label className="text-sm font-bold text-text md:text-lg">
                       Keywords that describe your research
-                    </Label>
+                    </Label> */}
                     <MultiSelect
                       name="keywords"
                       isCreatable
@@ -644,7 +649,6 @@ function UploadPaperContent() {
 
                 <SectionCard
                   title="Upload PDF"
-                  description="Attach the paper file that readers will open from the platform."
                 >
                   <div className="space-y-4">
                     <input

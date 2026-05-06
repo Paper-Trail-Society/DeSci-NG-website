@@ -96,7 +96,17 @@ function ManagePapersContent() {
     <div className="bg-white">
       <div className="md:p-container-lg p-container-base">
         <section className="mx-auto flex w-full max-w-4xl flex-col gap-8 rounded-2xl border border-gray-200 bg-white p-container-base shadow-sm">
-          <div className="-mx-1 md:mx-0">
+          <div className="md:hidden">
+            <Button
+              asChild
+              variant="outline"
+              className="rounded-full border-gray-200 bg-white px-4 py-2 text-sm text-gray-700 shadow-[0_14px_28px_-24px_rgba(181,34,33,0.55)] transition hover:border-[#B52221]/40 hover:text-[#B52221] hover:shadow-[0_16px_32px_-22px_rgba(181,34,33,0.62)]"
+            >
+              <Link href="/upload-paper">Upload New Paper</Link>
+            </Button>
+          </div>
+
+          <div className="hidden md:block">
             <DashboardPaperNav />
           </div>
 
