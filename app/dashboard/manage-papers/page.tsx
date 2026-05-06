@@ -3,7 +3,7 @@
 import { RouteGuard } from "@/components/auth/route-guard";
 import DashboardPaperNav from "@/components/shared/dashboard-paper-nav";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import useDeletePaper from "@/domains/paper/hooks/use-delete-paper";
@@ -94,47 +94,51 @@ function ManagePapersContent() {
 
   return (
     <div className="bg-white">
-      <div className="md:p-container-lg p-container-base">
-        <section className="mx-auto flex w-full max-w-4xl flex-col gap-8 rounded-2xl border border-gray-200 bg-white p-container-base shadow-sm">
-          <div className="md:hidden">
-            <Button
-              asChild
-              variant="outline"
-              className="rounded-full border-gray-200 bg-white px-4 py-2 text-sm text-gray-700 shadow-[0_14px_28px_-24px_rgba(181,34,33,0.55)] transition hover:border-[#B52221]/40 hover:text-[#B52221] hover:shadow-[0_16px_32px_-22px_rgba(181,34,33,0.62)]"
-            >
-              <Link href="/upload-paper">Upload New Paper</Link>
-            </Button>
-          </div>
-
+      <div className="mx-auto max-w-[1440px] p-container-base md:p-container-lg">
+        <section className="mx-auto flex w-full max-w-4xl flex-col gap-6">
           <div className="hidden md:block">
             <DashboardPaperNav />
           </div>
 
-          <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <div className="space-y-1">
-              <Text className="text-xl md:text-2xl" weight={"semibold"}>
-                Manage Papers
-              </Text>
-              <Text size="sm" className="max-w-2xl leading-6 text-gray-500">
-                Search, edit, and remove the papers you have uploaded.
-              </Text>
-            </div>
-          </header>
+          <Card className="border-[#f0d8d8] bg-[linear-gradient(180deg,#fff9f8_0%,#ffffff_100%)] shadow-[0_22px_60px_-44px_rgba(181,34,33,0.45)]">
+            <CardContent className="space-y-6 p-6 md:p-8">
+              <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                <div className="space-y-1">
+                  <Text className="text-xl md:text-2xl" weight={"semibold"}>
+                    Manage Papers
+                  </Text>
+                  <Text size="sm" className="max-w-2xl leading-6 text-gray-500">
+                    Search, edit, and remove the papers you have uploaded.
+                  </Text>
+                </div>
+              </header>
+
+              <div className="relative w-full max-w-xl">
+                <Input
+                  type="search"
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  placeholder="Search by title, keyword, or author"
+                  className="h-11 rounded-xl border border-gray-200 bg-white py-3 pl-12 pr-4 text-sm shadow-sm transition focus:border-[#B52221]/40 focus:ring-[#B52221]/30"
+                  autoComplete="off"
+                  inputMode="search"
+                />
+                <SearchIcon className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+              </div>
+
+              <div className="md:hidden">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="rounded-full border-gray-200 bg-white px-4 py-2 text-sm text-gray-700 shadow-[0_14px_28px_-24px_rgba(181,34,33,0.55)] transition hover:border-[#B52221]/40 hover:text-[#B52221] hover:shadow-[0_16px_32px_-22px_rgba(181,34,33,0.62)]"
+                >
+                  <Link href="/upload-paper">Upload New Paper</Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
 
           <div className="space-y-6">
-            <div className="relative w-full max-w-xl">
-              <Input
-                type="search"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                placeholder="Search by title, keyword, or author"
-                className="h-11 rounded-xl border border-gray-200 bg-white py-3 pl-12 pr-4 text-sm shadow-sm transition focus:border-[#B52221]/40 focus:ring-[#B52221]/30"
-                autoComplete="off"
-                inputMode="search"
-              />
-              <SearchIcon className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
-            </div>
-
             <div className="space-y-4">
               {isLoading ? (
                 <div className="space-y-3">

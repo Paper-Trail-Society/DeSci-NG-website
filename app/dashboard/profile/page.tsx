@@ -3,7 +3,7 @@
 import { RouteGuard } from "@/components/auth/route-guard";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Text } from "@/components/ui/text";
 import { useSignOut } from "@/domains/auth/hooks";
 import { AreaOfInterestBadge } from "@/domains/user/components/area-of-interest-badge";
@@ -45,44 +45,48 @@ function ProfileContent() {
 
   return (
     <div className="bg-white">
-      <div className="md:p-container-lg p-container-base">
-        <section className="mx-auto sm:mx-0 flex w-full max-w-4xl flex-col gap-8 rounded-2xl border border-gray-200 bg-white p-container-base shadow-sm">
-          <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <div>
-              <Text size={"lg"} weight={"semibold"}>
-                Profile
-              </Text>
-              <Text size={"sm"} className="text-gray-500">
-                Personal information and account controls
-              </Text>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <Button
-                asChild
-                variant="outline"
-                className="cursor-pointer rounded-full border-gray-200 bg-white px-4 py-2 text-sm font-light text-gray-700 shadow-[0_14px_28px_-24px_rgba(181,34,33,0.55)] transition hover:border-[#B52221]/40 hover:text-[#B52221] hover:shadow-[0_16px_32px_-22px_rgba(181,34,33,0.62)]"
-              >
-                <Link href={`/profile/${user.id}`}>
-                  <ExternalLinkIcon className="size-4" />
-                  <span>View public profile</span>
-                </Link>
-              </Button>
-              <Button
-                variant="outline"
-                asChild
-                className="cursor-pointer rounded-full border-gray-200 bg-white px-4 py-2 text-sm font-light text-gray-700 shadow-[0_14px_28px_-24px_rgba(181,34,33,0.55)] transition hover:border-[#B52221]/40 hover:text-[#B52221] hover:shadow-[0_16px_32px_-22px_rgba(181,34,33,0.62)]"
-              >
-                <Link href="/upload-paper">Upload paper</Link>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                className="cursor-pointer rounded-full border-gray-200 bg-white px-4 py-2 text-sm font-light text-gray-700 shadow-[0_14px_28px_-24px_rgba(181,34,33,0.55)] transition hover:border-[#B52221]/40 hover:text-[#B52221] hover:shadow-[0_16px_32px_-22px_rgba(181,34,33,0.62)]"
-              >
-                <Link href="/dashboard/manage-papers">Manage papers</Link>
-              </Button>
-            </div>
-          </header>
+      <div className="mx-auto max-w-[1440px] p-container-base md:p-container-lg">
+        <section className="mx-auto sm:mx-0 flex w-full max-w-4xl flex-col gap-6">
+          <Card className="border-[#f0d8d8] bg-[linear-gradient(180deg,#fff9f8_0%,#ffffff_100%)] shadow-[0_22px_60px_-44px_rgba(181,34,33,0.45)]">
+            <CardContent className="space-y-6 p-6 md:p-8">
+              <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                <div>
+                  <Text size={"lg"} weight={"semibold"}>
+                    Profile
+                  </Text>
+                  <Text size={"sm"} className="text-gray-500">
+                    Personal information and account controls
+                  </Text>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="cursor-pointer rounded-full border-gray-200 bg-white px-4 py-2 text-sm font-light text-gray-700 shadow-[0_14px_28px_-24px_rgba(181,34,33,0.55)] transition hover:border-[#B52221]/40 hover:text-[#B52221] hover:shadow-[0_16px_32px_-22px_rgba(181,34,33,0.62)]"
+                  >
+                    <Link href={`/profile/${user.id}`}>
+                      <ExternalLinkIcon className="size-4" />
+                      <span>View public profile</span>
+                    </Link>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    asChild
+                    className="cursor-pointer rounded-full border-gray-200 bg-white px-4 py-2 text-sm font-light text-gray-700 shadow-[0_14px_28px_-24px_rgba(181,34,33,0.55)] transition hover:border-[#B52221]/40 hover:text-[#B52221] hover:shadow-[0_16px_32px_-22px_rgba(181,34,33,0.62)]"
+                  >
+                    <Link href="/upload-paper">Upload paper</Link>
+                  </Button>
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="cursor-pointer rounded-full border-gray-200 bg-white px-4 py-2 text-sm font-light text-gray-700 shadow-[0_14px_28px_-24px_rgba(181,34,33,0.55)] transition hover:border-[#B52221]/40 hover:text-[#B52221] hover:shadow-[0_16px_32px_-22px_rgba(181,34,33,0.62)]"
+                  >
+                    <Link href="/dashboard/manage-papers">Manage papers</Link>
+                  </Button>
+                </div>
+              </header>
+            </CardContent>
+          </Card>
 
           <Card className="border border-gray-200 bg-white p-6 shadow-sm">
             <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
