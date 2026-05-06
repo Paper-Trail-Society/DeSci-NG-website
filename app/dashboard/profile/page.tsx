@@ -44,9 +44,9 @@ function ProfileContent() {
     .join("");
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-white">
       <div className="md:p-container-lg p-container-base">
-        <section className="mx-auto sm:mx-0 flex h-full w-full max-w-4xl flex-col gap-8 rounded-2xl border border-gray-200 bg-white p-container-base shadow-sm">
+        <section className="mx-auto sm:mx-0 flex w-full max-w-4xl flex-col gap-8 rounded-2xl border border-gray-200 bg-white p-container-base shadow-sm">
           <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div>
               <Text size={"lg"} weight={"semibold"}>
@@ -60,7 +60,7 @@ function ProfileContent() {
               <Button
                 asChild
                 variant="outline"
-                className="rounded-full px-4 py-2 text-sm font-light"
+                className="cursor-pointer rounded-full border-gray-200 bg-white px-4 py-2 text-sm font-light text-gray-700 shadow-[0_14px_28px_-24px_rgba(181,34,33,0.55)] transition hover:border-[#B52221]/40 hover:text-[#B52221] hover:shadow-[0_16px_32px_-22px_rgba(181,34,33,0.62)]"
               >
                 <Link href={`/profile/${user.id}`}>
                   <ExternalLinkIcon className="size-4" />
@@ -68,18 +68,18 @@ function ProfileContent() {
                 </Link>
               </Button>
               <Button
-                asChild
                 variant="outline"
-                className="rounded-full px-4 py-2 font-light"
-              >
-                <Link href="/dashboard/manage-papers">Manage papers</Link>
-              </Button>
-              <Button
-                variant="destructive"
                 asChild
-                className="rounded-full px-4 py-2"
+                className="cursor-pointer rounded-full border-gray-200 bg-white px-4 py-2 text-sm font-light text-gray-700 shadow-[0_14px_28px_-24px_rgba(181,34,33,0.55)] transition hover:border-[#B52221]/40 hover:text-[#B52221] hover:shadow-[0_16px_32px_-22px_rgba(181,34,33,0.62)]"
               >
                 <Link href="/upload-paper">Upload paper</Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="cursor-pointer rounded-full border-gray-200 bg-white px-4 py-2 text-sm font-light text-gray-700 shadow-[0_14px_28px_-24px_rgba(181,34,33,0.55)] transition hover:border-[#B52221]/40 hover:text-[#B52221] hover:shadow-[0_16px_32px_-22px_rgba(181,34,33,0.62)]"
+              >
+                <Link href="/dashboard/manage-papers">Manage papers</Link>
               </Button>
             </div>
           </header>
@@ -104,7 +104,7 @@ function ProfileContent() {
 
               <Button
                 variant="outline"
-                className="rounded-full border-gray-200 px-4 py-2 text-xs text-gray-700 transition hover:text-[#B52221]"
+                className="cursor-pointer rounded-full border-gray-200 px-4 py-2 text-xs text-gray-700 transition hover:text-[#B52221]"
                 disabled={signOutMutation.isPending}
                 onClick={handleSignOut}
               >
