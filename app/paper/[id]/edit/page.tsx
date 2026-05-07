@@ -576,10 +576,7 @@ function EditPaper() {
                           <SelectTrigger className="h-11 border-0 bg-[#fffdfd] text-sm ring-1 ring-[#edd5d5]">
                             <SelectValue placeholder="Select field" />
                           </SelectTrigger>
-                          <SelectContent
-                            position="item-aligned"
-                            className="max-h-[50vh] w-[calc(100vw-2rem)] max-w-[calc(100vw-2rem)] bg-white text-text md:max-h-96 md:w-auto md:max-w-none"
-                          >
+                          <SelectContent className="max-h-[50vh] bg-white text-text md:max-h-96">
                             {fields?.map((field) => (
                               <SelectItem
                                 key={field.id}
@@ -623,10 +620,7 @@ function EditPaper() {
                               }
                             />
                           </SelectTrigger>
-                          <SelectContent
-                            position="item-aligned"
-                            className="max-h-[50vh] w-[calc(100vw-2rem)] max-w-[calc(100vw-2rem)] bg-white text-text md:max-h-96 md:w-auto md:max-w-none"
-                          >
+                          <SelectContent className="max-h-[50vh] bg-white text-text md:max-h-96">
                             {isLoadingSelectedFieldCategories ? (
                               <Text size="xs" className="px-4 py-2 text-center">
                                 Loading...
