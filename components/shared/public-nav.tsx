@@ -58,8 +58,9 @@ const Logo = () => (
         <Image
           src="/assets/nubian-logo.png"
           alt="logo"
-          width={140}
-          height={100}
+          width={120}
+          height={86}
+          className="translate-y-1 w-[112px] md:translate-y-0 md:w-[140px]"
         />
       </span>
     </Link>
@@ -196,10 +197,13 @@ const MobileNav = ({ isAuthenticated, currentPath }: NavProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="md:hidden flex gap-2 items-center">
+    <div className="md:hidden flex gap-0.5 items-center">
       {isAuthenticated ? (
         <Link href="/dashboard/profile">
-          <Button variant="destructive" className="w-full text-left">
+          <Button
+            variant="destructive"
+            className="h-7 min-w-[84px] rounded-sm px-2 text-[11px]"
+          >
             Dashboard
           </Button>
         </Link>
@@ -207,7 +211,7 @@ const MobileNav = ({ isAuthenticated, currentPath }: NavProps) => {
         <Link href="/login">
           <Button
             variant="destructive"
-            className="w-full text-left justify-start rounded-md px-4"
+            className="h-7 min-w-[84px] justify-center rounded-sm px-2 text-[11px]"
           >
             LOGIN
           </Button>
@@ -216,7 +220,7 @@ const MobileNav = ({ isAuthenticated, currentPath }: NavProps) => {
       <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
         <SheetTrigger asChild>
           <button
-            className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md p-1.5 text-gray-700 hover:text-primary focus:outline-none"
             aria-label="Toggle menu"
           >
             <span className="relative block h-6 w-6">
@@ -363,7 +367,7 @@ const PublicNav = () => {
   const currentPath = usePathname();
 
   return (
-    <nav className="max-w-6xl mx-auto py-4 md:px-0 px-6 z-60">
+    <nav className="z-60 mx-auto max-w-6xl px-4 py-3 md:px-0 md:py-4">
       <div className="w-full md:px-2 md:mx-auto flex justify-between items-center">
         <Logo />
         <DesktopNav
