@@ -1,8 +1,9 @@
 "use client";
 
 import { RouteGuard } from "@/components/auth/route-guard";
+import DashboardPaperNav from "@/components/shared/dashboard-paper-nav";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import useDeletePaper from "@/domains/paper/hooks/use-delete-paper";
@@ -13,7 +14,7 @@ import { useAuthContext } from "@/lib/contexts/auth-context";
 import { useQueryClient } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { format } from "date-fns";
-import { PenSquare, SearchIcon, Trash2 } from "lucide-react";
+import { PenSquareIcon, SearchIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
@@ -92,59 +93,62 @@ function ManagePapersContent() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="md:p-container-lg p-container-base">
-        <section className="mx-auto flex h-full w-full max-w-4xl flex-col gap-8 rounded-2xl border border-gray-200 bg-white p-container-base shadow-sm">
-          <header className="flex flex-wrap items-center justify-between gap-4">
-            <Text className="text-sm uppercase tracking-wide text-gray-600">
-              <Link
-                href="/dashboard/profile"
-                className="transition-colors hover:text-[#B52221]"
-              >
-                Your Profile
-              </Link>
-            </Text>
+    <div className="bg-white">
+      <div className="mx-auto max-w-[1440px] p-container-base md:p-container-lg">
+        <section className="mx-auto flex w-full max-w-4xl flex-col gap-6">
+          <div className="hidden md:block">
+            <DashboardPaperNav />
+          </div>
 
-            <div className="flex items-center gap-3">
-              <Text className="text-xl md:text-2xl" weight={"semibold"}>
-                Manage Papers
-              </Text>
-            </div>
+          <Card className="border-[#f0d8d8] bg-[linear-gradient(180deg,#fff9f8_0%,#ffffff_100%)] shadow-[0_22px_60px_-44px_rgba(181,34,33,0.45)]">
+            <CardContent className="space-y-6 p-6 md:p-8">
+              <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                <div className="space-y-1">
+                  <Text className="text-xl md:text-2xl" weight={"semibold"}>
+                    Manage Papers
+                  </Text>
+                  <Text size="sm" className="max-w-2xl leading-6 text-gray-500">
+                    Search, edit, and remove the papers you have uploaded.
+                  </Text>
+                </div>
+              </header>
 
-            <Text className="text-sm uppercase tracking-wide text-gray-600">
-              <Link
-                href="/upload-paper"
-                className="transition-colors hover:text-[#B52221]"
-              >
-                Upload New Paper
-              </Link>
-            </Text>
-          </header>
+              <div className="relative w-full max-w-xl">
+                <Input
+                  type="search"
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  placeholder="Search by title, keyword, or author"
+                  className="h-11 rounded-xl border border-gray-200 bg-white py-3 pl-12 pr-4 text-sm shadow-sm transition focus:border-[#B52221]/40 focus:ring-[#B52221]/30"
+                  autoComplete="off"
+                  inputMode="search"
+                />
+                <SearchIcon className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+              </div>
+
+              <div className="md:hidden">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="rounded-full border-gray-200 bg-white px-4 py-2 text-sm text-gray-700 shadow-[0_14px_28px_-24px_rgba(181,34,33,0.55)] transition hover:border-[#B52221]/40 hover:text-[#B52221] hover:shadow-[0_16px_32px_-22px_rgba(181,34,33,0.62)]"
+                >
+                  <Link href="/upload-paper">Upload New Paper</Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
 
           <div className="space-y-6">
-            <div className="relative max-w-xl">
-              <Input
-                type="search"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                placeholder="Search by title, keyword, or author"
-                className="rounded-xl border border-gray-200 bg-white py-3 pl-12 pr-4 text-sm shadow-sm transition focus:border-[#B52221]/40 focus:ring-[#B52221]/30"
-                autoComplete="off"
-                inputMode="search"
-              />
-              <SearchIcon className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
-            </div>
-
             <div className="space-y-4">
               {isLoading ? (
                 <div className="space-y-3">
                   {[...Array(3)].map((_, idx) => (
                     <div
                       key={idx}
-                      className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm"
+                      className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-gray-50 p-5 shadow-sm md:p-6"
                     >
                       <div className="h-4 w-2/3 animate-pulse rounded bg-gray-200" />
-                      <div className="flex gap-3">
+                      <div className="flex flex-wrap gap-3">
                         <div className="h-3 w-24 animate-pulse rounded bg-gray-200" />
                         <div className="h-3 w-20 animate-pulse rounded bg-gray-200" />
                       </div>
@@ -162,86 +166,90 @@ function ManagePapersContent() {
                 </div>
               ) : (
                 papers?.data.map((paper) => (
-                    <Card
-                      key={paper.id}
-                      className="border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-md"
-                    >
-                    <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-                      <div className="space-y-3">
-                      <div className="flex items-center gap-2">
-                        <Link
-                        href={`/paper/${paper.slug}`}
-                        className="text-lg font-semibold leading-snug text-gray-900 transition-colors hover:text-[#B52221]"
-                        >
-                        {paper.title}
-                        </Link>
-                        <span
-                        className={`
-                          ml-2 rounded-full px-2 py-0.5 text-xs font-medium
-                          ${
-                          paper.status === "published"
-                            ? "bg-green-100 text-green-700"
-                            : paper.status === "pending"
-                            ? "bg-yellow-100 text-yellow-700"
-                            : "bg-gray-100 text-gray-600"
-                          }
-                        `}>
-                        {paper.status.charAt(0).toUpperCase() + paper.status.slice(1)}
-                        </span>
-                      </div>
-                      <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">
-                        <span>
-                        {format(new Date(paper.createdAt), "MMM d, yyyy")}
-                        </span>
-                        <span className="text-gray-300">•</span>
-                        <span className="flex items-center gap-2">
-                        {paper.keywords && paper.keywords.slice(0, 3).map((keyword) => (
-                          <span
-                          key={keyword.id}
-                          className="rounded-full bg-gray-100 px-2 py-1 text-[10px] font-medium text-gray-600"
+                  <Card
+                    key={paper.id}
+                    className="border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md md:p-6"
+                  >
+                    <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+                      <div className="min-w-0 space-y-3">
+                        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:gap-3">
+                          <Link
+                            href={`/paper/${paper.slug}`}
+                            className="text-base font-semibold leading-snug text-gray-900 transition-colors hover:text-[#B52221] md:text-lg"
                           >
-                          {keyword.name}
+                            {paper.title}
+                          </Link>
+                          <span
+                            className={`
+                              w-fit rounded-full px-2.5 py-1 text-xs font-medium
+                              ${
+                                paper.status === "published"
+                                  ? "bg-green-100 text-green-700"
+                                  : paper.status === "pending"
+                                    ? "bg-yellow-100 text-yellow-700"
+                                    : "bg-gray-100 text-gray-600"
+                              }
+                            `}
+                          >
+                            {paper.status.charAt(0).toUpperCase() + paper.status.slice(1)}
                           </span>
-                        ))}
-                        {paper.keywords && paper.keywords.length > 3 && (
-                          <span className="rounded-full bg-gray-100 px-2 py-1 text-[10px] font-medium text-gray-600">
-                          +{paper.keywords.length - 3}
-                          </span>
-                        )}
-                        </span>
-                      </div>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+                          <span>{format(new Date(paper.createdAt), "MMM d, yyyy")}</span>
+                          {paper.keywords && paper.keywords.length > 0 && (
+                            <>
+                              <span className="hidden text-gray-300 sm:inline">•</span>
+                              <div className="flex flex-wrap gap-2">
+                                {paper.keywords.slice(0, 3).map((keyword) => (
+                                  <span
+                                    key={keyword.id}
+                                    className="rounded-full bg-gray-100 px-2 py-1 text-[10px] font-medium text-gray-600"
+                                  >
+                                    {keyword.name}
+                                  </span>
+                                ))}
+                                {paper.keywords.length > 3 && (
+                                  <span className="rounded-full bg-gray-100 px-2 py-1 text-[10px] font-medium text-gray-600">
+                                    +{paper.keywords.length - 3}
+                                  </span>
+                                )}
+                              </div>
+                            </>
+                          )}
+                        </div>
                       </div>
 
-                      <div className="flex items-center justify-end gap-3">
-                      <Button
-                        variant={"outline"}
-                        className="rounded-full border-gray-200 bg-white px-4 py-2 text-sm text-gray-700 transition hover:border-[#B52221]/40 hover:text-[#B52221] hover:shadow-md"
-                        asChild
-                      >
-                        <Link
-                        href={`/paper/${paper.slug}/edit`}
-                        className="flex items-center gap-2"
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
+                        <Button
+                          variant={"outline"}
+                          className="w-full rounded-full border-gray-200 bg-white px-4 py-2 text-sm text-gray-700 transition hover:border-[#B52221]/40 hover:text-[#B52221] hover:shadow-md sm:w-auto"
+                          asChild
                         >
-                        <PenSquare className="h-4 w-4" />
-                        Edit
-                        </Link>
-                      </Button>
-                      <Button
-                        variant={"ghost"}
-                        className="rounded-full border border-transparent bg-[#FCEBEC] px-4 py-2 text-sm text-[#B52221] transition hover:bg-[#B52221] hover:text-white hover:shadow-md"
-                        onClick={() => {
-                        setPendingDeletePaper(paper);
-                        setIsDeleteDialogOpen(true);
-                        }}
-                      >
-                        <span className="flex items-center gap-2">
-                        <Trash2 className="h-4 w-4" />
-                        Delete
-                        </span>
-                      </Button>
+                          <Link
+                            href={`/paper/${paper.slug}/edit`}
+                            className="flex items-center justify-center gap-2"
+                          >
+                            <PenSquareIcon className="h-4 w-4" />
+                            Edit
+                          </Link>
+                        </Button>
+                        <Button
+                          variant={"ghost"}
+                          className="w-full rounded-full border border-transparent bg-[#FCEBEC] px-4 py-2 text-sm text-[#B52221] transition hover:bg-[#B52221] hover:text-white hover:shadow-md sm:w-auto"
+                          onClick={() => {
+                            setPendingDeletePaper(paper);
+                            setIsDeleteDialogOpen(true);
+                          }}
+                        >
+                          <span className="flex items-center justify-center gap-2">
+                            <Trash2Icon className="h-4 w-4" />
+                            Delete
+                          </span>
+                        </Button>
                       </div>
                     </div>
-                    </Card>
+                  </Card>
                 ))
               )}
               {totalPages > 1 && (
