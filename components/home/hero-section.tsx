@@ -7,7 +7,7 @@ import PaperSearchInput from '../shared/paper-search-input';
 const HeroSection = () => {
   return (
     <motion.section
-            className="md:w-3/5 w-full mx-auto my-7 md:my-6 space-y-6 px-4"
+            className="md:w-3/5 w-full mx-auto mt-3 mb-7 md:my-6 space-y-6 px-4"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}

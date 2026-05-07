@@ -17,10 +17,10 @@ export default function Home() {
   return (
     <div>
       <div className="items-center justify-items-center min-h-screen">
-        <main className="flex flex-col items-center w-full pt-10 md:pt-4">
+        <main className="flex flex-col items-center w-full pt-4 md:pt-4">
           <HeroSection />
           <section className="w-full">
-            <section className="w-full mt-10">
+            <section className="w-full mt-4 md:mt-10">
               <CategoriesSection />
 
               <div className="flex justify-center">

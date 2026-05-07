@@ -447,7 +447,7 @@ function EditPaper() {
 
   return (
     <div className="bg-background">
-      <div className="mx-auto max-w-[1440px] px-4 pb-8 pt-0 md:p-container-lg">
+      <div className="mx-auto max-w-[1440px] p-container-base md:p-container-lg">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_340px] xl:grid-cols-[minmax(0,1.15fr)_360px]">
           <section className="space-y-6">
             <Card className="border-[#f0d8d8] bg-[linear-gradient(180deg,#fff9f8_0%,#ffffff_100%)] shadow-[0_22px_60px_-44px_rgba(181,34,33,0.45)]">
