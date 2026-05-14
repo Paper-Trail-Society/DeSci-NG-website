@@ -74,10 +74,10 @@ const Page = () => {
   return (
     <div>
       <div className="items-center justify-items-center pb-10 w-full">
-        <section className="flex flex-col gap-8 md:gap-14 items-center pt-10 w-full">
+        <section className="flex flex-col gap-6 md:gap-10 items-center pt-10 w-full">
           <Text
             as="h2"
-            className="w-full pl-4 md:pl-0 text-left lg:text-center text-xl md:text-3xl leading-7"
+            className="w-full px-4 md:w-2/3 text-left md:text-center text-xl md:text-3xl leading-7"
           >
             About <b>Nubian</b>
           </Text>
