@@ -25,7 +25,7 @@ const dialogues = [
     {
     title: "Episode 1",
     image: "/assets/EP1.png",
-    description: "Introducing: Dialogues. A new series where researchers share what they are working on, the questions shaping their studies, and how it concerns to you.",
+    description: "Introducing: Dialogues. A new series where researchers share what they are working on, the questions shaping their studies, and how it concerns you.",
     link: "https://x.com/nubianresearch_/status/1994449051413102843",
   },
 ];
