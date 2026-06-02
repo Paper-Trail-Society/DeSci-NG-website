@@ -7,6 +7,7 @@ const jams = [
     image: "/assets/trj1.jpeg",
     description: "A symposium for researchers, research institutes, and stakeholders to sense-make.",
     link: "https://drive.google.com/file/d/162pPmgLQUG0PK-QW7h22MI_VJnokn8uG/view",
+    linkLabel: "View here",
   },
   // {
   //   title: "Research Jam 2",
