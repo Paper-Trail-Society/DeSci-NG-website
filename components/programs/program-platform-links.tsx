@@ -118,7 +118,7 @@ export default function ProgramPlatformLinks({
   }
 
   return (
-    <div className="flex items-center gap-2 shrink-0">
+    <div className="flex items-center gap-2 shrink-0 leading-none">
       {links.map((link) => {
         const config = platformConfig[link.platform];
 
@@ -130,7 +130,7 @@ export default function ProgramPlatformLinks({
             rel="noopener noreferrer"
             aria-label={config.label}
             title={config.label}
-            className="group text-gray-500 hover:text-primary text-xl transition-colors"
+            className="group inline-flex h-4 w-4 items-center justify-center text-gray-500 hover:text-primary transition-colors"
           >
             {config.icon}
           </Link>

@@ -37,7 +37,7 @@ export default function ProgramCard({
 
       <CardContent className="p-3 flex-1 flex flex-col">
         <CardHeader className="p-0 mb-1.5">
-          <div className="flex items-start justify-between gap-3">
+          <div className="flex items-center justify-between gap-3">
             <CardTitle className="text-lg">{title}</CardTitle>
             <ProgramPlatformLinks links={platformLinks} />
           </div>
