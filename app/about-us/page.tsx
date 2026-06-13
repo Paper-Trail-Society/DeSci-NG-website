@@ -103,7 +103,7 @@ const Page = () => {
             </Text>
             <Text className="text-base md:text-lg">
               Today, our collective spans across West Africa and India, with the
-              highest number of studies from Nigeria across 12 higher
+              highest number of studies from Nigeria across 16 higher
               institutions. Some of the current fields include; Arts &
               Humanities, Clinical Sciences, Computing, Communication &
               Information, Pure & Applied Sciences, and Social Sciences; with
