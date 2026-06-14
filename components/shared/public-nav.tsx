@@ -367,8 +367,9 @@ const PublicNav = () => {
   const currentPath = usePathname();
 
   return (
-    <nav className="z-60 mx-auto max-w-6xl px-4 py-3 md:px-0 md:py-4">
-      <div className="w-full md:px-2 md:mx-auto flex justify-between items-center">
+    <nav className="sticky top-0 z-50 border-b border-gray-200/80 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/75">
+      <div className="mx-auto max-w-6xl px-4 py-3 md:px-0 md:py-4">
+        <div className="w-full md:px-2 md:mx-auto flex justify-between items-center">
         <Logo />
         <DesktopNav
           isAuthenticated={isAuthenticated}
@@ -378,6 +379,7 @@ const PublicNav = () => {
           isAuthenticated={isAuthenticated}
           currentPath={currentPath}
         />
+        </div>
       </div>
     </nav>
   );

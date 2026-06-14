@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 const PressPage = () => {
   return (
-    <div className="items-center justify-items-center pb-10 w-full">
+    <div className="items-center justify-items-center pb-10 w-full md:px-2">
       <section className="flex flex-col gap-8 md:gap-12 pt-10 w-full">
         <div className="max-w-3xl space-y-4">
           <Text

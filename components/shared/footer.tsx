@@ -117,106 +117,163 @@ const socials = [
   },
 ];
 
+const primaryLinks = [
+  { href: "/about-us", label: "About" },
+  { href: "/how-to-upload-a-paper", label: "How to upload a paper" },
+  { href: "/donate", label: "Donate" },
+  { href: "/press", label: "Press" },
+];
+
+const secondaryLinks = [
+  { href: "/privacy-policy", label: "Privacy Policy" },
+  { href: "/terms-of-use", label: "Terms of Use" },
+];
+
+const footerLinkClassName = "inline-block";
+const footerLinkTextClassName = "hover:text-primary transition-colors";
+
+const FooterLink = ({
+  href,
+  label,
+}: {
+  href: string;
+  label: string;
+}) => {
+  return (
+    <Link className={footerLinkClassName} href={href}>
+      <Text size="xs" className={footerLinkTextClassName}>
+        {label}
+      </Text>
+    </Link>
+  );
+};
+
+const ContactLink = () => {
+  return (
+    <a
+      className={footerLinkClassName}
+      href="mailto:info.nubianresearch@gmail.com"
+    >
+      <Text size="xs" className={footerLinkTextClassName}>
+        Contact
+      </Text>
+    </a>
+  );
+};
+
+const FooterBrand = () => {
+  return (
+    <div className="flex flex-col gap-4">
+      <Link href="/">
+        <Image
+          src="/assets/nubian-logo.png"
+          alt="logo"
+          width={130}
+          height={100}
+          className="mb-2"
+        />
+      </Link>
+      <Text size="xs" className="text-gray-500">
+        Nubian/Paper Trail Society is a platform for research, dialogue, and
+        discovery.
+      </Text>
+    </div>
+  );
+};
+
+const DesktopFooterNavigation = () => {
+  return (
+    <div className="hidden md:grid md:grid-cols-2 md:gap-12">
+      <ul className="space-y-1.5">
+        {primaryLinks.map((link) => (
+          <li key={link.href}>
+            <FooterLink href={link.href} label={link.label} />
+          </li>
+        ))}
+      </ul>
+
+      <ul className="space-y-1.5">
+        {secondaryLinks.map((link) => (
+          <li key={link.href}>
+            <FooterLink href={link.href} label={link.label} />
+          </li>
+        ))}
+        <li>
+          <ContactLink />
+        </li>
+      </ul>
+    </div>
+  );
+};
+
+const MobileFooterNavigation = () => {
+  return (
+    <div className="grid grid-cols-2 gap-8 md:hidden">
+      <ul className="space-y-1.5">
+        {primaryLinks.map((link) => (
+          <li key={link.href}>
+            <FooterLink href={link.href} label={link.label} />
+          </li>
+        ))}
+      </ul>
+
+      <ul className="space-y-1.5">
+        {secondaryLinks.map((link) => (
+          <li key={link.href}>
+            <FooterLink href={link.href} label={link.label} />
+          </li>
+        ))}
+        <li>
+          <ContactLink />
+        </li>
+      </ul>
+    </div>
+  );
+};
+
+const FooterNavigation = () => {
+  return (
+    <div>
+      <DesktopFooterNavigation />
+      <MobileFooterNavigation />
+    </div>
+  );
+};
+
+const FooterSocials = () => {
+  return (
+    <div className="flex flex-col gap-4 md:items-end">
+      <div className="flex gap-4">
+        {socials.map((s) => (
+          <a
+            key={s.label}
+            href={s.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={s.label}
+            className="group text-gray-500 hover:text-primary text-xl transition-colors"
+          >
+            {s.icon}
+          </a>
+        ))}
+      </div>
+      <Text
+        size="xs"
+        className="text-gray-400 mt-4 md:mt-8 text-center md:text-right"
+      >
+        &copy; {new Date().getFullYear()} Nubian/Paper Trail Society.
+      </Text>
+    </div>
+  );
+};
+
 const Footer = () => {
   return (
     <footer className="w-full bg-gray-50 border-t border-gray-200 py-10 px-4">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-        {/* Logo and About */}
-        <div className="flex flex-col gap-4">
-          <Link href="/">
-            <Image
-              src="/assets/nubian-logo.png"
-              alt="logo"
-              width={130}
-              height={100}
-              className="mb-2"
-            />
-          </Link>
-          <Text size="xs" className="text-gray-500">
-            Nubian/Paper Trail Society is a platform for research, dialogue, and
-            discovery.
-          </Text>
-        </div>
-
-        {/* Navigation */}
-        <div>
-          <ul>
-            <li>
-              <Link className="inline-block" href="/about-us">
-                <Text
-                  size="xs"
-                  className="hover:text-primary transition-colors"
-                >
-                  About
-                </Text>
-              </Link>
-            </li>
-            <li>
-              <Link className="inline-block" href="/how-to-upload-a-paper">
-                <Text
-                  size="xs"
-                  className="hover:text-primary transition-colors"
-                >
-                  How to upload a paper
-                </Text>
-              </Link>
-            </li>
-            <li>
-              <a className="inline-block" href="mailto:info.nubianresearch@gmail.com">
-                <Text
-                  size="xs"
-                  className="hover:text-primary transition-colors"
-                >
-                  Contact
-                </Text>
-              </a>
-            </li>
-            <li>
-              <Link className="inline-block" href="/donate">
-                <Text
-                  size="xs"
-                  className="hover:text-primary transition-colors"
-                >
-                  Donate
-                </Text>
-              </Link>
-            </li>
-            <li>
-              <Link className="inline-block" href="/press">
-                <Text
-                  size="xs"
-                  className="hover:text-primary transition-colors"
-                >
-                  Press
-                </Text>
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        {/* Socials */}
-        <div className="flex flex-col gap-4 md:items-end">
-          <div className="flex gap-4">
-            {socials.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={s.label}
-                className="group text-gray-500 hover:text-primary text-xl transition-colors"
-              >
-                {s.icon}
-              </a>
-            ))}
-          </div>
-          <Text
-            size="xs"
-            className="text-gray-400 mt-4 md:mt-8 text-center md:text-right"
-          >
-            &copy; {new Date().getFullYear()} Nubian/Paper Trail Society.
-          </Text>
-        </div>
+        <FooterBrand />
+        <FooterNavigation />
+        <FooterSocials />
       </div>
     </footer>
   );

@@ -42,7 +42,7 @@ const PressEntryPage = ({ params }: Props) => {
 
   return (
     <div className="items-center justify-items-center pb-10 w-full">
-      <article className="w-full max-w-3xl pt-10 space-y-6">
+      <article className="w-full max-w-3xl pt-10 space-y-8">
         <Link
           href="/press"
           className="inline-block text-sm text-primary transition-colors hover:underline"
@@ -50,7 +50,7 @@ const PressEntryPage = ({ params }: Props) => {
           Back to Press
         </Link>
 
-        <div className="space-y-4">
+        <div className="space-y-5 border-b border-gray-200 pb-8">
           <div className="flex flex-col gap-2">
             <Text
               size="xs"
@@ -72,19 +72,22 @@ const PressEntryPage = ({ params }: Props) => {
           >
             {entry.title}
           </Text>
+          <Text className="text-base md:text-lg text-text-dim">
+            {entry.summary}
+          </Text>
         </div>
 
-        <div className="space-y-5">
+        <div className="space-y-6">
           {entry.body.map((paragraph, index) => (
             <Text
               key={`${entry.slug}-${index}`}
-              className="text-base md:text-lg leading-8"
+              className="text-base md:text-lg leading-7 md:leading-8 text-gray-700"
             >
               {paragraph}
             </Text>
           ))}
           {entry.cta ? (
-            <Text className="text-base md:text-lg leading-8">
+            <Text className="text-base md:text-lg leading-7 md:leading-8 text-gray-700">
               {entry.cta.before}
               <Link
                 href={entry.cta.readMoreHref}
@@ -107,10 +110,12 @@ const PressEntryPage = ({ params }: Props) => {
             </Text>
           ) : null}
           {entry.video?.videoId ? (
-            <YouTubeEmbed
-              videoId={entry.video.videoId}
-              title={entry.video.title}
-            />
+            <div className="pt-2">
+              <YouTubeEmbed
+                videoId={entry.video.videoId}
+                title={entry.video.title}
+              />
+            </div>
           ) : null}
         </div>
       </article>
