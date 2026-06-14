@@ -271,7 +271,7 @@ const MobileNav = ({ isAuthenticated, currentPath }: NavProps) => {
         <SheetContent
           title="mobile-nav-menu"
           side="right"
-          className="p-0 mt-18 w-64 bg-white border-black/30 border-t"
+          className="mt-15 w-64 border-t border-gray-200/80 bg-white p-0"
         >
           <motion.div
             className="flex flex-col gap-2 mt-2 p-4"
