@@ -22,8 +22,8 @@ import { Text } from "../ui/text";
 
 const navLinks = [
   { label: "Programs", href: "/programs" },
-  { label: "Upload paper", href: "/upload-paper" },
   { label: "Donate", href: "/donate" },
+  { label: "Login", href: "/login" },
 ];
 
 const mobileNavContainerAnimation = {
@@ -60,7 +60,7 @@ const Logo = () => (
           alt="logo"
           width={120}
           height={86}
-          className="translate-y-1 w-[112px] md:translate-y-0 md:w-[140px]"
+          className="translate-y-1 w-28 md:translate-y-0 md:w-35"
         />
       </span>
     </Link>
@@ -72,7 +72,7 @@ const DesktopNav = ({ isAuthenticated, currentPath }: NavProps) => {
 
   return (
     <div className="hidden md:flex gap-4 items-center">
-      {navLinks.map((link) => {
+      {navLinks.filter((link) => link.href !== '/login').map((link) => {
         const navLinksHref = navLinks.map((navLink) => navLink.href);
         const currentPathIsInNavLinks = navLinksHref.some((href) =>
           currentPath.includes(href),
@@ -182,11 +182,11 @@ const DesktopNav = ({ isAuthenticated, currentPath }: NavProps) => {
         </Link>
       ) : (
         <Link
-          href="/login"
+          href="/upload-paper"
           prefetch={true}
           className="inline-block bg-primary text-white hover:bg-primary/90 px-4 py-2 rounded text-sm font-medium"
         >
-          LOGIN
+          Upload paper
         </Link>
       )}
     </div>
@@ -202,7 +202,7 @@ const MobileNav = ({ isAuthenticated, currentPath }: NavProps) => {
         <Link href="/dashboard/profile">
           <Button
             variant="destructive"
-            className="h-7 min-w-[84px] rounded-sm px-2 text-[11px]"
+            className="h-7 min-w-21 rounded-sm px-2 text-[11px]"
           >
             Dashboard
           </Button>
@@ -211,9 +211,9 @@ const MobileNav = ({ isAuthenticated, currentPath }: NavProps) => {
         <Link href="/login">
           <Button
             variant="destructive"
-            className="h-7 min-w-[84px] justify-center rounded-sm px-2 text-[11px]"
+            className="h-7 min-w-21 justify-center rounded-sm px-2 text-[11px]"
           >
-            LOGIN
+            Upload paper
           </Button>
         </Link>
       )}
