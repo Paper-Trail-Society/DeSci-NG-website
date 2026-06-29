@@ -23,7 +23,7 @@ export default function ProgramsSidebar() {
   const pathname = usePathname() || "";
 
   const active =
-    TABS.find((tab) => pathname.endsWith(tab.value))?.value || "dialogues";
+    TABS.find((tab) => pathname.startsWith(tab.href))?.value || "dialogues";
 
   const handleChange = (value: string) => {
     const tab = TABS.find((t) => t.value === value);

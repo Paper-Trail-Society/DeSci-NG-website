@@ -1,5 +1,5 @@
 import ProgramsSidebar from "@/components/programs/programs-sidebar";
-import Breadcrumb from "@/components/shared/breadcrumb";
+import ProgramsBreadcrumb from "@/components/programs/programs-breadcrumb";
 import { Metadata } from "next";
 import React from "react";
 
@@ -23,12 +23,7 @@ export default function ProgramsLayout({
         </aside>
         <main className="flex-1 pb-24 md:pb-0">
           <div className="mb-4">
-            <Breadcrumb
-              links={[
-                { label: "Home", href: "/" },
-                { label: "Programs", href: "/programs" },
-              ]}
-            />
+            <ProgramsBreadcrumb />
           </div>
           <div>{children}</div>
         </main>

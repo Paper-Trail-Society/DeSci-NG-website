@@ -24,3 +24,12 @@ export const paperCommentKeys = {
       { sortDir },
     ] as const,
 };
+
+export const fieldKeys = {
+  all: ["fields"] as const,
+  categories: (fieldId: number) => [...fieldKeys.all, fieldId, "categories"] as const,
+};
+
+export const institutionKeys = {
+  all: ["institutions"] as const,
+};
