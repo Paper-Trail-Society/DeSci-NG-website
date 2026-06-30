@@ -7,7 +7,11 @@ import {
   useState,
   type InputHTMLAttributes,
 } from "react";
-import { useForm, type UseFormReturn } from "react-hook-form";
+import {
+  useForm,
+  type DefaultValues,
+  type UseFormReturn,
+} from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { isAxiosError } from "axios";
@@ -124,6 +128,30 @@ const booleanOptions = [
   { label: "Yes", value: "true" },
   { label: "No", value: "false" },
 ];
+
+const emptySubmissionFormValues: DefaultValues<ProjectShowcaseSubmissionFormInput> = {
+  fullName: "",
+  email: "",
+  phoneNumber: "",
+  institutionId: undefined,
+  department: "",
+  degreeProgram: "",
+  projectTitle: "",
+  projectSummary: "",
+  problemStatement: "",
+  currentProgress: "",
+  expectedImpact: "",
+  expectedStartDate: "",
+  expectedEndDate: "",
+  willProvideUpdates: undefined,
+  consentToFeature: undefined,
+  inspiration: "",
+  supportUse: "",
+  beneficiaries: "",
+  projectUrl: "",
+  demoUrl: "",
+  repositoryUrl: "",
+};
 
 function ProjectShowcaseProgress({
   steps,
@@ -535,30 +563,7 @@ export default function ProjectShowcaseSubmissionForm() {
   const form = useForm<ProjectShowcaseSubmissionFormInput>({
     resolver: zodResolver(projectShowcaseSubmissionSchema),
     mode: "onChange",
-    defaultValues: {
-      fullName: "",
-      email: "",
-      phoneNumber: "",
-      institutionId: undefined,
-      institutionInput: "",
-      department: "",
-      degreeProgram: "",
-      projectTitle: "",
-      projectSummary: "",
-      problemStatement: "",
-      currentProgress: "",
-      expectedImpact: "",
-      expectedStartDate: "",
-      expectedEndDate: "",
-      willProvideUpdates: undefined,
-      consentToFeature: undefined,
-      inspiration: "",
-      supportUse: "",
-      beneficiaries: "",
-      projectUrl: "",
-      demoUrl: "",
-      repositoryUrl: "",
-    },
+    defaultValues: emptySubmissionFormValues,
   });
   const institutionsQuery = useGetInstitutions();
   const createProjectShowcaseSubmission =
@@ -634,41 +639,19 @@ export default function ProjectShowcaseSubmissionForm() {
   ];
 
   const handleSubmit = form.handleSubmit(async (values) => {
+    const payload: ProjectShowcaseSubmissionFormValues =
+      projectShowcaseSubmissionSchema.parse(values);
+
     try {
-      const payload: ProjectShowcaseSubmissionFormValues =
-        projectShowcaseSubmissionSchema.parse(values);
       const response =
         await createProjectShowcaseSubmission.mutateAsync(payload);
 
-      setSubmittedProjectTitle(response.data.projectTitle);
+      setSubmittedProjectTitle(response.data.projectTitle || payload.projectTitle);
       toast.success("Submission received", {
         description: response.message,
       });
 
-      form.reset({
-        fullName: "",
-        email: "",
-        phoneNumber: "",
-        institutionId: undefined,
-        institutionInput: "",
-        department: "",
-        degreeProgram: "",
-        projectTitle: "",
-        projectSummary: "",
-        problemStatement: "",
-        currentProgress: "",
-        expectedImpact: "",
-        expectedStartDate: "",
-        expectedEndDate: "",
-        willProvideUpdates: undefined,
-        consentToFeature: undefined,
-        inspiration: "",
-        supportUse: "",
-        beneficiaries: "",
-        projectUrl: "",
-        demoUrl: "",
-        repositoryUrl: "",
-      });
+      form.reset(emptySubmissionFormValues);
     } catch (error) {
       const message = isAxiosError<{ error?: string; message?: string }>(error)
         ? error.response?.data?.error ||
