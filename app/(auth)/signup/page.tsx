@@ -1,5 +1,6 @@
 "use client";
 
+import { SignupInstitutionField } from "@/components/auth/signup-institution-field";
 import { Button } from "@/components/ui/button";
 import {
   MultiSelect,
@@ -8,13 +9,6 @@ import {
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import PasswordField from "@/components/ui/password-field";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Text } from "@/components/ui/text";
 import TextField from "@/components/ui/text-field";
 import { useSignUp } from "@/domains/auth/hooks";
@@ -24,7 +18,7 @@ import { Keyword } from "@/domains/paper/types";
 import { useRedirectIfAuthenticated } from "@/lib/hooks/use-auth-guard";
 import { $http } from "@/lib/http";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -78,6 +72,7 @@ function SignupContent() {
       password: "",
       confirmPassword: "",
       institutionId: undefined,
+      institutionInput: "",
       areasOfInterest: [],
     },
     mode: "onChange",
@@ -255,78 +250,12 @@ function SignupContent() {
                 required
               />
 
-              {/* Institution Selection */}
-              <FormField
+              <SignupInstitutionField
                 control={form.control}
-                name="institutionId"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label className="md:text-lg text-sm text-text font-bold">
-                      Affiliated institution
-                    </Label>
-                    <FormControl>
-                      <Select
-                        value={field.value?.toString() || ""}
-                        onValueChange={(value) => {
-                          const numValue = value ? parseInt(value) : undefined;
-                          field.onChange(numValue);
-                        }}
-                      >
-                        <SelectTrigger className="h-14 px-6 py-4 text-left bg-white ring-1 ring-neutral-400 border-[#F3E7E780]/50 focus:border-[#F3E7E780]/50 focus:ring-2 focus:ring-[#B52221]/20 rounded-md">
-                          <SelectValue
-                            placeholder={
-                              institutionsLoading
-                                ? "Loading institutions..."
-                                : institutionsError
-                                ? "Error loading institutions"
-                                : !institutions || institutions.length === 0
-                                ? "No institutions available"
-                                : "Select your institution (optional)"
-                            }
-                            className="text-gray-900 placeholder:text-gray-500"
-                          />
-                        </SelectTrigger>
-                        <SelectContent className="bg-white border border-gray-200 shadow-lg rounded-md z-50 max-h-60 overflow-y-auto">
-                          {institutionsLoading ? (
-                            <SelectItem
-                              value="loading"
-                              disabled
-                              className="text-gray-500 cursor-not-allowed"
-                            >
-                              Loading institutions...
-                            </SelectItem>
-                          ) : institutionsError ? (
-                            <SelectItem
-                              value="error"
-                              disabled
-                              className="text-red-500 cursor-not-allowed"
-                            >
-                              Error loading institutions
-                            </SelectItem>
-                          ) : institutions && institutions.length > 0 ? (
-                            institutions.map((institution) => (
-                              <SelectItem
-                                key={institution.id}
-                                value={institution.id.toString()}
-                                className="px-4 py-3 text-gray-900 hover:bg-gray-50 focus:bg-[#B52221]/10 cursor-pointer"
-                              >
-                                {institution.name}
-                              </SelectItem>
-                            ))
-                          ) : (
-                            <SelectItem
-                              value="no-institutions"
-                              disabled
-                              className="text-gray-500 cursor-not-allowed"
-                            >
-                              No institutions available
-                            </SelectItem>
-                          )}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                  </FormItem>
-                )}
+                institutions={institutions ?? []}
+                isLoading={institutionsLoading}
+                hasError={Boolean(institutionsError)}
+                setValue={form.setValue}
               />
 
               {/* Areas of Interest */}
@@ -355,8 +284,8 @@ function SignupContent() {
                           debouncedKeywordSearch(searchVal);
                           setOptions(keywordOptions);
                         }}
-                        placeholder="Search and select your areas of interest..."
-                        className="min-h-14"
+                        placeholder="Type to search or add areas of interest"
+                        className="min-h-14 !ring-0"
                         controlStyles={{
                           backgroundColor: "white",
                           border: "none",
@@ -404,7 +333,7 @@ function SignupContent() {
                 disabled={signUpMutation.isPending}
               >
                 {signUpMutation.isPending ? (
-                  <Loader2 size={16} className="animate-spin" />
+                  <Loader2Icon size={16} className="animate-spin" />
                 ) : (
                   "CREATE ACCOUNT"
                 )}

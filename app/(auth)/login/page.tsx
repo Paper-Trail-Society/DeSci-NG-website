@@ -7,6 +7,7 @@ import { Text } from "@/components/ui/text";
 import TextField from "@/components/ui/text-field";
 import { useSignIn } from "@/domains/auth/hooks";
 import { LoginFormData, loginSchema } from "@/domains/auth/schemas";
+import { fetchUser } from "@/domains/auth/hooks/use-user";
 import { useRedirectIfAuthenticated } from "@/lib/hooks/use-auth-guard";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -33,9 +34,12 @@ function LoginContent() {
   const queryClient = useQueryClient();
 
   const signInMutation = useSignIn({
-    onSuccess: (data) => {
-      const user = data.user;
-      // push the `user` object into the `user` cache in react query
+    onSuccess: async () => {
+      const user = await queryClient.fetchQuery({
+        queryKey: ["user"],
+        queryFn: fetchUser,
+      });
+
       queryClient.setQueryData(["user"], user);
       router.push("/dashboard");
     },

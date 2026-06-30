@@ -30,3 +30,5 @@ export function useGetMe() {
     retry: false, // don’t retry on 401
   });
 }
+
+export { fetchUser };

@@ -21,6 +21,10 @@ export const signupSchema = z
       ),
     confirmPassword: z.string().min(1, "Please confirm your password"),
     institutionId: z.number().optional(),
+    institutionInput: z
+      .string()
+      .trim()
+      .min(2, "Affiliated institution is required"),
     areasOfInterest: z.array(z.string()).optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
