@@ -133,7 +133,7 @@ function ProjectShowcaseProgress({
     currentStepIndex >= 0 ? currentStepIndex + 1 : steps.length;
 
   return (
-    <section className="sticky top-0 z-20 -mx-4 border-b border-[#f1dddd] bg-white/95 px-4 py-3 backdrop-blur md:top-4 md:mx-0 md:rounded-[24px] md:border md:bg-[linear-gradient(180deg,#fffafa_0%,#fff7f6_100%)] md:px-5 md:py-5 md:shadow-[0_20px_50px_-40px_rgba(181,34,33,0.4)]">
+    <section className="sticky top-0 z-20 -mx-4 border-b border-[#f1dddd] bg-white/95 px-4 py-3 backdrop-blur md:top-4 md:mx-0 md:rounded-3xl md:border md:bg-[linear-gradient(180deg,#fffafa_0%,#fff7f6_100%)] md:px-5 md:py-5 md:shadow-[0_20px_50px_-40px_rgba(181,34,33,0.4)]">
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="flex items-center gap-2 text-text-link">
@@ -184,7 +184,7 @@ function ProjectShowcaseFormSection({
   children: React.ReactNode;
 }) {
   return (
-    <section className="space-y-4 rounded-[24px] border border-[#f3dfdf] bg-[#fffdfc] p-4 md:space-y-5 md:rounded-[28px] md:p-6">
+    <section className="space-y-4 rounded-3xl border border-[#f3dfdf] bg-[#fffdfc] p-4 md:space-y-5 md:rounded-[28px] md:p-6">
       <div className="space-y-2">
         <Text
           as="p"
@@ -276,7 +276,7 @@ function ProjectShowcaseFormTextareaField({
               placeholder={placeholder}
               className="min-h-32 text-sm"
               size="sm"
-              variant="default"
+              variant="noFocus"
             />
           </FormControl>
           <FormMessage />
@@ -485,14 +485,14 @@ export default function ProjectShowcaseSubmissionForm() {
       <ProjectShowcaseProgress steps={progressSteps} />
 
       {submittedProjectTitle ? (
-        <section className="rounded-[24px] border border-[#d9eadf] bg-[#f4fbf6] px-4 py-3 text-sm text-[#166534] md:rounded-[28px]">
+        <section className="rounded-3xl border border-[#d9eadf] bg-[#f4fbf6] px-4 py-3 text-sm text-[#166534] md:rounded-[28px]">
           <span className="font-semibold">{submittedProjectTitle}</span> has been submitted for
           review.
         </section>
       ) : null}
 
       {institutionsQuery.isError && !isLookupLoading ? (
-        <section className="rounded-[24px] border border-[#f0d8d8] bg-[#fff6f5] px-4 py-3 text-sm text-text-muted md:rounded-[28px]">
+        <section className="rounded-3xl border border-[#f0d8d8] bg-[#fff6f5] px-4 py-3 text-sm text-text-muted md:rounded-[28px]">
           We couldn&apos;t load the institution list right now. Refresh the page and try again.
         </section>
       ) : null}
