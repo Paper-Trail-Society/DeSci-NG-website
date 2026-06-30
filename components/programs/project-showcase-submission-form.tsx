@@ -134,6 +134,7 @@ const emptySubmissionFormValues: DefaultValues<ProjectShowcaseSubmissionFormInpu
   email: "",
   phoneNumber: "",
   institutionId: undefined,
+  institutionInput: "",
   department: "",
   degreeProgram: "",
   projectTitle: "",
@@ -406,7 +407,8 @@ function ProjectShowcaseInstitutionField({
       control={control}
       name="institutionInput"
       render={({ field }) => {
-        const normalizedQuery = field.value.trim().toLowerCase();
+        const fieldValue = field.value ?? "";
+        const normalizedQuery = fieldValue.trim().toLowerCase();
         const filteredInstitutions = normalizedQuery
           ? institutionOptions
               .filter((institution) =>
@@ -467,7 +469,7 @@ function ProjectShowcaseInstitutionField({
           return () => {
             document.removeEventListener("mousedown", handlePointerDown);
           };
-        }, [field.value]);
+        }, [fieldValue]);
 
         return (
           <FormItem>
@@ -477,7 +479,7 @@ function ProjectShowcaseInstitutionField({
             <FormControl>
               <div ref={containerRef} className="relative">
                 <Input
-                  value={field.value}
+                  value={fieldValue}
                   onChange={(event) => {
                     const nextValue = event.target.value;
                     setValue("institutionInput", nextValue, {
@@ -541,7 +543,7 @@ function ProjectShowcaseInstitutionField({
                           </button>
                         ))}
                       </div>
-                    ) : field.value.trim() ? (
+                    ) : fieldValue.trim() ? (
                       <div className="px-4 py-3 text-sm leading-5 text-text-muted">
                         No match found. Keep typing to add it.
                       </div>
