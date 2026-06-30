@@ -1,10 +1,11 @@
 import { $http } from "@/lib/http";
+import { fieldKeys } from "@/lib/react-query/query-keys";
 import { useQuery } from "@tanstack/react-query";
-import { Category, Field } from "../types";
+import { Category } from "../types";
 
 const useGetFieldCategories = ({ fieldId }: { fieldId: number }) => {
   return useQuery({
-    queryKey: ["field", fieldId, "categories"],
+    queryKey: fieldKeys.categories(fieldId),
     queryFn: async () => {
       const res = await $http.get<Category[]>(`/fields/${fieldId}/categories`);
       return res.data;

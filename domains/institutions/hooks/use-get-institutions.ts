@@ -1,4 +1,5 @@
 import { $http } from "@/lib/http";
+import { institutionKeys } from "@/lib/react-query/query-keys";
 import { useQuery } from "@tanstack/react-query";
 
 interface Institution {
@@ -13,7 +14,7 @@ interface InstitutionsResponse {
 
 export default function useGetInstitutions() {
   return useQuery({
-    queryKey: ["institutions"],
+    queryKey: institutionKeys.all,
     queryFn: async (): Promise<Institution[]> => {
       const response = await $http.get<InstitutionsResponse>("/institutions");
       return response.data.institutions;

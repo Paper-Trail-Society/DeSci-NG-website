@@ -11,7 +11,11 @@ interface RouteGuardProps {
 }
 
 // Protected routes that require authentication
-const protectedRoutes = ["/dashboard", "/upload-paper"];
+const protectedRoutes = [
+  "/dashboard",
+  "/upload-paper",
+  "/programs/project-showcase/submissions",
+];
 
 // Auth routes that should redirect authenticated users away
 const authRoutes = [

@@ -1,29 +1,21 @@
-import React from "react";
-import ProgramCard from "./program-card";
+import { Text } from "@/components/ui/text";
 
-const projects = [
-  {
-    title: "v2",
-    image: "/assets/psv2.jpeg",
-    description: "We support research endeavours across Africa. Take a look at how v2 is shaping out.",
-    link: "https://x.com/DeSci_NG/status/1935309068463141225",
-    linkLabel: "View here",
-  },
-  {
-    title: "v1",
-    image: "/assets/psv1.jpeg",
-    description: "We support research endeavours across Africa. 10 researchers were supported in v1.",
-    link: "https://x.com/DeSci_NG/status/1886355157094461780",
-    linkLabel: "View here",
-  },
-];
+import ProjectShowcaseProjectGrid from "./project-showcase-project-grid";
+import ProjectShowcaseSubmissionCta from "./project-showcase-submission-cta";
 
 export default function ProjectShowcaseSection() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {projects.map((item, idx) => (
-        <ProgramCard key={idx} {...item} />
-      ))}
+    <div className="space-y-8">
+      <section className="rounded-[34px] border border-[#f0d8d8] bg-[linear-gradient(180deg,#fffafa_0%,#fff6f5_100%)] px-6 py-8 shadow-[0_28px_70px_-44px_rgba(181,34,33,0.28)] md:px-8 md:py-10">
+        <div className="space-y-5">
+          <Text as="h2" size="2xl" weight="bold" className="max-w-3xl text-text">
+            Accelerating research projects across African campuses.
+          </Text>
+          <ProjectShowcaseSubmissionCta />
+        </div>
+      </section>
+
+      <ProjectShowcaseProjectGrid />
     </div>
   );
 }
