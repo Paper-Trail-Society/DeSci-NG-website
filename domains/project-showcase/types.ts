@@ -56,7 +56,7 @@ export type ProjectShowcaseSubmission = {
 export type CreateProjectShowcaseSubmissionResponse = {
   status: "success";
   message: string;
-  submission: ProjectShowcaseSubmission;
+  data: ProjectShowcaseSubmission;
 };
 
 export type ProjectShowcaseWaitlistPayload = {
@@ -73,5 +73,5 @@ export type ProjectShowcaseWaitlistEntry = {
 export type CreateProjectShowcaseWaitlistResponse = {
   status: "success";
   message: string;
-  entry: ProjectShowcaseWaitlistEntry;
+  data: ProjectShowcaseWaitlistEntry;
 };
