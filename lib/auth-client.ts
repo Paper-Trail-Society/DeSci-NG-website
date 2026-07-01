@@ -25,6 +25,11 @@ export const authClient = createAuthClient({
           type: "number",
           required: false,
         },
+        institutionInput: {
+          type: "string",
+          required: false,
+          returned: false,
+        },
         areasOfInterest: {
           type: "string[]",
           required: false,

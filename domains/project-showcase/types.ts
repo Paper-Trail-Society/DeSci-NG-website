@@ -2,7 +2,8 @@ export type ProjectShowcaseSubmissionPayload = {
   fullName: string;
   email: string;
   phoneNumber: string;
-  institutionId: number;
+  institutionId?: number;
+  institutionInput: string;
   department: string;
   degreeProgram: string;
   projectTitle: string;

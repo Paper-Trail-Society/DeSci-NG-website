@@ -15,6 +15,7 @@ export function useSignUp(options?: UseSignUpOptions) {
         password: data.password,
         name: data.name,
         institutionId: data.institutionId,
+        institutionInput: data.institutionInput,
         areasOfInterest: data.areasOfInterest,
         callbackURL: `${window.location.origin}/login`,
       });
