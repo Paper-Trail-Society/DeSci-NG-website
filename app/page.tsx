@@ -7,7 +7,7 @@ import SuccessStoriesSection from "@/components/home/success-stories";
 import HeroSection from "@/components/home/hero-section";
 
 export const metadata: Metadata = {
-  title: "Nubian | fka DeSci Nigeria",
+  title: "Nubian Research | Open-Access Research Infrastructure",
   description:
     "Nubian is building an open-access research infrastructure that welcomes scholarly contributions from every discipline.",
 };

@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import ResearchJamSection from "@/components/programs/research-jam-section";
+
+export const metadata: Metadata = {
+  title: "Nubian Research | Research Jam",
+  description:
+    "Learn about Research Jam, Nubian Research's program for collaborative inquiry, experimentation, and shared research momentum.",
+};
 
 export default function ResearchJamPage() {
   return (

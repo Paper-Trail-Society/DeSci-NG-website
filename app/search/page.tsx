@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import SearchPageContent from "@/domains/paper/components/search-page-content";
 import { Paper } from "@/domains/paper/types";
 import { paperKeys } from "@/lib/react-query/query-keys";
@@ -7,10 +8,11 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 
-export const metadata = {
-  title: "Nubian | Explore",
-  description: "Explore papers across disciplines",
-}
+export const metadata: Metadata = {
+  title: "Nubian Research | Explore Papers",
+  description:
+    "Search and explore open-access papers across disciplines on Nubian Research.",
+};
 
 const Page = async ({
   searchParams,

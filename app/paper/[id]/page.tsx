@@ -43,8 +43,8 @@ export async function generateMetadata(
 
     if (!response.ok) {
       return {
-        title: "Paper | Nubian research",
-        description: "View research papers published on nubianresearch.com",
+        title: "Paper | Nubian Research",
+        description: "View research papers published on Nubian Research.",
       };
     }
 
@@ -56,8 +56,8 @@ export async function generateMetadata(
     };
   } catch {
     return {
-      title: "Paper | Nubian research",
-      description: "View research papers published on nubianresearch.com",
+      title: "Paper | Nubian Research",
+      description: "View research papers published on Nubian Research.",
     };
   }
 }
