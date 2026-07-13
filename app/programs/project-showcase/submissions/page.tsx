@@ -1,8 +1,15 @@
+import type { Metadata } from "next";
 import { RouteGuard } from "@/components/auth/route-guard";
 import ProjectShowcaseSubmissionCta from "@/components/programs/project-showcase-submission-cta";
 import ProjectShowcaseSubmissionForm from "@/components/programs/project-showcase-submission-form";
 import { Text } from "@/components/ui/text";
 import { projectShowcaseSettings } from "@/lib/project-showcase";
+
+export const metadata: Metadata = {
+  title: "Nubian Research | Project Showcase Submissions",
+  description:
+    "Nubian Research wants to hear from you through Project Showcase.",
+};
 
 export default function ProjectShowcaseSubmissionsPage() {
   if (projectShowcaseSettings.submissionState === "closed") {

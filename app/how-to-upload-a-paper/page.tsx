@@ -5,8 +5,9 @@ import { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Nubian | How to Upload Your Paper",
-  description: "Learn how to upload your paper on Nubian Research in simple steps.",
+  title: "Nubian Research | How to Upload Your Paper",
+  description:
+    "Learn how to upload your paper on Nubian Research in a few clear steps.",
 };
 
 const steps = [

@@ -5,8 +5,9 @@ import { Text } from "@/components/ui/text";
 import { pressEntries } from "./press-entries";
 
 export const metadata: Metadata = {
-  title: "Nubian | Press",
-  description: "Read the latest announcements and press updates from Nubian.",
+  title: "Nubian Research | Press",
+  description:
+    "Read the latest announcements, milestones, and press updates from Nubian Research.",
 };
 
 const PressPage = () => {

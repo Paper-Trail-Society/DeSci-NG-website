@@ -5,8 +5,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Nubian | About Us",
-  description: "Learn more about Nubian, our mission, vision, and the team behind the initiative.",
+  title: "Nubian Research | About Us",
+  description:
+    "Learn about Nubian Research, our mission, and the people building open-access research infrastructure across disciplines.",
 };
 
 const featuredItems = [
@@ -14,7 +15,7 @@ const featuredItems = [
     publication: "Moveee Media",
     quote:
       "“Imagine a world where scientific progress is unhindered by bureaucracy, endless hurdles, excruciating paperwork and absurd restrictions. A community where innovation flows freely, and collaboration knows no borders. This is the future that Mosadoluwa Fasasi envisions through Decentralized Science (DeSci), a revolutionary approach leveraging blockchain technology to democratize access to knowledge, enhance transparency, and foster global collaboration.”",
-    link: "https://moveee.co/mosadoluwa-fasasi-envisions-a-revolutionary-future-for-scientific-research-through-decentralized-science/",
+    link: "https://www.themoveee.com/magazine/mosadoluwa-fasasi-envisions-a-revolutionary-future-for-scientific-research-through-decentralized-science",
   },
 
   {

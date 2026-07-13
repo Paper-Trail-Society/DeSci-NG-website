@@ -5,8 +5,9 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Nubian | Donate",
-  description: "Support Nubian's mission to make under-represented research open, secure, and globally accessible.",
+  title: "Nubian Research | Donate",
+  description:
+    "Support Nubian Research as we make under-represented scholarship open, secure, and globally accessible.",
 };
 
 const impactAreas = [
