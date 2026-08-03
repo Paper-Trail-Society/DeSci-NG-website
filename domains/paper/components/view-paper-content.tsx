@@ -119,10 +119,6 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <span>Cite as: desci.ng.1308.2025</span>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3">
           <span>
             Uploaded on {format(paper.createdAt ?? new Date(), "PPpp")}
           </span>

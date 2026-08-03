@@ -60,7 +60,7 @@ const SearchPageContent = () => {
               variant="ghost"
               size="sm"
               onClick={handleBack}
-              className="flex items-center gap-2 p-0"
+              className="flex cursor-pointer items-center gap-2 p-0"
             >
               <ChevronLeft className="w-4 h-4" />
               Back

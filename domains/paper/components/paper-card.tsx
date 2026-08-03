@@ -16,7 +16,7 @@ const PaperCard = (props: Paper) => {
       <CardHeader>
         <Text size={"xs"} className="hover:underline">
           <Link href={`/api/ipfs/${ipfsCid}`}>
-            desci.ng.1308.2025 [pdf]
+            [view pdf]
           </Link>
         </Text>
         <CardTitle>
