@@ -102,7 +102,7 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
 
       <section className="flex flex-col gap-3 text-xs text-muted-foreground">
         <div className="flex flex-wrap items-center gap-3">
-          <TooltipInfo text="Coming soon">
+          <TooltipInfo text="Coming soon" classNameTrigger="cursor-pointer">
             <span className="rounded-full border px-2 py-0.5">
               AI Cross-Ref
             </span>
@@ -116,10 +116,6 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
               View PDF
             </Link>
           )}
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3">
-          <span>Cite as: desci.ng.1308.2025</span>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
