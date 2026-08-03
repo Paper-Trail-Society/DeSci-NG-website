@@ -6,12 +6,14 @@ import { cn } from '@/lib/utils/css';
 export const TooltipInfo = ({
   classNameText,
   classNameContent,
+  classNameTrigger,
   text,
   icon,
   children,
 }: {
   classNameText?: string;
   classNameContent?: string;
+  classNameTrigger?: string;
   text: string;
   icon?: any;
   children: any;
@@ -19,7 +21,9 @@ export const TooltipInfo = ({
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger asChild className='cursor-default'>{children}</TooltipTrigger>
+        <TooltipTrigger asChild className={cn("cursor-default", classNameTrigger)}>
+          {children}
+        </TooltipTrigger>
         <TooltipContent
           className={cn(
             'bg-gray-300 border-neutral-725 flex items-center justify-between rounded-[4px] py-0 h-6 text-gray-700',
