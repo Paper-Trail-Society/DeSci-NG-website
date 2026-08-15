@@ -1,5 +1,6 @@
 import { API_URL } from "@/lib/constants";
 import { $http } from "@/lib/http";
+import { userKeys } from "@/lib/react-query/query-keys";
 import { useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 
@@ -24,7 +25,7 @@ async function fetchUser() {
 
 export function useGetMe() {
   return useQuery({
-    queryKey: ["user"],
+    queryKey: userKeys.current(),
     queryFn: fetchUser,
     enabled: typeof window !== "undefined",
     retry: false, // don’t retry on 401

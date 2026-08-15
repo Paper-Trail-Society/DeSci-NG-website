@@ -158,7 +158,7 @@ const ViewPaperContent = ({ paperId }: { paperId: string }) => {
         )}
       </section>
 
-      {paper && <PaperComments paperId={paper.id} paperSlug={paper.slug} />}
+      {paper && <PaperComments paperId={paper.id} />}
     </div>
   );
 };

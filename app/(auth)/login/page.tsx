@@ -9,9 +9,10 @@ import { useSignIn } from "@/domains/auth/hooks";
 import { LoginFormData, loginSchema } from "@/domains/auth/schemas";
 import { fetchUser } from "@/domains/auth/hooks/use-user";
 import { useRedirectIfAuthenticated } from "@/lib/hooks/use-auth-guard";
+import { userKeys } from "@/lib/react-query/query-keys";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
+import { Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -36,11 +37,11 @@ function LoginContent() {
   const signInMutation = useSignIn({
     onSuccess: async () => {
       const user = await queryClient.fetchQuery({
-        queryKey: ["user"],
+        queryKey: userKeys.current(),
         queryFn: fetchUser,
       });
 
-      queryClient.setQueryData(["user"], user);
+      queryClient.setQueryData(userKeys.current(), user);
       router.push("/dashboard");
     },
     onError: (error) => {
@@ -147,7 +148,7 @@ function LoginContent() {
                 disabled={signInMutation.isPending}
               >
                 {signInMutation.isPending ? (
-                  <Loader2 size={16} className="animate-spin" />
+                  <Loader2Icon size={16} className="animate-spin" />
                 ) : (
                   "SIGN IN"
                 )}

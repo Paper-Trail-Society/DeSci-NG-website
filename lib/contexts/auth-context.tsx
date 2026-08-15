@@ -4,6 +4,7 @@ import { authClient } from "@/lib/auth-client";
 import { createContext, ReactNode, useContext } from "react";
 import { useGetMe } from "@/domains/auth/hooks/use-user";
 import { useQueryClient } from "@tanstack/react-query";
+import { userKeys } from "@/lib/react-query/query-keys";
 
 type User = NonNullable<
   ReturnType<typeof authClient.useSession>["data"]
@@ -28,7 +29,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await authClient.signOut();
       // clear user data in the query cache
-      queryClient.setQueryData(["user"], null);
+      queryClient.setQueryData(userKeys.current(), null);
 
       if (typeof window !== "undefined") {
         localStorage.removeItem("bearer_token");
