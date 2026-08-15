@@ -6,27 +6,49 @@ import { Text } from '@/components/ui/text';
 
 interface CommentInputFieldProps {
   isSubmitting: boolean;
+  isAuthenticated?: boolean;
+  isAuthLoading?: boolean;
   placeholder: string;
   onSubmitComment: (content: string) => void;
+  onAuthRequired?: () => void;
   compact?: boolean;
   initialContent?: string;
 }
 
 const CommentInputField = ({
   isSubmitting,
+  isAuthenticated = true,
+  isAuthLoading = false,
   placeholder,
   onSubmitComment,
+  onAuthRequired,
   compact = false,
   initialContent,
 }: CommentInputFieldProps) => {
   const [content, setContent] = useState(initialContent ?? "");
 
+  const requestAuth = () => {
+    if (!isAuthenticated && !isAuthLoading) {
+      onAuthRequired?.();
+      return true;
+    }
+
+    return false;
+  };
+
   const handleSubmit = (e?: React.FormEvent) => {
     e?.preventDefault();
-    if (content.trim() && !isSubmitting) {
-      onSubmitComment(content.trim());
-      setContent('');
+
+    if (requestAuth()) {
+      return;
     }
+    
+    if (!content.trim() || isSubmitting || isAuthLoading) {
+      return;
+    }
+
+    onSubmitComment(content.trim());
+    setContent('');
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -44,11 +66,14 @@ const CommentInputField = ({
       <Textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
+        onFocus={requestAuth}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
         variant="noBorderAndFocus"
         size="sm"
-        disabled={isSubmitting}
+        readOnly={!isAuthenticated && !isAuthLoading}
+        disabled={isSubmitting || isAuthLoading}
+        aria-readonly={!isAuthenticated && !isAuthLoading}
         className={`w-full resize-none rounded-lg bg-transparent text-sm leading-relaxed placeholder:text-neutral-400 focus:outline-none ${compact ? 'min-h-[60px] px-3 py-2' : 'min-h-[100px] p-4'}`}
       />
       <div className={`flex items-center justify-between ${compact ? 'px-1.5 pb-1' : 'px-2 pb-2'}`}>
@@ -57,7 +82,7 @@ const CommentInputField = ({
         </Text>
         <Button 
           type="submit" 
-          disabled={!content.trim() || isSubmitting}
+          disabled={isSubmitting}
           className={`rounded-full p-0 shadow-sm transition-all hover:scale-105 active:scale-95 disabled:scale-100 flex items-center justify-center ${compact ? 'h-8 w-8' : 'h-9 w-9'}`}
         >
           {isSubmitting ? (

@@ -1,3 +1,8 @@
+export const userKeys = {
+  all: ["user"] as const,
+  current: () => userKeys.all,
+};
+
 export const paperKeys = {
   all: ["papers"] as const,
   lists: () => [...paperKeys.all, "list"] as const,

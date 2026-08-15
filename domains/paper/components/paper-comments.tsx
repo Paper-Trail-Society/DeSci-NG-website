@@ -1,12 +1,11 @@
 'use client';
 
 import { AxiosError } from "axios";
-import { MessageCircle, Trash2 } from "lucide-react";
+import { Loader2Icon, MessageCircleIcon, Trash2Icon } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import React from "react";
 import { toast } from "sonner";
 
-import { Loader2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +15,6 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { cn } from "@/lib/utils/css";
 import { Text } from "@/components/ui/text";
 import { useGetMe } from "@/domains/auth/hooks/use-user";
@@ -33,11 +31,10 @@ import useDeletePaperComment from "../hooks/use-delete-paper-comment";
 
 type CommentSectionProps = {
   paperId: number;
-  paperSlug: string
 };
 
-const PaperComments = ({ paperId, paperSlug }: CommentSectionProps) => {
-  const { data: user } = useGetMe();
+const PaperComments = ({ paperId }: CommentSectionProps) => {
+  const { data: user, isPending: isFetchingUser } = useGetMe();
   const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
   const [currentSort, setCurrentSort] = useState<CommentSortDir>('desc');
   const commentContainerRef = useRef<HTMLDivElement>(null);
@@ -223,7 +220,7 @@ const PaperComments = ({ paperId, paperSlug }: CommentSectionProps) => {
       {/* Header + Sort */}
       <div className="mb-4 flex items-center justify-between">
         <Text as="h2" size={"sm"} weight={"bold"} className="text-accent-text font-nexa flex items-center gap-x-1.5 uppercase">
-          <MessageCircle className="size-[18px]" />
+          <MessageCircleIcon className="size-4.5" />
           Comments
         </Text>
 
@@ -261,8 +258,11 @@ const PaperComments = ({ paperId, paperSlug }: CommentSectionProps) => {
       <div className="mb-6">
         <CommentInputField
           isSubmitting={isAddCommentPending}
+          isAuthenticated={!!user}
+          isAuthLoading={isFetchingUser}
           placeholder="Write a comment (in plain text or markdown)..."
           onSubmitComment={handleSubmitComment}
+          onAuthRequired={() => setIsAuthDialogOpen(true)}
         />
       </div>
 
@@ -314,7 +314,7 @@ const PaperComments = ({ paperId, paperSlug }: CommentSectionProps) => {
 
         {hasNextPage && (
           <div ref={observerTarget} className="flex justify-center py-6">
-            {isFetchingNextPage && <Loader2 className="h-5 w-5 animate-spin text-neutral-400" />}
+            {isFetchingNextPage && <Loader2Icon className="h-5 w-5 animate-spin text-neutral-400" />}
           </div>
         )}
 
@@ -330,7 +330,6 @@ const PaperComments = ({ paperId, paperSlug }: CommentSectionProps) => {
         open={isAuthDialogOpen} 
         onOpenChange={setIsAuthDialogOpen} 
         description='You must be signed in to post a comment. Please sign in or create an account to continue.'
-        returnTo={`/paper/${paperSlug}`}
       />
 
       {/* Delete Comment Dialog */}
@@ -358,7 +357,7 @@ const PaperComments = ({ paperId, paperSlug }: CommentSectionProps) => {
               onClick={handleConfirmDeleteComment}
               disabled={isDeleteCommentPending}
             >
-              <Trash2 className="h-4 w-4" />
+              <Trash2Icon className="h-4 w-4" />
               {isDeleteCommentPending ? "Deleting..." : "Delete"}
             </Button>
             <Button
