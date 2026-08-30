@@ -14,7 +14,7 @@ const steps = [
   {
     number: "1",
     paragraphs: [
-      "Create a free account or log in. You will need a valid email address.",
+      "Log in to your existing account, or create an account if you don’t already have one. You will need a valid email address.",
       "If you have an institution affiliated email address, we encourage you to sign up with it!",
     ],
   },
