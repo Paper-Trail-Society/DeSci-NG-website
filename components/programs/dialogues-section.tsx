@@ -11,6 +11,26 @@ interface DialogueItem {
 
 const dialogues: DialogueItem[] = [
   {
+    title: "Episode 5",
+    image: "/assets/EP5.png",
+    description:
+      "What if the tools keeping us connected are quietly making connection harder? Paradoxical, yes. That is precisely what Jesugbemi Adedeji explores: the role loneliness plays in compulsive internet use, and why healthier digital lives may demand more than self-control.",
+    platformLinks: [
+      {
+        platform: "apple",
+        href: "https://podcasts.apple.com/ng/podcast/dialogues-by-nubian-research/id1896858326?i=1000786817365",
+      },
+      {
+        platform: "spotify",
+        href: "https://open.spotify.com/episode/1SL8XiuujtXIXTQhbGDccP?si=S1iOBoamSzaGnj5K5Lwx8Q",
+      },
+      {
+        platform: "youtubeMusic",
+        href: "https://music.youtube.com/watch?v=ZKYOXG17thE&si=Tn5tcV3GL2M796tX",
+      },
+    ],
+  },
+  {
     title: "Episode 4",
     image: "/assets/EP4.png",
     description:
