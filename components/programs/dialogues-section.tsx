@@ -11,6 +11,26 @@ interface DialogueItem {
 
 const dialogues: DialogueItem[] = [
   {
+    title: "Episode 6",
+    image: "/assets/EP6.png",
+    description:
+      "What does it take to leave a 400-level Pharmacy degree behind and begin again in Computer Science? A conversation about the turns, questions, and curiosities that shaped an unconventional route into technology.",
+    platformLinks: [
+      {
+        platform: "apple",
+        href: "https://podcasts.apple.com/ng/podcast/dialogues-by-nubian-research/id1896858326?i=1000795988328",
+      },
+      {
+        platform: "spotify",
+        href: "https://open.spotify.com/episode/2jS5DgalouXv4WT7ATQnGP?si=3fi7HFaMQ9KTriAe-dRmYw",
+      },
+      {
+        platform: "youtubeMusic",
+        href: "https://music.youtube.com/watch?v=aI82SLuhATI&si=Fy3OM1Ggp5jKJQ3r",
+      },
+    ],
+  },
+  {
     title: "Episode 5",
     image: "/assets/EP5.png",
     description:
