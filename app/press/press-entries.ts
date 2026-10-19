@@ -1,10 +1,22 @@
+export type PressBodySegment = {
+  text: string;
+  href?: string;
+  emphasis?: boolean;
+};
+
+export type PressBodyContent =
+  | string
+  | {
+      segments: PressBodySegment[];
+    };
+
 export type PressEntry = {
   slug: string;
   title: string;
   summary: string;
   label: string;
   date?: string;
-  body: string[];
+  body: PressBodyContent[];
   video?: {
     videoId: string;
     title: string;
@@ -23,17 +35,54 @@ export type PressEntry = {
 // Replace the placeholder copy below with the finalized press text when it is ready.
 export const pressEntries: PressEntry[] = [
   {
-    slug: "desci-nigeria-evolves-into-nubian-research",
-    title: "DeSci Nigeria evolves into Nubian Research",
+    slug: "nubian-research-contributes-to-pan-african-scientific-computing-position-paper",
+    title:
+      "Nubian Research Contributes to Pan-African Scientific Computing Position Paper",
     label: "Press Release",
-    date: "January 14, 2026",
+    date: "October 19, 2026",
     summary:
-      "DeSci Nigeria is now operating under a new identity: Nubian Research, reflecting an evolution in scope rather than a shift in mission.",
+      "Led by the Science for Africa Foundation, Nairobi, Kenya, the initiative examines research computing capacity and identifies practical pathways for improving access across Africa.",
     body: [
-      "DeSci Nigeria is now operating under a new identity: Nubian Research. This change reflects an evolution in scope rather than a shift in mission, as the organisation continues its work building open, decentralised research infrastructure for scholars across Africa and beyond.",
-      "Since inception, we have focused on indexing, preserving and surfacing research from African institutions, departments, and independent researchers. That work continues uninterrupted under the Nubian name. Existing research, contributors, partnerships, and community efforts remain fully intact.",
-      "The decision to adopt the Nubian identity emerged as the organization grew beyond its initial geographic framing. While the work began in Nigeria as an offshoot of the Decentralised Science movement, this new identity codifies our contextual understanding even as we co-create with scholars across Africa and beyond. This is not a restart, it is a continuation and a clearer expression of our ideals.",
-      "To our research community, collaborators, and co-creators, thank you for evolving with us. We look forward to continued engagement.",
+      {
+        segments: [
+          {
+            text: "At the convening, researchers and practitioners interpreted the findings and shaped recommendations for the position paper, ",
+          },
+          {
+            text: "Mapping Scientific Computing to Power Research, Big Data, and AI in Africa: Evidence and Pathways for a Federated Ecosystem",
+            emphasis: true,
+          },
+          { text: "." },
+        ],
+      },
+      "The paper draws on a mapping exercise that received 118 institutional submissions across 28 African countries, with 67 retained for analysis. The findings revealed an average scientific computing readiness of 40.1% among participating institutions, highlighting gaps in computing capacity, connectivity, software, technical expertise, and operational sustainability.",
+      "Represented by the Executive Director, Mosadoluwa Fasasi, Nubian Research emphasized the need to explore practical alternatives while the continent continues working towards building and owning more of its computing infrastructure.",
+      "Rather than waiting for every institution to acquire and maintain expensive computing systems, we advocated for making existing resources more visible, accessible, and shareable. Our contributions focused on infrastructure-as-a-service models, service catalogues, shared GPU pools, and appropriately scaled solutions that institutions can realistically sustain.",
+      "These approaches do not replace the need for long-term infrastructure investment. They offer ways for researchers to access the resources they need today while that larger work continues.",
+      {
+        segments: [
+          {
+            text: "This contribution builds on Nubian Research's ongoing efforts to make research infrastructure more accessible, including our ",
+          },
+          {
+            text: "partnership with NuNet",
+            href: "/press/nubian-partners-with-nunet-to-expand-research-compute-access",
+          },
+          {
+            text: " to explore decentralised computing access for researchers.",
+          },
+        ],
+      },
+      "We appreciate the Science for Africa Foundation for leading this effort and the colleagues across the continent who contributed their expertise.",
+      {
+        segments: [
+          {
+            text: "Read the full position paper",
+            href: "https://nubianresearch.com/paper/mapping-scientific-computing-to-power-research-big-data-and-ai-in-africa-1792401109575",
+          },
+          { text: "." },
+        ],
+      },
     ],
   },
   {
@@ -63,6 +112,20 @@ export const pressEntries: PressEntry[] = [
       formHref: "https://forms.gle/38uJuM7UEVKwCnF67",
       after: " to either request or offer compute.",
     },
+  },
+  {
+    slug: "desci-nigeria-evolves-into-nubian-research",
+    title: "DeSci Nigeria evolves into Nubian Research",
+    label: "Press Release",
+    date: "January 14, 2026",
+    summary:
+      "DeSci Nigeria is now operating under a new identity: Nubian Research, reflecting an evolution in scope rather than a shift in mission.",
+    body: [
+      "DeSci Nigeria is now operating under a new identity: Nubian Research. This change reflects an evolution in scope rather than a shift in mission, as the organisation continues its work building open, decentralised research infrastructure for scholars across Africa and beyond.",
+      "Since inception, we have focused on indexing, preserving and surfacing research from African institutions, departments, and independent researchers. That work continues uninterrupted under the Nubian name. Existing research, contributors, partnerships, and community efforts remain fully intact.",
+      "The decision to adopt the Nubian identity emerged as the organization grew beyond its initial geographic framing. While the work began in Nigeria as an offshoot of the Decentralised Science movement, this new identity codifies our contextual understanding even as we co-create with scholars across Africa and beyond. This is not a restart, it is a continuation and a clearer expression of our ideals.",
+      "To our research community, collaborators, and co-creators, thank you for evolving with us. We look forward to continued engagement.",
+    ],
   },
 ];
 

@@ -150,7 +150,7 @@ const sections = [
       },
       {
         type: "paragraph",
-        text: "To exercise any of these rights, contact us at info.nubianresearch@gmail.com.",
+        text: "To exercise any of these rights, contact us at info@nubianresearch.com.",
       },
     ],
   },
@@ -190,7 +190,7 @@ const sections = [
     content: [
       {
         type: "paragraph",
-        text: "For questions about this Privacy Policy, contact us at info.nubianresearch@gmail.com.",
+        text: "For questions about this Privacy Policy, contact us at info@nubianresearch.com.",
       },
     ],
   },

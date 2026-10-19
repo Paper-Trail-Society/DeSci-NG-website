@@ -756,10 +756,10 @@ function EditPaper() {
                     <Text size="sm" className="mt-2 leading-6 text-text-muted">
                       Please email{" "}
                       <a
-                        href="mailto:info.nubianresearch@gmail.com"
+                        href="mailto:info@nubianresearch.com"
                         className="font-semibold text-primary hover:underline"
                       >
-                        info.nubianresearch@gmail.com
+                        info@nubianresearch.com
                       </a>{" "}
                       and our team will help replace the document.
                     </Text>
