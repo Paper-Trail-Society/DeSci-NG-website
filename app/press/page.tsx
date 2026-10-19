@@ -65,7 +65,7 @@ const PressPage = () => {
                     weight="medium"
                     className="mt-auto text-primary"
                   >
-                    Read release
+                    Read press
                   </Text>
                 </CardContent>
               </Card>

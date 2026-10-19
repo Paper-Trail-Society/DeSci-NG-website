@@ -4,11 +4,44 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { Text } from "@/components/ui/text";
 import { getPressEntry, pressEntries } from "../press-entries";
+import type { PressBodyContent } from "../press-entries";
 
 type Props = {
   params: {
     slug: string;
   };
+};
+
+const PressBodyParagraph = ({ content }: { content: PressBodyContent }) => {
+  if (typeof content === "string") {
+    return content;
+  }
+
+  return content.segments.map((segment, index) => {
+    const key = `${segment.text}-${index}`;
+
+    if (segment.href) {
+      const isExternal = segment.href.startsWith("http");
+
+      return (
+        <Link
+          key={key}
+          href={segment.href}
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
+          className="underline underline-offset-4 transition-colors hover:text-primary"
+        >
+          {segment.text}
+        </Link>
+      );
+    }
+
+    if (segment.emphasis) {
+      return <em key={key}>{segment.text}</em>;
+    }
+
+    return segment.text;
+  });
 };
 
 export function generateStaticParams() {
@@ -83,7 +116,7 @@ const PressEntryPage = ({ params }: Props) => {
               key={`${entry.slug}-${index}`}
               className="text-base md:text-lg leading-7 md:leading-8 text-gray-700"
             >
-              {paragraph}
+              <PressBodyParagraph content={paragraph} />
             </Text>
           ))}
           {entry.cta ? (

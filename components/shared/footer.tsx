@@ -152,7 +152,7 @@ const ContactLink = () => {
   return (
     <a
       className={footerLinkClassName}
-      href="mailto:info.nubianresearch@gmail.com"
+      href="mailto:info@nubianresearch.com"
     >
       <Text size="xs" className={footerLinkTextClassName}>
         Contact

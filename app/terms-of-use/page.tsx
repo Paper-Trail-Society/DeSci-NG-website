@@ -135,7 +135,7 @@ const sections = [
     content: [
       {
         type: "paragraph",
-        text: "You may request removal of your work from the platform at any time by contacting us at info.nubianresearch@gmail.com. We will review takedown requests and act on them within a reasonable timeframe.",
+        text: "You may request removal of your work from the platform at any time by contacting us at info@nubianresearch.com. We will review takedown requests and act on them within a reasonable timeframe.",
       },
       {
         type: "paragraph",
@@ -191,7 +191,7 @@ const sections = [
     content: [
       {
         type: "paragraph",
-        text: "For questions about these Terms, contact us at info.nubianresearch@gmail.com.",
+        text: "For questions about these Terms, contact us at info@nubianresearch.com.",
       },
     ],
   },
