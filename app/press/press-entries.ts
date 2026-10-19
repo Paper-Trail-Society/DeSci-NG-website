@@ -78,7 +78,7 @@ export const pressEntries: PressEntry[] = [
         segments: [
           {
             text: "Read the full position paper",
-            href: "https://nubianresearch.com/paper/mapping-scientific-computing-to-power-research-big-data-and-ai-in-africa-1792401109575",
+            href: "https://nubianresearch.com/api/ipfs/bafybeicwsxgjjhjidpc34gea5n7bihhxt5pvg4a3uuxqa4jb3h4fcawpsy",
           },
           { text: "." },
         ],
