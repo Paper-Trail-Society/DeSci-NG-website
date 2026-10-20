@@ -6,22 +6,25 @@ import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import PaperCard from "@/domains/paper/components/paper-card";
 import useGetPapers from "@/domains/paper/hooks/use-get-papers";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeftIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 const SearchPageContent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const searchQuery = searchParams.get("q");
-  const [currentPage, setCurrentPage] = useState(
-    searchParams.get("page") ?? "1",
-  );
-  const currentPageNumber = parseInt(currentPage, 10);
+
+  const searchQuery = searchParams.get("q") ?? "";
+  const fieldId = searchParams.get("fieldId");
+  const categoryId = searchParams.get("categoryId");
+  const page = Number(searchParams.get("page") ?? "1");
+  const currentPageNumber = Number.isSafeInteger(page) && page > 0 ? page : 1;
 
   const { data: response, isPending: isLoadingPapers } = useGetPapers({
-    search: searchQuery ?? undefined,
+    search: searchQuery || undefined,
+    fieldId: fieldId || undefined,
+    categoryId: categoryId || undefined,
     page: currentPageNumber,
   });
 
@@ -39,7 +42,6 @@ const SearchPageContent = () => {
   );
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page.toString());
     router.push(pathname + "?" + createQueryString("page", page.toString()));
   };
 
@@ -62,7 +64,7 @@ const SearchPageContent = () => {
               onClick={handleBack}
               className="flex cursor-pointer items-center gap-2 p-0"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeftIcon className="w-4 h-4" />
               Back
             </Button>
           </div>
@@ -72,7 +74,7 @@ const SearchPageContent = () => {
                 <Text as="p" className="w-full text-left">
                   <Text className="text-xl md:text-2xl">
                     Showing results for:{" "}
-                    <b>{decodeURIComponent(searchQuery)}</b>{" "}
+                    <b>{searchQuery}</b>{" "}
                   </Text>
                 </Text>
               )}
@@ -83,7 +85,13 @@ const SearchPageContent = () => {
               )}
             </section>
 
-            <PaperSearchInput className="w-full" />
+            <PaperSearchInput
+              key={searchQuery}
+              className="w-full"
+              defaultValue={searchQuery}
+              fieldId={fieldId ?? undefined}
+              categoryId={categoryId ?? undefined}
+            />
           </div>
 
           <div className="flex flex-col gap-2 lg:w-3/5 md:w-4/5 w-full mx-auto">
@@ -100,7 +108,7 @@ const SearchPageContent = () => {
                 {searchQuery ? (
                   <span>
                     No papers found for{" "}
-                    <b>{decodeURIComponent(searchQuery ?? "")}</b>
+                    <b>{searchQuery}</b>
                   </span>
                 ) : (
                   "No papers found"
