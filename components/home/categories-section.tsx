@@ -3,7 +3,6 @@
 import React from "react";
 import { motion } from "motion/react";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
@@ -19,26 +18,34 @@ const categories = [
     tagline: "Discover papers in Biology, Chemistry, and more",
     query: "science",
     imageUrl: "/assets/applied-science.png",
+    fieldId: 9,
+    categoryId: null,
   },
   {
     name: "Arts & Humanities",
     query: "arts",
     tagline: "Discover papers in Literature, Performing Arts, and more",
     imageUrl: "/assets/art-and-humanities.png",
+    fieldId: 7,
+    categoryId: null,
   },
   {
     name: "Blockchain Technology",
     query: "blockchain",
     tagline: "Discover papers in Distributed Ledger, Crypto, and more",
     imageUrl: "/assets/blockchain-tech.png",
-    imageWidth: 250, // Adjust this if it looks bigger
-    imageHeight: 160, // Adjust this if it looks bigger (e.g., taller)
+    imageWidth: 250, 
+    imageHeight: 160,
+    fieldId: 11,
+    categoryId: 42,
   },
   {
     name: "Medical Science",
     query: "medicine",
     tagline: "Discover papers in Cardiology, Anatomy, and more",
     imageUrl: "/assets/medical-science.png",
+    fieldId: 4,
+    categoryId: null,
   },
 ];
 
@@ -54,7 +61,7 @@ const CategoriesSection = () => {
           transition={{ duration: 0.5, delay: idx * 0.15 }}
           className="flex flex-col gap-2 lg:w-1/4 md:w-1/3 w-full h-full shadow-md transition-shadow hover:shadow-xl rounded-lg bg-transparent"
         >
-            <Link href={`/search?q=${category.query}`} className="block">
+            <Link href={`/search?fieldId=${category.fieldId}&categoryId=${category.categoryId ?? ''}`} className="block">
               <CardHeader className="p-0">
                 <Image
                   src={category.imageUrl}
