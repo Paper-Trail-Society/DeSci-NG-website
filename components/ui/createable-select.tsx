@@ -8,6 +8,7 @@ import Select, {
 } from "react-select";
 
 import Image, { StaticImageData } from "next/image";
+import type { KeyboardEvent } from "react";
 
 import { cn } from "@/lib/utils/css";
 
@@ -44,6 +45,11 @@ export type SelectProps = {
   menuShouldScrollIntoView?: boolean;
   onInputChange?: (inputValue: string, meta: InputActionMeta) => void;
   onCreateOption?: (inputValue: string) => void;
+  isValidNewOption?: (
+    inputValue: string,
+    selectedOptions: readonly SelectValueBase[],
+    options: readonly SelectValueBase[],
+  ) => boolean;
 };
 
 type SelectStyleProps = Pick<
@@ -58,6 +64,14 @@ type SelectStyleProps = Pick<
   | "singleValueStyles"
   | "indicatorsContainerStyles"
 >;
+
+// Runs after React Select handles the key, preserving option selection/creation.
+const preventSelectEnterSubmit = (event: KeyboardEvent<HTMLDivElement>) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+};
 
 const MultiValueContainer = (props: MultiValueGenericProps<SelectValueBase>) => {
   return (
@@ -183,41 +197,51 @@ const MultiSelect = ({
 }: SelectProps) => {
   const Comp = isAsync ? CreateableAsyncSelect : isCreatable ? CreatableSelect : Select;
   return (
-    <Comp
-      className={cn("text-capitalize px-0 ring-1 ring-neutral-300", props.className)}
-      components={{ MultiValueContainer }}
-      name={name}
-      options={options}
-      styles={selectStyles(props)}
-      value={value}
-      isSearchable={isSearchable}
-      isClearable={isClearable}
-      menuPosition={props.menuPosition}
-      menuShouldScrollIntoView={props.menuShouldScrollIntoView}
-      placeholder={placeholder}
-      onChange={(opt, meta) => {
-        handleChange(opt, meta);
-      }}
-      onBlur={handleBlur}
-      onInputChange={props.onInputChange}
-      onCreateOption={props.onCreateOption}
-      formatOptionLabel={option => (
-        <div className="flex items-center gap-2">
-          {option.img && (
-            <Image
-              src={option.img}
-              alt={"option-img"}
-              style={{ width: "20px", borderRadius: "4px" }}
-            />
-          )}
-          <span>{option.label}</span>
-        </div>
-      )}
-      isMulti
-      loadOptions={(inputValue, setOptions) => props.loadOptions?.(inputValue, setOptions)}
-      cacheOptions={true}
-      defaultOptions={defaultOptions}
-    />
+    <div onKeyDown={preventSelectEnterSubmit}>
+      <Comp
+        className={cn("text-capitalize px-0 ring-1 ring-neutral-300", props.className)}
+        components={{ MultiValueContainer }}
+        name={name}
+        options={options}
+        styles={selectStyles(props)}
+        value={value}
+        isSearchable={isSearchable}
+        isClearable={isClearable}
+        menuPosition={props.menuPosition}
+        menuShouldScrollIntoView={props.menuShouldScrollIntoView}
+        placeholder={placeholder}
+        onChange={(opt, meta) => {
+          handleChange(opt, meta);
+        }}
+        onBlur={handleBlur}
+        onInputChange={props.onInputChange}
+        onCreateOption={props.onCreateOption}
+        isValidNewOption={props.isValidNewOption
+          ? (inputValue, selectedOptions, options) =>
+              props.isValidNewOption!(
+                inputValue,
+                selectedOptions,
+                options.flatMap((option) => "options" in option ? option.options : [option]),
+              )
+          : undefined}
+        formatOptionLabel={option => (
+          <div className="flex items-center gap-2">
+            {option.img && (
+              <Image
+                src={option.img}
+                alt={"option-img"}
+                style={{ width: "20px", borderRadius: "4px" }}
+              />
+            )}
+            <span>{option.label}</span>
+          </div>
+        )}
+        isMulti
+        loadOptions={(inputValue, setOptions) => props.loadOptions?.(inputValue, setOptions)}
+        cacheOptions={true}
+        defaultOptions={defaultOptions}
+      />
+    </div>
   );
 };
 
@@ -246,40 +270,42 @@ const SingleSelect = ({
   const Comp = isAsync ? CreateableAsyncSelect : isCreatable ? CreatableSelect : Select;
 
   return (
-    <Comp
-      className={cn("px-0", props.className)}
-      name={name}
-      options={options}
-      styles={selectStyles(props)}
-      value={value}
-      isSearchable={isSearchable}
-      isClearable={isClearable}
-      menuPosition={props.menuPosition}
-      menuShouldScrollIntoView={props.menuShouldScrollIntoView}
-      placeholder={placeholder}
-      onChange={(opt, meta) => {
-        handleChange(opt as ReactSelectSingleValue<SelectValueBase>, meta);
-      }}
-      onBlur={handleBlur}
-      onInputChange={props.onInputChange}
-      onCreateOption={props.onCreateOption}
-      formatOptionLabel={option => (
-        <div className="flex items-center gap-2">
-          {option.img && (
-            <Image
-              src={option.img}
-              alt={"option-img"}
-              style={{ width: "20px", borderRadius: "4px" }}
-            />
-          )}
-          <span>{option.label}</span>
-        </div>
-      )}
-      isMulti={false}
-      loadOptions={(inputValue, setOptions) => props.loadOptions?.(inputValue, setOptions)}
-      cacheOptions={true}
-      defaultOptions={defaultOptions}
-    />
+    <div onKeyDown={preventSelectEnterSubmit}>
+      <Comp
+        className={cn("px-0", props.className)}
+        name={name}
+        options={options}
+        styles={selectStyles(props)}
+        value={value}
+        isSearchable={isSearchable}
+        isClearable={isClearable}
+        menuPosition={props.menuPosition}
+        menuShouldScrollIntoView={props.menuShouldScrollIntoView}
+        placeholder={placeholder}
+        onChange={(opt, meta) => {
+          handleChange(opt as ReactSelectSingleValue<SelectValueBase>, meta);
+        }}
+        onBlur={handleBlur}
+        onInputChange={props.onInputChange}
+        onCreateOption={props.onCreateOption}
+        formatOptionLabel={option => (
+          <div className="flex items-center gap-2">
+            {option.img && (
+              <Image
+                src={option.img}
+                alt={"option-img"}
+                style={{ width: "20px", borderRadius: "4px" }}
+              />
+            )}
+            <span>{option.label}</span>
+          </div>
+        )}
+        isMulti={false}
+        loadOptions={(inputValue, setOptions) => props.loadOptions?.(inputValue, setOptions)}
+        cacheOptions={true}
+        defaultOptions={defaultOptions}
+      />
+    </div>
   );
 };
 

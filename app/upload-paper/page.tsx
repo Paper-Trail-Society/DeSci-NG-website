@@ -20,7 +20,13 @@ import { toast } from "sonner";
 import { RouteGuard } from "@/components/auth/route-guard";
 import DashboardPaperNav from "@/components/shared/dashboard-paper-nav";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   MultiSelect,
   SelectValueBase,
@@ -46,6 +52,25 @@ import { cn } from "@/lib/utils/css";
 
 const ALLOWED_FILE_TYPES = ["application/pdf"];
 const MAX_FILE_SIZE_IN_BYTES = 10 * 1024 * 1024;
+const MAX_KEYWORD_LENGTH = 50;
+
+function isValidNewKeyword(
+  inputValue: string,
+  selectedOptions: readonly SelectValueBase[],
+  options: readonly SelectValueBase[],
+) {
+  const keyword = inputValue.trim();
+
+  return (
+    keyword.length > 0 &&
+    keyword.length <= MAX_KEYWORD_LENGTH &&
+    ![...selectedOptions, ...options].some(
+      (option) =>
+        option.label.trim().toLowerCase() === keyword.toLowerCase() ||
+        option.value.trim().toLowerCase() === keyword.toLowerCase(),
+    )
+  );
+}
 
 const uploadPaperSchema = z.object({
   title: z.string().trim().min(2, { message: "Title is required" }).max(250),
@@ -78,18 +103,14 @@ function formatBytes(bytes: number) {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-function SectionCard({
-  title,
-  description,
-  children,
-}: SectionCardProps) {
+function SectionCard({ title, description, children }: SectionCardProps) {
   return (
     <Card className="border-[#f0d8d8] bg-white shadow-[0_18px_48px_-34px_rgba(181,34,33,0.32)]">
       <CardHeader className="space-y-3 pb-4">
         <div className="space-y-1">
           <CardTitle className="text-base text-text">{title}</CardTitle>
           {description ? (
-            <CardDescription className="text-sm leading-6 text-text-muted">
+            <CardDescription className="text-[13px] leading-6 text-text-muted">
               {description}
             </CardDescription>
           ) : null}
@@ -137,7 +158,11 @@ function UploadDesktopSummary({ steps }: { steps: UploadProgressStep[] }) {
         <div className="border-b border-[#f5e2e2] bg-[linear-gradient(180deg,#fffafa_0%,#fff7f6_100%)] px-6 py-5">
           <div className="flex items-center gap-2 text-text-link">
             <SparklesIcon className="h-4 w-4" />
-            <Text size="xs" weight="medium" className="uppercase tracking-[0.18em]">
+            <Text
+              size="xs"
+              weight="medium"
+              className="uppercase tracking-[0.18em]"
+            >
               Upload Progress
             </Text>
           </div>
@@ -145,7 +170,9 @@ function UploadDesktopSummary({ steps }: { steps: UploadProgressStep[] }) {
           <div className="mt-4 flex items-end justify-between gap-3">
             <div>
               <Text as="p" weight="semibold" className="text-base text-text">
-                {progressPercentage === 100 ? "Ready to publish" : "Building your paper"}
+                {progressPercentage === 100
+                  ? "Ready to publish"
+                  : "Building your paper"}
               </Text>
               <Text size="sm" className="mt-1 text-text-muted">
                 {completedSteps} of {steps.length} core sections complete
@@ -180,7 +207,11 @@ function UploadDesktopSummary({ steps }: { steps: UploadProgressStep[] }) {
                         : "border-[#ead1d1] bg-white text-text-muted",
                     )}
                   >
-                    {step.complete ? <CheckCircle2Icon className="h-3.5 w-3.5" /> : index + 1}
+                    {step.complete ? (
+                      <CheckCircle2Icon className="h-3.5 w-3.5" />
+                    ) : (
+                      index + 1
+                    )}
                   </div>
 
                   {index < steps.length - 1 && (
@@ -205,11 +236,7 @@ function UploadDesktopSummary({ steps }: { steps: UploadProgressStep[] }) {
   );
 }
 
-function UploadMobileProgress({
-  steps,
-}: {
-  steps: UploadProgressStep[];
-}) {
+function UploadMobileProgress({ steps }: { steps: UploadProgressStep[] }) {
   const completedSteps = steps.filter((step) => step.complete).length;
   const progressPercentage = Math.round((completedSteps / steps.length) * 100);
   const currentStep =
@@ -248,7 +275,11 @@ function UploadMobileProgress({
 
 function UploadPaperContent() {
   const router = useRouter();
-  const [selectedKeywords, setSelectedKeywords] = useState<CreateableSelectValue[]>([]);
+  const [selectedKeywords, setSelectedKeywords] = useState<
+    CreateableSelectValue[]
+  >([]);
+  const [keywordInput, setKeywordInput] = useState("");
+  const keywordLength = keywordInput.trim().length;
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
   const fileUploadComponentRef = useRef<HTMLInputElement>(null);
 
@@ -285,19 +316,22 @@ function UploadPaperContent() {
     {
       id: "details",
       title: "Paper details",
-      description: "A strong title and abstract help readers understand the paper at a glance.",
+      description:
+        "A strong title and abstract help readers understand the paper at a glance.",
       complete: Boolean(watchedTitle.trim() && watchedAbstract.trim()),
     },
     {
       id: "classification",
       title: "Classification",
-      description: "Field and category place the paper in the right research context.",
+      description:
+        "Field and category place the paper in the right research context.",
       complete: Boolean(selectedFieldId && form.watch("categoryId")),
     },
     {
       id: "keywords",
       title: "Keywords",
-      description: "Keywords improve search and make the paper easier to discover.",
+      description:
+        "Keywords improve search and make the paper easier to discover.",
       complete: selectedKeywords.length > 0,
     },
     {
@@ -321,12 +355,23 @@ function UploadPaperContent() {
       const keywordValueIsNaN = Number.isNaN(parseInt(keyword.value, 10));
 
       if (keywordValueIsNaN) {
-        newKeywords.push(keyword.value);
+        newKeywords.push(keyword.value.trim());
         return;
       }
 
       selectedKeywordIds.push(keyword.value);
     });
+
+    if (
+      newKeywords.some(
+        (keyword) => !keyword || keyword.length > MAX_KEYWORD_LENGTH,
+      )
+    ) {
+      toast.error(
+        `New keywords must be between 1 and ${MAX_KEYWORD_LENGTH} characters`,
+      );
+      return;
+    }
 
     const payload = {
       ...values,
@@ -415,7 +460,10 @@ function UploadPaperContent() {
             </div>
 
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
+              >
                 <SectionCard
                   title="Paper details"
                   description="Your title and abstract are the first things readers will see. Make them clear and specific."
@@ -456,7 +504,7 @@ function UploadPaperContent() {
                             variant="default"
                             size="sm"
                             placeholder="Copy+paste, or type your abstract here"
-                            className="min-h-[180px] rounded-md border-0 bg-[#fffdfd] px-4 py-3 text-sm leading-6 ring-1 ring-[#edd5d5] placeholder:text-text-dim"
+                            className="min-h-45 rounded-md border-0 bg-[#fffdfd] px-4 py-3 text-sm leading-6 focus-visible:ring-[#edd5d5] ring-1 ring-[#edd5d5] placeholder:text-text-dim"
                             required
                             {...field}
                           />
@@ -483,15 +531,21 @@ function UploadPaperContent() {
                       <Select
                         value={selectedField?.name}
                         onValueChange={(value: string) => {
-                          const nextField = fields?.find((field) => field.name === value);
+                          const nextField = fields?.find(
+                            (field) => field.name === value,
+                          );
                           form.setValue("fieldId", nextField?.id as number, {
                             shouldDirty: true,
                             shouldValidate: true,
                           });
-                          form.setValue("categoryId", undefined as unknown as number, {
-                            shouldDirty: true,
-                            shouldValidate: true,
-                          });
+                          form.setValue(
+                            "categoryId",
+                            undefined as unknown as number,
+                            {
+                              shouldDirty: true,
+                              shouldValidate: true,
+                            },
+                          );
                         }}
                       >
                         <SelectTrigger className="h-11 border-0 bg-[#fffdfd] text-sm ring-1 ring-[#edd5d5]">
@@ -525,10 +579,14 @@ function UploadPaperContent() {
                             (category) => category.name === value,
                           );
 
-                          form.setValue("categoryId", nextCategory?.id as number, {
-                            shouldDirty: true,
-                            shouldValidate: true,
-                          });
+                          form.setValue(
+                            "categoryId",
+                            nextCategory?.id as number,
+                            {
+                              shouldDirty: true,
+                              shouldValidate: true,
+                            },
+                          );
                         }}
                       >
                         <SelectTrigger className="h-11 border-0 bg-[#fffdfd] text-sm ring-1 ring-[#edd5d5]">
@@ -545,7 +603,8 @@ function UploadPaperContent() {
                             <Text size="xs" className="px-4 py-2 text-center">
                               Loading...
                             </Text>
-                          ) : selectedFieldCategories && selectedFieldCategories.length > 0 ? (
+                          ) : selectedFieldCategories &&
+                            selectedFieldCategories.length > 0 ? (
                             selectedFieldCategories.map((category) => (
                               <SelectItem
                                 key={category.id}
@@ -571,15 +630,26 @@ function UploadPaperContent() {
 
                 <SectionCard
                   title="Keywords"
-                  description="Keywords help your research appear in search results and related paper recommendations."
+                  description={`Keywords help your research appear in search results and related paper recommendations. Maximum ${MAX_KEYWORD_LENGTH} characters per new keyword.`}
                 >
                   <div className="space-y-2">
-                    {/* <Label className="text-sm font-bold text-text md:text-lg">
-                      Keywords that describe your research
-                    </Label> */}
+                    <Label className="text-sm font-bold text-text md:text-lg">
+                      {/* Keywords that describe your research */}
+                    </Label>
+                    {keywordLength >= MAX_KEYWORD_LENGTH && (
+                      <Text role="alert" className="text-xs text-rose-600">
+                        {keywordLength === MAX_KEYWORD_LENGTH
+                          ? `You've reached the ${MAX_KEYWORD_LENGTH}-character limit for this keyword.`
+                          : `Keywords cannot exceed ${MAX_KEYWORD_LENGTH} characters. Remove ${keywordLength - MAX_KEYWORD_LENGTH} character${keywordLength - MAX_KEYWORD_LENGTH === 1 ? "" : "s"} to add this keyword.`}
+                      </Text>
+                    )}
                     <MultiSelect
                       name="keywords"
                       isCreatable
+                      isValidNewOption={isValidNewKeyword}
+                      onInputChange={(inputValue) =>
+                        setKeywordInput(inputValue)
+                      }
                       isAsync
                       loadOptions={loadKeywordOptions}
                       value={selectedKeywords}
@@ -594,9 +664,11 @@ function UploadPaperContent() {
                       placeholder="Type to search or add keyword"
                       className="rounded-md bg-white px-2 text-text-dim placeholder:text-xs"
                     />
+
                     <div className="flex items-center justify-between gap-3">
                       <Text size="xs" className="text-text-muted">
-                        Add a few specific terms readers would actually search for.
+                        Add a few specific terms readers would actually search
+                        for.
                       </Text>
                       <UploadSectionStatus
                         isComplete={selectedKeywords.length > 0}
@@ -607,11 +679,12 @@ function UploadPaperContent() {
                         }
                       />
                     </div>
-                    {form.formState.isSubmitted && selectedKeywords.length === 0 && (
-                      <Text className="text-xs text-rose-600">
-                        Keywords are required
-                      </Text>
-                    )}
+                    {form.formState.isSubmitted &&
+                      selectedKeywords.length === 0 && (
+                        <Text className="text-xs text-rose-600">
+                          Keywords are required
+                        </Text>
+                      )}
                   </div>
                 </SectionCard>
 
@@ -631,12 +704,13 @@ function UploadPaperContent() {
                           variant="default"
                           size="sm"
                           placeholder="Share why this work matters, where it applies, or what context readers should know."
-                          className="min-h-[150px] rounded-md border-0 bg-[#fffdfd] px-4 py-3 text-sm leading-6 ring-1 ring-[#edd5d5] placeholder:text-text-dim"
+                          className="min-h-37.5 rounded-md border-0 bg-[#fffdfd] px-4 py-3 text-sm leading-6 focus-visible:ring-[#edd5d5] ring-1 ring-[#edd5d5] placeholder:text-text-dim"
                           {...field}
                         />
                         <div className="flex justify-between gap-3">
                           <Text size="xs" className="text-text-muted">
-                            This can help readers understand the paper&apos;s relevance faster.
+                            This can help readers understand the paper&apos;s
+                            relevance faster.
                           </Text>
                           <Text size="xs" className="text-text-dim">
                             {watchedNotes.length}/2000
@@ -647,9 +721,7 @@ function UploadPaperContent() {
                   />
                 </SectionCard>
 
-                <SectionCard
-                  title="Upload PDF"
-                >
+                <SectionCard title="Upload PDF">
                   <div className="space-y-4">
                     <input
                       ref={fileUploadComponentRef}
@@ -675,19 +747,32 @@ function UploadPaperContent() {
                       </div>
 
                       <div className="space-y-2">
-                        <Text as="p" weight="semibold" className="text-base text-text">
-                          {selectedFile ? "Replace selected PDF" : "Upload your paper"}
+                        <Text
+                          as="p"
+                          weight="semibold"
+                          className="text-base text-text"
+                        >
+                          {selectedFile
+                            ? "Replace selected PDF"
+                            : "Upload your paper"}
                         </Text>
                         <Text size="sm" className="text-text-muted">
-                          Click to select a PDF from your device. Maximum file size: 10MB.
+                          Click to select a PDF from your device. Maximum file
+                          size: 10MB.
                         </Text>
                       </div>
                     </button>
 
                     <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[#f3dfdf] bg-[#fffafa] px-4 py-3">
                       <div>
-                        <Text as="p" weight="medium" className="text-sm text-text">
-                          {selectedFile ? selectedFile.name : "No file selected yet"}
+                        <Text
+                          as="p"
+                          weight="medium"
+                          className="text-sm text-text"
+                        >
+                          {selectedFile
+                            ? selectedFile.name
+                            : "No file selected yet"}
                         </Text>
                         <Text size="sm" className="mt-1 text-text-muted">
                           {selectedFile
@@ -703,7 +788,9 @@ function UploadPaperContent() {
                     </div>
 
                     {form.formState.isSubmitted && !selectedFile && (
-                      <Text className="text-xs text-rose-600">Select a file</Text>
+                      <Text className="text-xs text-rose-600">
+                        Select a file
+                      </Text>
                     )}
                   </div>
                 </SectionCard>
@@ -735,9 +822,7 @@ function UploadPaperContent() {
             </Form>
           </section>
 
-          <UploadDesktopSummary
-            steps={progressSteps}
-          />
+          <UploadDesktopSummary steps={progressSteps} />
         </div>
       </div>
     </div>
