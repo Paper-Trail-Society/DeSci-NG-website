@@ -45,6 +45,12 @@ import { Text } from "@/components/ui/text";
 import { Textarea } from "@/components/ui/textarea";
 import useGetFieldCategories from "@/domains/fields/hooks/use-get-field-categories";
 import useGetFields from "@/domains/fields/hooks/use-get-fields";
+import {
+  canCreateKeywords,
+  findOverlongKeyword,
+  getNewKeywords,
+  MAX_KEYWORD_LENGTH,
+} from "@/domains/paper/constants";
 import useUploadPaper from "@/domains/paper/hooks/use-upload-paper";
 import { Keyword } from "@/domains/paper/types";
 import { $http } from "@/lib/http";
@@ -52,23 +58,18 @@ import { cn } from "@/lib/utils/css";
 
 const ALLOWED_FILE_TYPES = ["application/pdf"];
 const MAX_FILE_SIZE_IN_BYTES = 10 * 1024 * 1024;
-const MAX_KEYWORD_LENGTH = 50;
 
 function isValidNewKeyword(
   inputValue: string,
   selectedOptions: readonly SelectValueBase[],
   options: readonly SelectValueBase[],
 ) {
-  const keyword = inputValue.trim();
-
-  return (
-    keyword.length > 0 &&
-    keyword.length <= MAX_KEYWORD_LENGTH &&
-    ![...selectedOptions, ...options].some(
-      (option) =>
-        option.label.trim().toLowerCase() === keyword.toLowerCase() ||
-        option.value.trim().toLowerCase() === keyword.toLowerCase(),
-    )
+  return canCreateKeywords(
+    inputValue,
+    [...selectedOptions, ...options].flatMap((option) => [
+      option.label,
+      option.value,
+    ]),
   );
 }
 
@@ -279,7 +280,7 @@ function UploadPaperContent() {
     CreateableSelectValue[]
   >([]);
   const [keywordInput, setKeywordInput] = useState("");
-  const keywordLength = keywordInput.trim().length;
+  const overlongKeyword = findOverlongKeyword(keywordInput);
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
   const fileUploadComponentRef = useRef<HTMLInputElement>(null);
 
@@ -431,6 +432,32 @@ function UploadPaperContent() {
     },
     500,
   );
+
+  const handleCreateKeywords = (inputValue: string) => {
+    const invalidKeyword = findOverlongKeyword(inputValue);
+
+    if (invalidKeyword) {
+      toast.error(
+        `Each keyword must be ${MAX_KEYWORD_LENGTH} characters or fewer`,
+      );
+      return;
+    }
+
+    const keywords = getNewKeywords(
+      inputValue,
+      selectedKeywords.flatMap((keyword) => [keyword.label, keyword.value]),
+    );
+
+    if (keywords.length === 0) {
+      return;
+    }
+
+    setSelectedKeywords((currentKeywords) => [
+      ...currentKeywords,
+      ...keywords.map((keyword) => ({ label: keyword, value: keyword })),
+    ]);
+    setKeywordInput("");
+  };
 
   const handleSelectFile = (file?: File) => {
     if (!file) {
@@ -636,11 +663,10 @@ function UploadPaperContent() {
                     <Label className="text-sm font-bold text-text md:text-lg">
                       {/* Keywords that describe your research */}
                     </Label>
-                    {keywordLength >= MAX_KEYWORD_LENGTH && (
+                    {overlongKeyword && (
                       <Text role="alert" className="text-xs text-rose-600">
-                        {keywordLength === MAX_KEYWORD_LENGTH
-                          ? `You've reached the ${MAX_KEYWORD_LENGTH}-character limit for this keyword.`
-                          : `Keywords cannot exceed ${MAX_KEYWORD_LENGTH} characters. Remove ${keywordLength - MAX_KEYWORD_LENGTH} character${keywordLength - MAX_KEYWORD_LENGTH === 1 ? "" : "s"} to add this keyword.`}
+                        Each keyword must be {MAX_KEYWORD_LENGTH} characters or
+                        fewer. Separate keywords with commas or semicolons.
                       </Text>
                     )}
                     <MultiSelect
@@ -650,6 +676,7 @@ function UploadPaperContent() {
                       onInputChange={(inputValue) =>
                         setKeywordInput(inputValue)
                       }
+                      onCreateOption={handleCreateKeywords}
                       isAsync
                       loadOptions={loadKeywordOptions}
                       value={selectedKeywords}
@@ -667,8 +694,8 @@ function UploadPaperContent() {
 
                     <div className="flex items-center justify-between gap-3">
                       <Text size="xs" className="text-text-muted">
-                        Add a few specific terms readers would actually search
-                        for.
+                        Add a few specific terms. Separate multiple keywords
+                        with commas or semicolons.
                       </Text>
                       <UploadSectionStatus
                         isComplete={selectedKeywords.length > 0}

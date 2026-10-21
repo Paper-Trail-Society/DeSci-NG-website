@@ -45,6 +45,12 @@ import { Text } from "@/components/ui/text";
 import { Textarea } from "@/components/ui/textarea";
 import useGetFieldCategories from "@/domains/fields/hooks/use-get-field-categories";
 import useGetFields from "@/domains/fields/hooks/use-get-fields";
+import {
+  canCreateKeywords,
+  findOverlongKeyword,
+  getNewKeywords,
+  MAX_KEYWORD_LENGTH,
+} from "@/domains/paper/constants";
 import useGetPaper from "@/domains/paper/hooks/use-get-paper";
 import useUpdatePaper from "@/domains/paper/hooks/use-update-paper";
 import { Keyword } from "@/domains/paper/types";
@@ -65,6 +71,20 @@ const editPaperSchema = z.object({
 });
 
 type EditPaperFormFields = z.infer<typeof editPaperSchema>;
+
+function isValidNewKeyword(
+  inputValue: string,
+  selectedOptions: readonly SelectValueBase[],
+  options: readonly SelectValueBase[],
+) {
+  return canCreateKeywords(
+    inputValue,
+    [...selectedOptions, ...options].flatMap((option) => [
+      option.label,
+      option.value,
+    ]),
+  );
+}
 
 type EditProgressStep = {
   id: string;
@@ -244,6 +264,8 @@ function EditPaper() {
     CreateableSelectValue[]
   >([]);
   const [newKeywords, setNewKeywords] = useState<CreateableSelectValue[]>([]);
+  const [keywordInput, setKeywordInput] = useState("");
+  const overlongKeyword = findOverlongKeyword(keywordInput);
   const [selectedFieldName, setSelectedFieldName] = useState<string>();
   const [selectedCategoryName, setSelectedCategoryName] = useState<string>();
   const hasHydratedForm = useRef(false);
@@ -384,6 +406,17 @@ function EditPaper() {
       ),
     );
 
+    if (
+      trimmedNewKeywords.some(
+        (keyword) => keyword.length > MAX_KEYWORD_LENGTH,
+      )
+    ) {
+      toast.error(
+        `Each new keyword must be ${MAX_KEYWORD_LENGTH} characters or fewer`,
+      );
+      return;
+    }
+
     updatePaper(
       {
         paperId: paper.id,
@@ -436,6 +469,43 @@ function EditPaper() {
     },
     500,
   );
+
+  const handleCreateKeywords = (inputValue: string) => {
+    const invalidKeyword = findOverlongKeyword(inputValue);
+
+    if (invalidKeyword) {
+      toast.error(
+        `Each keyword must be ${MAX_KEYWORD_LENGTH} characters or fewer`,
+      );
+      return;
+    }
+
+    const keywords = getNewKeywords(
+      inputValue,
+      selectedKeywords.flatMap((keyword) => [keyword.label, keyword.value]),
+    );
+    const createdKeywords = keywords.map((keyword) => ({
+      label: keyword,
+      value: keyword,
+    }));
+
+    if (createdKeywords.length === 0) {
+      return;
+    }
+
+    createdKeywords.forEach((keyword) => {
+      createdKeywordMapRef.current.set(keyword.value, keyword.label);
+    });
+    setSelectedKeywords((currentKeywords) => [
+      ...currentKeywords,
+      ...createdKeywords,
+    ]);
+    setNewKeywords((currentKeywords) => [
+      ...currentKeywords,
+      ...createdKeywords,
+    ]);
+    setKeywordInput("");
+  };
 
   if (isPaperLoading && !paper) {
     return <EditPaperSkeleton />;
@@ -653,15 +723,26 @@ function EditPaper() {
 
                 <SectionCard
                   title="Keywords"
-                  description="Update the terms that help people discover this paper."
+                  description={`Update the terms that help people discover this paper. Maximum ${MAX_KEYWORD_LENGTH} characters per new keyword.`}
                 >
                   <div className="space-y-2">
                     <Label className="text-sm font-bold text-text md:text-lg">
                       Keywords that describe your research
                     </Label>
+                    {overlongKeyword && (
+                      <Text role="alert" className="text-xs text-rose-600">
+                        Each keyword must be {MAX_KEYWORD_LENGTH} characters or
+                        fewer. Separate keywords with commas or semicolons.
+                      </Text>
+                    )}
                     <MultiSelect
                       name="keywords"
                       isCreatable
+                      isValidNewOption={isValidNewKeyword}
+                      onInputChange={(inputValue) =>
+                        setKeywordInput(inputValue)
+                      }
+                      onCreateOption={handleCreateKeywords}
                       isAsync
                       loadOptions={loadKeywordOptions}
                       value={selectedKeywords}
@@ -698,7 +779,9 @@ function EditPaper() {
 
                     <div className="flex items-center justify-between gap-3">
                       <Text size="xs" className="text-text-muted">
-                        Keep the most relevant discovery terms attached to this paper.
+                        Keep the most relevant discovery terms attached to this
+                        paper. Separate multiple keywords with commas or
+                        semicolons.
                       </Text>
                       <StatusPill
                         isComplete={selectedKeywords.length > 0}
