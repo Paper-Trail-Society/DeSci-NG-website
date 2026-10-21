@@ -22,8 +22,7 @@ const PaperSearchInput = ({
     const searchQuery = new FormData(form).get("search") as string;
     const params = new URLSearchParams();
     if (searchQuery.trim()) params.set("q", searchQuery.trim());
-    if (fieldId) params.set("fieldId", fieldId);
-    if (categoryId) params.set("categoryId", categoryId);
+   
     window.location.href = `/search?${params.toString()}`;
   };
 
