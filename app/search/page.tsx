@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import SearchPageContent from "@/domains/paper/components/search-page-content";
-import { Paper } from "@/domains/paper/types";
+import { PaginatedPapersResponse } from "@/domains/paper/types";
 import { paperKeys } from "@/lib/react-query/query-keys";
 import {
   dehydrate,
@@ -19,18 +19,32 @@ const Page = async ({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
-  const { q, page } = await searchParams;
+  const params = await searchParams;
+  const getParam = (key: string) => {
+    const value = params[key];
+    return (Array.isArray(value) ? value[0] : value) ?? "";
+  };
+  const search = getParam("q");
+  const fieldId = getParam("fieldId");
+  const categoryId = getParam("categoryId");
+  const requestedPage = Number(getParam("page") || "1");
+  const page = Number.isSafeInteger(requestedPage) && requestedPage > 0
+    ? requestedPage
+    : 1;
   const queryClient = new QueryClient();
+  const requestParams = new URLSearchParams({ page: page.toString() });
+  if (search) requestParams.set("search", search);
+  if (fieldId) requestParams.set("fieldId", fieldId);
+  if (categoryId) requestParams.set("categoryId", categoryId);
 
   await queryClient.ensureQueryData({
-    queryKey: paperKeys.list(q?.toString() ?? "", "", page?.toString() ?? "1"),
+    queryKey: paperKeys.list(search, "", page.toString(), fieldId, categoryId),
     queryFn: async () => {
-      const paper = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/papers?search=${
-          q?.toString() ?? ""
-        }&page=${page?.toString() ?? "1"}`
-      ).then((res) => res.json() as Promise<Paper[]>);
-      return paper;
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/papers?${requestParams.toString()}`,
+      );
+      if (!response.ok) throw new Error("Unable to fetch papers");
+      return response.json() as Promise<PaginatedPapersResponse>;
     },
   });
   return (
