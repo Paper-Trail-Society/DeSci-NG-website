@@ -34,7 +34,7 @@ const categories = [
     query: "blockchain",
     tagline: "Discover papers in Distributed Ledger, Crypto, and more",
     imageUrl: "/assets/blockchain-tech.png",
-    imageWidth: 250, 
+    imageWidth: 250,
     imageHeight: 160,
     fieldId: 11,
     categoryId: 42,
